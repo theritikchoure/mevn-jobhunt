@@ -1,0 +1,1563 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "LMS Application API",
+      "description": "LMS Application API",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:3000",
+    "basePath": "/api/",
+    "tags": [
+      {
+        "name": "User",
+        "description": "API for users in the system"
+      },
+      {
+        "name": "Auth",
+        "description": "API for auth in the system"
+      },
+      {
+        "name": "Course",
+        "description": "API for course in the system"
+      },
+      {
+        "name": "Module",
+        "description": "API for modules in the system"
+      },
+      {
+        "name": "Video",
+        "description": "API for video in the system"
+      },
+      {
+        "name": "Assessment",
+        "description": "API for assessment in the system"
+      },
+      {
+        "name": "Contact Us",
+        "description": "API for Contact Us Form in the system"
+      },
+      {
+        "name": "Upload Assets",
+        "description": "API for Uploading Assets Like Images, Videos..."
+      },
+      {
+        "name": "Admin",
+        "description": "API for Admin in the system"
+      }
+    ],
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "securityDefinitions": {
+      "AuthHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    },
+    "paths": {
+      "/user": {
+        "get": {
+          "tags": ["User"],
+          "description": "Retrieve All The Users",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "List of All The Users",
+              "schema": {
+                "type": "Array",
+                "$ref": "#/definitions/User"
+              }
+            },
+            "404": {
+              "description": "Data Not Found!!"
+            },
+            "401": {
+              "description": "Unauthorized!!"
+            },
+            "500": {
+              "description": "Something Went Wrong!!"
+            }
+          }
+        }
+      },
+      "/user/{id}": {
+        "get": {
+          "tags": ["User"],
+          "description": "Retrieve Single User",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [{
+            "name": "id",
+            "in": "path",
+            "description": "id of user",
+            "schema": {
+              "type": "integer",
+              "required": "true"
+            }
+          }],
+          "responses": {
+            "200": {
+              "description": "Succesfully Fetched Single User",
+              "schema": {
+                "type": "Array",
+                "$ref": "#/definitions/User"
+              }
+            },
+            "404": {
+              "description": "Data Not Found!!"
+            },
+            "401": {
+              "description": "Unauthorized!!"
+            },
+            "500": {
+              "description": "Something Went Wrong!!"
+            }
+          }
+        },
+        "put": {
+          "tags": ["User"],
+          "description": "Update Single User by Admin",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "id of user",
+              "schema": {
+                "type": "integer",
+                "required": "true"
+              }
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "description": "body for update",
+              "schema": {
+                "type": "object",
+                "required": "true",
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User is updated",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/User"
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Validation Error || Something Went Wrong"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["User"],
+          "description": "Delete Single User",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "id of user",
+              "schema": {
+                "type": "integer",
+                "required": "true"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User is Deleted"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "400": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        }
+      },      
+      "/auth/generateotp": {
+        "post": {
+          "tags": ["Auth"],
+          "description": "Generate OTP for Login",
+          "parameters": [{
+            "name": "body",
+            "in": "body",
+            "description": "User auth details",
+            "schema": {
+              "type": "object",
+              "required": ["mobile"],
+              "properties": {
+                "mobile": {
+                  "type": "string"
+                }
+              }
+            }
+          }],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "OTP Sent To Registered Number"
+            },
+            "404": {
+              "description": "User Not Found"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/auth/verifyotp": {
+        "post": {
+          "tags": ["Auth"],
+          "description": "Verify OTP for Login",
+          "parameters": [{
+            "name": "auth",
+            "in": "body",
+            "description": "User auth details",
+            "schema": {
+              "type": "object",
+              "required": ["mobile", "otp"],
+              "properties": {
+                "mobile": {
+                  "type": "string"
+                },
+                "otp": {
+                  "type": "string"
+                }
+              }
+            }
+          }],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Successfully LoggedIn",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "object",
+                    "$ref": "#/definitions/User"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User Not Found || Invalid Mobile or OTP"
+            },
+            "500": {
+              "description": "Validation Error || Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/auth/updateprofile": {
+        "post": {
+          "tags": ["Auth"],
+          "description": "Update My Profile (LoggedIn User)",
+          "parameters": [{
+            "name": "auth",
+            "in": "body",
+            "description": "User's profile details",
+            "schema": {
+              "type": "object",
+              "required": [ "email", "first_name", "last_name", "mobile", "speciality", "country", "state", "city", "gender", "about_me", "hospital_details", "med_council_reg_no", "rcs_publication_details", "additional_qualifications", "profile_img"],
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "mobile": {
+                  "type": "string",
+                  "uniqueItems": true
+                },
+                "email": {
+                  "type": "string",
+                  "uniqueItems": true
+                },
+                "about_me": {
+                  "type": "string"
+                },
+                "profile_img": {
+                  "type": "string"
+                },
+                "gender": {
+                  "type": "string"
+                },
+                "city": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "speciality": {
+                  "type": "string"
+                },
+                "additional_qualifications": {
+                  "type": "string"
+                },
+                "rcs_publication_details": {
+                  "type": "string"
+                },
+                "med_council_reg_no": {
+                  "type": "string"
+                },
+                "hospital_details": {
+                  "type": "string"
+                }
+              }
+            }
+          }],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Profile Updated Successfully",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/User"
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Validation Error || Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/course/guest": {
+        "get": {
+          "tags": ["Course"],
+          "description": "Get All Courses for Guest User",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully Fetched All Courses",
+              "schema": {
+                "type": "Array",
+                "$ref": "#/definitions/Course"
+              }
+            },
+            "400": {
+              "description": "There is no course"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/course": {
+        "get": {
+          "tags": ["Course"],
+          "description": "Get All Courses for LoggedIn User",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully Fetched All Courses",
+              "schema": {
+                "type": "Array",
+                "$ref": "#/definitions/Course"
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        },
+        "post": {
+          "tags": ["Course"],
+          "description": "Add Course",
+          "parameters": [{
+            "name": "body",
+            "in": "body",
+            "description": "Course Details",
+            "schema": {
+              "type": "object",
+              "required": ["title", "description", "is_active", "thumbnail_url"],
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "thumbnail_url": {
+                  "type": "string"
+                },
+                "is_active": {
+                  "type": "number"
+                }
+              }
+            }
+          }],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Course Add Successfully",
+              "schema": {
+                "type": "Object",
+                "$ref": "#/definitions/Course"
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Validation Error || Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/course/{id}": {
+        "get": {
+          "tags": ["Course"],
+          "description": "Get Single Course",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [{
+            "name": "id",
+            "in": "path",
+            "description": "id of course",
+            "schema": {
+              "type": "integer",
+              "required": "true"
+            }
+          }],
+          "responses": {
+            "200": {
+              "description": "Successfully Fetched Single Course",
+              "schema": {
+                "type": "Object",
+                "$ref": "#/definitions/Course"
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        },
+        "put": {
+          "tags": ["Course"],
+          "description": "Update Single Course",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "id of course",
+              "schema": {
+                "type": "integer",
+                "required": "true"
+              }
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "description": "body for update",
+              "schema": {
+                "type": "object",
+                "required": ["title", "description", "is_active", "thumbnail_url"],
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "thumbnail_url": {
+                    "type": "string"
+                  },
+                  "is_active": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Course is updated",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/Course"
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Validation Error || Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/module": {
+        "get": {
+          "tags": ["Module"],
+          "description": "Get All Module",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully Fetched All Module",
+              "schema": {
+                "type": "array",
+                "$ref": "#/definitions/Module"
+              }
+            },
+            "401": {
+              "description": "Unathourized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        },
+        "post": {
+          "tags": ["Module"],
+          "description": "Add Module",
+          "parameters": [{
+            "name": "body",
+            "in": "body",
+            "description": "Module Details",
+            "schema": {
+              "type": "object",
+              "required": ["title", "course", "description", "is_active"],
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "course": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "category": {
+                  "type": "string"
+                },
+                "is_active": {
+                  "type": "number"
+                }
+              }
+            }
+          }],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Module Add Successfully",
+              "schema": {
+                "type": "Object",
+                "$ref": "#/definitions/Module"
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Validation Error || Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/module/{id}": {
+        "get": {
+          "tags": ["Module"],
+          "description": "Get Single Module",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [{
+            "name": "id",
+            "in": "path",
+            "description": "id of module",
+            "schema": {
+              "type": "integer",
+              "required": "true"
+            }
+          }],
+          "responses": {
+            "200": {
+              "description": "Module Fetched Successfully",
+              "schema": {
+                "type": "Object",
+                "$ref": "#/definitions/Module"
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Validation Error || Something Went Wrong"
+            }
+          }
+        },
+        "put": {
+          "tags": ["Module"],
+          "description": "Update Single Module",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "id of module",
+              "schema": {
+                "type": "integer",
+                "required": "true"
+              }
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "description": "body for update",
+              "schema": {
+                "type": "object",
+                "required": ["title", "course", "description", "thumbnail_url", "is_active"],
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "course": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "thumbnail_url": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "is_active": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Module is updated",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/Module"
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/video": {
+        "get": {
+          "tags": ["Video"],
+          "description": "Get All Videos",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Fetched All the Videos",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/Video"
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        },
+        "post": {
+          "tags": ["Video"],
+          "description": "Add Videos",
+          "parameters": [{
+            "name": "body",
+            "in": "body",
+            "description": "Video Details",
+            "schema": {
+              "type": "object",
+              "required": ["topic_name", "description", "module", "thumbnail_url", 
+                "url", "speaker_name", "speaker_img", "speaker_description", "is_active"],
+              "properties": {
+                "topic_name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "module": {
+                  "type": "string"
+                },
+                "thumbnail_url": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "speaker_name": {
+                  "type": "string"
+                },
+                "speaker_img": {
+                  "type": "string"
+                },
+                "speaker_description": {
+                  "type": "string"
+                },
+                "is_active": {
+                  "type": "number"
+                }
+              }
+            }
+          }],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Video Added Successfully",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/Video"
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Validation Error || Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/video/{id}": {
+        "get": {
+          "tags": ["Video"],
+          "description": "Get Single Video",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [{
+            "name": "id",
+            "in": "path",
+            "description": "id of video",
+            "schema": {
+              "type": "integer",
+              "required": "true"
+            }
+          }],
+          "responses": {
+            "200": {
+              "description": "Fetched Single Video",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/Video"
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "400": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        },
+        "put": {
+          "tags": ["Video"],
+          "description": "Update Single Video",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "id of video",
+              "schema": {
+                "type": "integer",
+                "required": "true"
+              }
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "description": "body for update",
+              "schema": {
+                "type": "object",
+                "required": ["topic_name", "description", "module", "thumbnail_url", 
+                  "url", "speaker_name", "speaker_img", "speaker_description", "is_active"],
+                "properties": {
+                  "topic_name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "module": {
+                    "type": "string"
+                  },
+                  "thumbnail_url": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "speaker_name": {
+                    "type": "string"
+                  },
+                  "speaker_img": {
+                    "type": "string"
+                  },
+                  "speaker_description": {
+                    "type": "string"
+                  },
+                  "is_active": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Video is updated",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/Video"
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Validation Error || Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/video/rating": {
+        "post": {
+          "tags": ["Video"],
+          "description": "Submit Rating of Particular Video",
+          "parameters": [{
+            "name": "body",
+            "in": "body",
+            "description": "Rating Details",
+            "schema": {
+              "type": "object",
+              "required": ["video", "speaker_rating", "content_rating", "usefullness", "remark"],
+              "properties": {
+                "video": {
+                  "type": "string"
+                },
+                "speaker_rating": {
+                  "type": "string"
+                },
+                "content_rating": {
+                  "type": "string"
+                },
+                "usefullness": {
+                  "type": "string"
+                },
+                "remark": {
+                  "type": "string"
+                }
+              }
+            }
+          }],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Video Rating Submitted",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/VideoRating"
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Validation Error || Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/video/rating/{id}": {
+        "get": {
+          "tags": ["Video"],
+          "description": "Get Video Rating",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [{
+            "name": "id",
+            "in": "path",
+            "description": "id of video",
+            "schema": {
+              "type": "integer",
+              "required": "true"
+            }
+          }],
+          "responses": {
+            "200": {
+              "description": "Successfully Fetched Rating",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "uniqueItems": true
+                  },
+                  "topic_name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "module": {
+                    "type": "object",
+                    "$ref": "#/definitions/Module"
+                  },
+                  "thumbnail_url": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "speaker_name": {
+                    "type": "string"
+                  },
+                  "speaker_img": {
+                    "type": "string"
+                  },
+                  "speaker_description": {
+                    "type": "string"
+                  },
+                  "is_active": {
+                    "type": "number"
+                  },
+                  "video_length": {
+                    "type": "number"
+                  },
+                  "number_of_views": {
+                    "type": "number"
+                  },
+                  "number_of_comments": {
+                    "type": "number"
+                  },
+                  "comments": {
+                    "type": "object",
+                    "properties": {
+                      "user": {
+                        "type": "string"
+                      },
+                      "speaker_rating": {
+                        "type": "number"
+                      },
+                      "content_rating": {
+                        "type": "number"
+                      },
+                      "usefullness": {
+                        "type": "number"
+                      },
+                      "remark": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "over_all_rating": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/contactus": {
+        "get": {
+          "tags": ["Contact Us"],
+          "description": "Get All Messages",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully Fetched All Messages",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/ContactUs"
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        },
+        "post": {
+          "tags": ["Contact Us"],
+          "description": "Submit Message",
+          "parameters": [{
+            "name": "body",
+            "in": "body",
+            "description": "Contact Details",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/ContactUs"
+            }
+          }],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Message Submitted",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/ContactUs"
+              }
+            },
+            "500": {
+              "description": "Validation Error || Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/contactus/{id}": {
+        "get": {
+          "tags": ["Contact Us"],
+          "description": "Get Single Message",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [{
+            "name": "id",
+            "in": "path",
+            "description": "id of message",
+            "schema": {
+              "type": "integer",
+              "required": "true"
+            }
+          }],
+          "responses": {
+            "200": {
+              "description": "Successfully Fetched Single Message",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/ContactUs"
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/auth/image": {
+        "post": {
+          "tags": ["Upload Assets"],
+          "description": "Upload Image",
+          "parameters": [{
+            "name": "body",
+            "in": "body",
+            "description": "Image Detail",
+            "schema": {
+              "type": "object",
+              "required": ["image"],
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Image Uploaded Successfully",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/auth/video": {
+        "post": {
+          "tags": ["Upload Assets"],
+          "description": "Upload Video",
+          "parameters": [{
+            "name": "body",
+            "in": "body",
+            "description": "Video Detail",
+            "schema": {
+              "type": "object",
+              "required": ["video"],
+              "properties": {
+                "video": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Video Uploaded Successfully",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "video": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        }
+      },
+      "/course/dashboard": {
+        "get": {
+          "tags": ["Admin"],
+          "description": "Get Admin Dashboard Details",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully Fetched Admin Dashboard Details",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/AdminDashboard"
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Something Went Wrong"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "User": {
+        "required": [
+          "email",
+          "first_name",
+          "last_name",
+          "mobile",
+          "role"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "mobile": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "profile_img": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "speciality": {
+            "type": "string"
+          },
+          "additional_qualifications": {
+            "type": "string"
+          },
+          "rcs_publication_details": {
+            "type": "string"
+          },
+          "med_council_reg_no": {
+            "type": "string"
+          },
+          "hospital_details": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "is_admin": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      },
+      "Auth": {
+        "type": "object",
+        "properties": [{
+          "token": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/definitions/User"
+          }
+        }]
+      },
+      "Course": {
+        "required": [
+          "email",
+          "first_name",
+          "last_name",
+          "mobile",
+          "role"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "number"
+          },
+          "thumbnail_url": {
+            "type": "string"
+          },
+          "comments": {
+            "type": "array"
+          },
+          "modules": {
+            "type": "array"
+          }
+        }
+      },
+      "Module": {
+        "required": [
+          "email",
+          "first_name",
+          "last_name",
+          "mobile",
+          "role"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "thumbnail_url": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "number"
+          },
+          "comments": {
+            "type": "array"
+          },
+          "course": {
+            "type": "object",
+            "$ref": "#/definitions/Course"
+          }
+        }
+      },
+      "Video": {
+        "required": ["topic_name", "description", "module", "thumbnail_url", 
+                     "url", "speaker_name", "speaker_img", "speaker_description", "is_active"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "topic_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "module": {
+            "type": "object",
+            "$ref": "#/definitions/Module"
+          },
+          "thumbnail_url": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "speaker_name": {
+            "type": "string"
+          },
+          "speaker_img": {
+            "type": "string"
+          },
+          "speaker_description": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "number"
+          },
+          "comments": {
+            "type": "array"
+          },
+          "video_length": {
+            "type": "string"
+          },
+          "number_of_views": {
+            "type": "number"
+          },
+          "number_of_comments": {
+            "type": "string"
+          }
+        }
+      },
+      "VideoRating": {
+        "required": ["video", "speaker_rating", "content_rating", "usefullness", "remark"],
+        "properties": {
+          "video": {
+            "type": "string"
+          },
+          "speaker_rating": {
+            "type": "string"
+          },
+          "content_rating": {
+            "type": "string"
+          },
+          "usefullness": {
+            "type": "string"
+          },
+          "remark": {
+            "type": "string"
+          }
+        }
+      },
+      "ContactUs": {
+        "required": ["name", "mobile", "email", "service", "message"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "mobile": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "AdminDashboard": {
+        "properties": {
+          "users": {
+            "type": "object"
+          },
+          "courses": {
+            "type": "object"
+          },
+          "modules": {
+            "type": "object"
+          },
+          "videos": {
+            "type": "object"
+          },
+          "totalContactUsMessage": {
+            "type": "number"
+          },
+          "totalAssessment": {
+            "type": "number"
+          }
+        }
+      }
+  }
+}

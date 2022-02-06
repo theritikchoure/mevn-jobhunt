@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+      "target": "es5",
+      //"sourceMap": true,
+      "types": [ "node", "mocha", "chai" ],
+      "typeRoots": ["./node_modules/@types"],
+      "baseUrl": ".",
+      "lib": ["es2015","es2015.promise","dom","scripthost"],
+      "noImplicitAny":false,
+      "module": "commonjs",
+      "inlineSourceMap": true,
+      "moduleResolution": "node",
+      "downlevelIteration":true,
+      "paths": {
+        "@family/*": ["docspace/*"]
+      },
+    },
+    "include": ["**/*.ts"],
+    "exclude":["**/node_modules/**"]
+}
