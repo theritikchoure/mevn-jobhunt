@@ -1,0 +1,53 @@
+{
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["prettier", "jest"],
+  "env": {
+    "jest/globals": true
+  },
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "new-cap": "off",
+    "linebreak-style": "off",
+    "semi": "off",
+    "no-multi-spaces": "off",
+    "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
+    "no-console": "off",
+    "consistent-return": "off",
+    "camelcase": "off",
+    "no-plusplus": "off",
+    "prefer-destructuring": "off",
+    "no-param-reassign": "off",
+    "prefer-promise-reject-errors": "off",
+    "no-new": "off",
+    "func-names": "off",
+    "no-bitwise": "off",
+    "dot-notation": "off",
+    "global-require": "off",
+    "no-restricted-syntax": "off",
+    "no-else-return": "off",
+    "no-await-in-loop": "off",
+    "no-lonely-if": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 120
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": true,
+        "argsIgnorePattern": "next"
+      }
+    ],
+    "import/order": ["error", { "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object"] }]
+  }
+}

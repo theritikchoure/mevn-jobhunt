@@ -1,0 +1,5 @@
+app/components/auth/auth.controller.js
+app/components/misc/misc.controller.js
+app/middleware/i18n.js
+app/utils/autoreply/autoreply.js
+app/utils/validator/customValidations.js

@@ -12,7 +12,7 @@
 
 <script>
 import Footer from './components/Footer.vue';
-import Header from './components/Header.vue';
+import Header from './components/Header/Header.vue';
 import LoginPopup from './components/LoginPopup.vue';
 import SignupPopup from './components/SignupPopup.vue';
 
