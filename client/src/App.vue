@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="theme-layout" id="scrollup">
-      <Header />
+      <Header v-if="!headerDisabled" />
       <router-view/>
       <Footer />
     </div>
@@ -20,6 +20,33 @@ export default {
   name: 'app',
   components: {
     Footer, Header, LoginPopup, SignupPopup,
+  },
+  data() {
+    return {
+      headerDisabled: null,
+    };
+  },
+  created() {
+    this.checkRoute();
+  },
+  methods: {
+    checkRoute() {
+      if(
+        this.$route.name === "AboutUs" ||
+        this.$route.name === "ContactUs" ||
+        this.$route.name === "FAQ" ||
+        this.$route.name === "HowItWorks" ||
+        this.$route.name === "TAndC" 
+      ) {
+        this.headerDisabled = true;
+        return;
+      } this.headerDisabled = false;
+    }
+  },
+  watch: {
+    $route() {
+      this.checkRoute();
+    }
   },
 };
 </script>

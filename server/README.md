@@ -1,7 +1,4 @@
-# Backend
+# Jobhunt
+## Server 
 
-## Development
-
-```
-npm run dev
-```
+### Project Structure Learn from Kinjal D Mam

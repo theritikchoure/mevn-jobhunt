@@ -26,10 +26,6 @@
           />
           <i class="la la-key"></i>
         </div>
-        <p class="remember-label">
-          <input type="checkbox" name="cb" id="cb1" v-model="remember_me" />
-          <label for="cb1">Remember me</label>
-        </p>
         <a href="#" title="">Forgot Password?</a>
         <button @click.prevent="login" type="submit">Login</button>
       </form>
@@ -108,8 +104,8 @@ export default {
           if(this.user_type == 'student') {
             this.$router.push('/student-dashboard');
           }
-          this.loggedInSuccess = true;
-          window.location.reload();
+          // this.loggedInSuccess = true;
+          // window.location.reload();
         },
         (error) => {
           console.log(error);

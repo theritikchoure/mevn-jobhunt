@@ -1,24 +1,16 @@
 <template>
-  <div>
-    <div class="responsive-header">
-      <div class="responsive-menubar">
-        <div class="res-logo">
+  <header class="stick-top forsticky">
+    <div class="menu-sec">
+      <div class="container">
+        <div class="logo">
           <router-link :to="{ name: 'Index' }">
-            <a href="index.html" title="">
-              <img src="images/resource/logo.png" alt="" />
+            <a href="#" title="">
+              <img class="hidesticky" src="images/resource/logo.png" alt="" />
+              <img class="showsticky" src="images/resource/logo10.png" alt="" />
             </a>
           </router-link>
         </div>
-        <div class="menu-resaction">
-          <div class="res-openmenu">
-            <img src="images/icon.png" alt="" /> Menu
-          </div>
-          <div class="res-closemenu">
-            <img src="images/icon2.png" alt="" /> Close
-          </div>
-        </div>
-      </div>
-      <div class="responsive-opensec">
+        <!-- Logo -->
         <div class="btn-extars">
           <ul class="account-btns">
             <li class="signup-popup">
@@ -32,16 +24,7 @@
           </ul>
         </div>
         <!-- Btn Extras -->
-        <form class="res-search">
-          <input
-            type="text"
-            placeholder="Job title, keywords or company name"
-          />
-          <button type="submit">
-            <i class="la la-search"> </i>
-          </button>
-        </form>
-        <div class="responsivemenu">
+        <nav>
           <ul>
             <li class="menu-item-has-children">
               <router-link :to="{ name: 'Index' }">
@@ -69,42 +52,18 @@
               </router-link>
             </li>
           </ul>
-        </div>
+        </nav>
+        <!-- Menus -->
       </div>
     </div>
-    <BeforeLoginHeader v-if="!loggedIn"/>
-    <StudentLoginHeader v-else/>
-  </div>
+  </header>
 </template>
 
 <script>
-import BeforeLoginHeader from './BeforeLoginHeader.vue'
-import StudentLoginHeader from './StudentLoginHeader.vue'
-
 export default {
-  name: "Header",
-  components: { BeforeLoginHeader, StudentLoginHeader },
-  data() {
-    return {
-      loggedIn: false,
-    };
-  },
-  computed: {
-    currentUser() {
-      // return this.$store.state.auth.user;
-      return this.$store.state.auth.user;
-    },
-    isLoggedIn() {
-      return this.$store.state.auth.status.loggedIn;
-    },
-  },
-  mounted() {
-    if (!this.currentUser && !this.isLoggedIn) {
-      this.loggedIn = this.isLoggedIn;
-    } else {
-      console.log(this.currentUser);
-      this.loggedIn = this.isLoggedIn;
-    }
-  },
+  name: 'BeforeLoginHeader'
 };
 </script>
+
+<style>
+</style>

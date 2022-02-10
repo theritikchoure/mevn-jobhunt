@@ -1,5 +1,7 @@
 <template>
   <div>
+    <PageHeader />
+
     <section>
       <div class="block no-padding gray">
         <div class="container">
@@ -122,8 +124,11 @@
 </template>
 
 <script>
+import PageHeader from '../../components/Header/PageHeader.vue';
+
 export default {
   name: 'FAQs',
+  components: { PageHeader },
 };
 </script>
 

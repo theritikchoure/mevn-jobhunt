@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api/auth/';
+const API_URL = 'http://localhost:4000/api/auth/';
 
 class AuthService {
   login(user) {
@@ -12,10 +12,10 @@ class AuthService {
         remember_me: user.remember_me,
       })
       .then((response) => {
-        console.log(response);
-        if (response.data.result.user) {
-          localStorage.setItem('user', JSON.stringify(response.data.result.user));
-          localStorage.setItem('token', JSON.stringify(response.data.result.token));
+        console.log(response.data.data);
+        if (response.data.data) {
+          localStorage.setItem('user', JSON.stringify(response.data.data));
+          localStorage.setItem('token', JSON.stringify(response.data.data.token));
         }
         return response.data;
       });

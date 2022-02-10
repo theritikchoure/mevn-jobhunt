@@ -191,4 +191,4 @@ employerSchema.methods = {
     };
   },
 };
-module.exports = mongoose.model('Employer', employerSchema);
+module.exports = mongoose.model('Employers', employerSchema);
