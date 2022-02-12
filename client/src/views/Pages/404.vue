@@ -26,7 +26,11 @@
                     <i class="la la-search"></i>
                   </button>
                 </form>
-                <h6><a href="#" title="">Back To Homepage</a></h6>
+                <h6>
+                  <router-link :to="{ name: 'Index' }">
+                    Back To Homepage
+                  </router-link>
+                </h6>
               </div>
             </div>
           </div>

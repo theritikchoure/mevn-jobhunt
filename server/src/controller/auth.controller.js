@@ -47,6 +47,23 @@ class AuthController {
       createError(res, e);
     }
   }
+
+  /**
+   * @description update employer profile
+   */
+  async employerProfileUpdate(req, res) {
+    try {
+      let response = await EmployerService.updateProfile(req.user._id, req.body );
+
+      if (response) {
+        createResponse(res, 'ok', 'Profile updated successfully', response);
+      } else {
+        createError(res, {}, { message: 'Unable to update profile, please try again' });
+      }
+    } catch (e) {
+      createError(res, e);
+    }
+  }
 }
 
 const authController = new AuthController();

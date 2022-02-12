@@ -5,6 +5,7 @@ const passport = require('passport');
 const PassportErrorHandler = require('../middleware/passportErrorResponse');
 const AuthController = require('../controller/auth.controller');
 const AuthValidations = require('../validations/auth.validation');
+const EmployerAuth = require('../middleware/employerAuth.js');
 
 /**
  * @route POST api/auth/signin
@@ -45,6 +46,26 @@ router.get(
       message: 'Success',
       data: {},
     });
+  },
+);
+
+/**
+ * @route PUT api/auth/employer/profile-update
+ * @description update employer's profile (loggedIn employer)
+ * @returns JSON
+ * @access private
+ */
+ router.put(
+  '/employer/profile-update',
+  [
+    passport.authenticate('jwt', { session: false, failWithError: true }),
+    PassportErrorHandler.success,
+    PassportErrorHandler.error,
+    EmployerAuth,
+    AuthValidations.employer
+  ],
+  (req, res) => {
+    AuthController.employerProfileUpdate(req, res);
   },
 );
 

@@ -9,7 +9,7 @@ class EmployerService {
   async getEmployer(id) {
     try {
       const result = await Employer.findOne({ _id: id });
-      return result.toJSONWithObject(true);
+      return result.toJSON();
     } catch (e) {
       throw e;
     }
@@ -87,58 +87,35 @@ class EmployerService {
     });
   }
 
-  async getByRole(role) {
-    try {
-      const result = await Employer.find({ role }).populate([{ path: 'shop' }]);
-      if (result) {
-        return result.map((item) => item.toJSON());
-      }
-      return undefined;
-    } catch (e) {
-      throw e;
-    }
-  }
+    /**
+   * @description Update internship
+   * @param {Object} obj
+   * @param {id} id
+   */
+    async updateProfile(userId, payload) {
+      try {
+        if (!payload) return;
 
-  async updateStampsForEmployer(id, payload) {
-    try {
-      if (!payload) return;
-      const existingItem = await this.getEmployer(id);
-      if (!existingItem) throw Error('Employer not exists');
-
-      let stamp_items = existingItem.stamp_items || [];
-      // check if same spree Id exists add the stamps in the existing one
-      // if not exists add new obj
-      let stamp_item_index = stamp_items.findIndex((x) => String(x.spree) === String(payload.spree));
-      if (stamp_item_index !== -1) {
-        let item = stamp_items[stamp_item_index];
-        item.stamps = Number(item.stamps) + Number(payload.stamps);
-      } else {
-        stamp_items.push(payload);
-      }
-
-      const condition = {
-        _id: id,
-      };
-
-      const doc = {
-        stamp_items,
-      };
-
-      const promiseResult = await new Promise(async (resolve, reject) => {
-        Employer.findOneAndUpdate(condition, doc, async (err) => {
-          if (err) reject(err);
-          return resolve(true);
+        const body = filteredBody(payload, constants.WHITELIST.employer.update);
+        body.updatedAt = Date.now();
+        const updatePromise = new Promise(async (resolve, reject) => {
+          const query = { _id: userId };
+          await Employer.findOneAndUpdate(query, body, { new: false }, (err, result) => {
+            if (err) reject(err);
+            return resolve(result);
+          });
         });
-      });
-      if (promiseResult) {
-        const employer = await this.getEmployer(id);
-        if (employer) return employer;
+        const result = await updatePromise;
+        if (result) {
+          const item = await this.getEmployer(userId);
+          return item;
+        }
+        return undefined;
+      } catch (e) {
+        throw e;
       }
-      return;
-    } catch (e) {
-      throw e;
     }
-  }
+
 }
 
 const employerService = new EmployerService();

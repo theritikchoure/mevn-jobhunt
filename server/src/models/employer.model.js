@@ -137,57 +137,33 @@ employerSchema.methods = {
     );
   },
 
+  toJSON() {
+    return {
+      id: this._id,
+      name: this.name,
+      description: this.description,
+      email: this.email,
+      mobile: this.mobile,
+      address: this.address, 
+      city: this.city,
+      state: this.state,
+      zip_code: this.zip_code, 
+      website: this.website, 
+      linkedin: this.linkedin, 
+      logo: this.logo,
+      role: this.role,
+      updatedAt: this.updatedAt, 
+      createdAt: this.createdAt,
+    };
+  },
+
   toAuthJSON() {
     return {
       id: this._id,
       name: this.name,
       email: this.email,
       role: this.role,
-      zipCode: this.zipCode,
-      phone: this.phone,
-      isActive: this.isActive,
-      isNewsLetter: this.isNewsLetter,
       token: `${this.createToken()}`,
-    };
-  },
-
-  toJSON() {
-    return {
-      id: this._id,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      name: `${this.getUserName()}`,
-      email: this.email,
-      role: this.role,
-      shop: this.shop && !isNull(this.shop) ? this.shop.toJSON() : undefined,
-      zipCode: this.zipCode,
-      phone: this.phone,
-      isActive: this.isActive,
-      isNewsLetter: this.isNewsLetter,
-    };
-  },
-
-  toJSONWithObject(hasFullUser = false) {
-    return {
-      id: this._id,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      name: `${this.getUserName()}`,
-      email: this.email,
-      role: this.role,
-      shop: this.shop && !isNull(this.shop) ? this.shop.toJSON() : undefined,
-      zipCode: this.zipCode,
-      phone: this.phone,
-      isActive: this.isActive,
-      isNewsLetter: this.isNewsLetter,
-      stamp_items:
-        hasFullUser &&
-        this.stamp_items.map((item) => {
-          return {
-            spree: item.spree && !isNull(item.spree) ? item.spree.toJSON() : undefined,
-            stamps: item.stamps,
-          };
-        }),
     };
   },
 };

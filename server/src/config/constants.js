@@ -8,6 +8,10 @@ module.exports = {
       updateEmail: ['email'],
       updatePassword: ['password'],
     },
+
+    employer : {
+      update: ['name', 'description', 'address', 'city', 'state', 'zip_code', 'mobile', 'email', 'website', 'linkedin', 'logo']
+    },
     
     internship: {
       create: ['employer', 'title', 'description', 'category', 'is_paid', 'salary', 'no_of_openings', 'duration', 'last_date', 'status'],

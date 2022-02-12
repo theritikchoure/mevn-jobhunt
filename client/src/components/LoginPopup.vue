@@ -104,8 +104,9 @@ export default {
           if(this.user_type == 'student') {
             this.$router.push('/student-dashboard');
           }
-          // this.loggedInSuccess = true;
-          // window.location.reload();
+          if(this.user_type == 'employer') {
+            this.$router.push('/employer-dashboard');
+          }
         },
         (error) => {
           console.log(error);
