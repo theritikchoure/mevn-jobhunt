@@ -37,29 +37,45 @@
                     <div class="col-lg-12">
                       <span class="pf-title">Full Name</span>
                       <div class="pf-field">
-                        <input type="text" placeholder="ALi TUFAN" />
+                        <input
+                          type="text"
+                          placeholder="ALi TUFAN"
+                          v-model="name"
+                        />
+                        <p v-if="errors.name" class="invalid-message">{{errors.name}}</p>
                       </div>
                     </div>
                     <div class="col-lg-12">
                       <span class="pf-title">Email</span>
                       <div class="pf-field">
-                        <input type="text" placeholder="ALi TUFAN" />
+                        <input
+                          type="text"
+                          placeholder="ALi TUFAN"
+                          v-model="email"
+                        />
+                        <p v-if="errors.email" class="invalid-message">{{errors.email}}</p>
                       </div>
                     </div>
                     <div class="col-lg-12">
                       <span class="pf-title">Subject</span>
                       <div class="pf-field">
-                        <input type="text" placeholder="ALi TUFAN" />
+                        <input
+                          type="text"
+                          placeholder="ALi TUFAN"
+                          v-model="subject"
+                        />
+                        <p v-if="errors.subject" class="invalid-message">{{errors.subject}}</p>
                       </div>
                     </div>
                     <div class="col-lg-12">
                       <span class="pf-title">Message</span>
                       <div class="pf-field">
-                        <textarea></textarea>
+                        <textarea v-model="message"></textarea>
+                        <p v-if="errors.message" class="invalid-message">{{errors.message}}</p>
                       </div>
                     </div>
                     <div class="col-lg-12">
-                      <button type="submit">Send</button>
+                      <button type="submit" @click.prevent="submitForm">Send</button>
                     </div>
                   </div>
                 </form>
@@ -100,13 +116,70 @@
 </template>
 
 <script>
-import PageHeader from '../../components/Header/PageHeader.vue';
+import PageHeader from "../../components/Header/PageHeader.vue";
+import ContactService from "../../services/contactus.service";
+import ContactValidation from "../../validations/contactus.validation";
 
 export default {
-  name: 'ContactUs',
+  name: "ContactUs",
   components: { PageHeader },
+  data() {
+    return {
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+
+      error: false,
+      errorMsg: "",
+      successMsg: "",
+      errors: {},
+    };
+  },
+  methods: {
+    async submitForm() {
+      const object = {
+        name: this.name,
+        email: this.email,
+        subject: this.subject,
+        message: this.message,
+      };
+      const errors = ContactValidation.validate(object);
+      if(Object.entries(errors).length !== 0) {
+        this.error = true;
+        this.errors = errors;
+        console.log(errors); 
+        return;
+      } else {
+        this.errors = {};
+      }
+      ContactService.create(object)
+        .then((response) => {
+          console.log(response);
+          this.name = '';
+          this.email = '';
+          this.subject = '';
+          this.message = '';
+          this.successMsg = response.message;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errorMsg = (error.response
+              && error.response.data
+              && error.response.data.message)
+            || error.message
+            || error.toString();
+          console.log(this.errorMsg);
+        });
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
+
+  .invalid-message {
+    color: red !important;
+    font-size: 13px;
+  }
 </style>

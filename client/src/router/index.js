@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 // import Home from '../views/Home.vue';
 import Index from '../views/Index.vue';
 import StudentDashboard from '../views/Student/Dashboard.vue';
+import EmployerDashboard from '../views/Employer/Dashboard.vue';
 import AboutUs from '../views/Pages/AboutUs.vue';
 import Error from '../views/Pages/404.vue';
 import ContactUs from '../views/Pages/ContactUs.vue';
@@ -44,6 +45,11 @@ const routes = [
     path: '/student-dashboard',
     name: 'StudentDashboard',
     component: StudentDashboard,
+  },
+  {
+    path: '/employer-dashboard',
+    name: 'EmployerDashboard',
+    component: EmployerDashboard,
   },
 ];
 

@@ -1,5 +1,6 @@
 const authRoutes = require('./auth.route');
 const internshipRoutes = require('./internship.route');
+const contactusRoutes = require('./contactus.route');
 
 
 /**
@@ -8,6 +9,7 @@ const internshipRoutes = require('./internship.route');
 module.exports = (app) => {
   app.use('/api/auth', authRoutes);
   app.use('/api/internships', internshipRoutes);
+  app.use('/api/contactus', contactusRoutes);
 };
 
 

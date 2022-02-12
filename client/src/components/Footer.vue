@@ -71,9 +71,6 @@
                     <router-link :to="{name: 'HowItWorks'}">How It Works</router-link>
                     <router-link :to="{name: 'TAndC'}">Terms and Conditions</router-link>
                     <router-link :to="{name: 'FAQ'}">FAQs</router-link>
-                    <a href="#" title="">Internships </a>
-                    <a href="#" title="">Login </a>
-                    <a href="#" title="">Register </a>
                   </div>
                 </div>
               </div>
