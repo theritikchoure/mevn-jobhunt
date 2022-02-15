@@ -19,6 +19,10 @@ module.exports = {
 
     contact: {
       create: ['name', 'email', 'subject', 'message'],
+    },
+
+    category: {
+      create: ['title', 'description'],
     }
   },
   DEFAULT_USER_ROLES: ['super_admin', 'admin', 'shop_admin', 'shop_user', 'end_user'],

@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: 'SignupPopup',
   data() {
@@ -65,13 +67,15 @@ export default {
       error: false,
     };
   },
-  computed: {
-  },
+  computed: { ...mapGetters(["user", "token", "isLoading", "isLoggedIn"]) },
   methods: {
+    ...mapActions(["userRegister"]),
+    
     userType(type) {
       this.user_type = type;
     },
-    signup() {
+
+    async signup() {
       this.loading = true;
       console.log(this.name, this.email, this.mobile, this.password, this.repeat_password, this.user_type);
 
@@ -95,24 +99,9 @@ export default {
         repeat_password: this.repeat_password,
         user_type: this.user_type,
       };
-      
-      this.$store.dispatch('auth/register', user).then(
-        () => {
-          if(this.user_type == 'student') {
-            this.$router.push('/student-dashboard');
-          }
-        },
-        (error) => {
-          console.log(error);
-          this.loading = false;
-          this.error = true;
-          this.message = (error.response
-              && error.response.data
-              && error.response.data.message)
-            || error.message
-            || error.toString();
-        },
-      );
+
+      await this.userRegister(user);
+      window.location.reload();
     },
   },
 };

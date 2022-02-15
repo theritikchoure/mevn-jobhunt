@@ -30,10 +30,10 @@ const internshipSchema = new mongoose.Schema(
       ref: "Employers"
     },
  
-    applicants: {
+    applicants: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Students"
-    },
+    }],
 
     is_paid: {
       type: Number,
@@ -41,13 +41,18 @@ const internshipSchema = new mongoose.Schema(
       default: 1 // 1 is for true || 0 is for false
     },
 
-    salary: {
-      type: Number,
-      required: false,
-    },
+    salary: { 
+      type: String, 
+      enum : ['10k - 20k', '20k - 30k', '30k - 40k', '40k - 50k'],
+    }, 
+    
+    qualification: { 
+      type: String, 
+      enum : ['Undergraduate', 'Graduate'],
+    }, 
 
     no_of_openings: {
-      type: String,
+      type: Number,
       required: true
     },
 
@@ -59,6 +64,11 @@ const internshipSchema = new mongoose.Schema(
     last_date: {
       type: String,
       required: true,
+    },
+
+    skills: {
+      type: Array,
+      default : []
     },
 
     status: {
@@ -96,6 +106,7 @@ internshipSchema.methods = {
       duration: this.duration,
       last_date: this.last_date,
       status: this.status,
+      qualification: this.qualification,
       created_at: this.createdAt,
       updated_at: this.updatedAt,
     };

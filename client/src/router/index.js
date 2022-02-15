@@ -10,6 +10,9 @@ import FAQ from '../views/Pages/FAQs.vue';
 import HowItWorks from '../views/Pages/HowItWorks.vue';
 import TAndC from '../views/Pages/T&C.vue';
 
+import Internships from '../views/Internship/InternshipList.vue';
+import InternshipDetail from '../views/Internship/InternshipDetail.vue';
+
 import authService from '../services/auth.service';
 
 import { Role } from '../helpers/role';
@@ -45,6 +48,21 @@ const routes = [
     path: '/terms-and-conditions',
     name: 'TAndC',
     component: TAndC,
+  },
+
+  {
+    path: '/internships',
+    name: 'Internships',
+    component: Internships,
+    meta: { authorize: [Role.Student, Role.Admin, Role.Employer] } 
+  },
+  
+  {
+    path: '/details/:url',
+    props: true,
+    name: 'InternshipDetail',
+    component: InternshipDetail,
+    meta: { authorize: [Role.Student, Role.Admin, Role.Employer] } 
   },
 
   // Student Routes

@@ -37,17 +37,24 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Index' }">
+        <a @click="logout">
           <i class="la la-unlink"></i>Logout
-        </router-link>
+        </a>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import AuthService from '../services/auth.service';
 export default {
   name: "StudentSidebar",
+  methods: {
+    logout() {
+      AuthService.logout();
+      window.location.reload();
+    }
+  }
 };
 </script>
 

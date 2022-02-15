@@ -1,7 +1,7 @@
 const authRoutes = require('./auth.route');
 const internshipRoutes = require('./internship.route');
 const contactusRoutes = require('./contactus.route');
-
+const categoryRoutes = require('./category.route');
 
 /**
  * Init All routes here
@@ -10,6 +10,7 @@ module.exports = (app) => {
   app.use('/api/auth', authRoutes);
   app.use('/api/internships', internshipRoutes);
   app.use('/api/contactus', contactusRoutes);
+  app.use('/api/category', categoryRoutes);
 };
 
 

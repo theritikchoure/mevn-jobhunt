@@ -72,39 +72,33 @@
         </div>
       </div>
     </div>
-    <BeforeLoginHeader v-if="!loggedIn"/>
-    <StudentLoginHeader v-else/>
+    <BeforeLoginHeader v-if="!isLoggedIn"/>
+    <StudentLoginHeader v-else :user="user" />
   </div>
 </template>
 
 <script>
 import BeforeLoginHeader from './BeforeLoginHeader.vue'
 import StudentLoginHeader from './StudentLoginHeader.vue'
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Header",
   components: { BeforeLoginHeader, StudentLoginHeader },
   data() {
     return {
-      loggedIn: false,
+
     };
   },
-  computed: {
-    currentUser() {
-      // return this.$store.state.auth.user;
-      return this.$store.state.auth.user;
-    },
-    isLoggedIn() {
-      return this.$store.state.auth.status.loggedIn;
-    },
-  },
+  computed: { ...mapGetters(["user", "token", "isLoading", "isLoggedIn"]) },
   mounted() {
-    if (!this.currentUser && !this.isLoggedIn) {
-      this.loggedIn = this.isLoggedIn;
-    } else {
-      console.log(this.currentUser);
-      this.loggedIn = this.isLoggedIn;
-    }
+    console.log(this.isLoggedIn)
+  },
+  methods: {
+    ...mapActions(["loggedInUser"]),
+  },
+  created() {
+    this.loggedInUser();
   },
 };
 </script>

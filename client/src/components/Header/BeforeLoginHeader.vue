@@ -13,10 +13,10 @@
         <!-- Logo -->
         <div class="btn-extars">
           <ul class="account-btns">
-            <li class="signup-popup">
+            <li class="signup-popup" id="registerBtn">
               <a title=""> <i class="la la-key"> </i> Sign Up </a>
             </li>
-            <li class="signin-popup">
+            <li class="signin-popup" id="loginBtn">
               <a title="">
                 <i class="la la-external-link-square"> </i> Login
               </a>

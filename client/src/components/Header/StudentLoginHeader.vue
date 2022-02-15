@@ -5,13 +5,13 @@
         <div class="container">
           <div class="logo">
             <router-link :to="{ name: 'Index' }">
-              <img src="images/resource/logo.png" alt=""/>
+              <img src="/images/resource/logo.png" alt=""/>
             </router-link>
           </div>
           <!-- Logo -->
           <div class="my-profiles-sec">
             <span
-              ><img src="images/resource/mp1.jpg" alt="" /> Ali TUFAN
+              ><img src="/images/resource/mp1.jpg" alt="" /> {{user.name.toUpperCase()}}
               <i class="la la-bars"></i
             ></span>
           </div>
@@ -92,7 +92,7 @@
                 </router-link>
               </li>
               <li class="menu-item-has-children">
-                <router-link :to="{ name: 'Index' }">
+                <router-link :to="{ name: 'Internships' }">
                   <a href="#" title="">Internships </a>
                 </router-link>
               </li>
@@ -106,8 +106,8 @@
     <div class="profile-sidebar">
       <span class="close-profile"><i class="la la-close"></i></span>
       <div class="can-detail-s">
-        <div class="cst"><img src="images/resource/es1.jpg" alt="" /></div>
-        <h3>David CARLOS</h3>
+        <div class="cst"><img src="/images/resource/es1.jpg" alt="" /></div>
+        <h3>{{user.name.toUpperCase()}}</h3>
         <span><i>UX / UI Designer</i> at Atract Solutions</span>
         <p>creativelayers088@gmail.com</p>
         <p>Member Since, 2017</p>
@@ -125,6 +125,7 @@ import StudentSidebar from '../../components/StudentSidebar.vue';
 export default {
   name: "StudentLoginHeader",
   components: { StudentSidebar },
+  props: ['user'],
 };
 </script>
 

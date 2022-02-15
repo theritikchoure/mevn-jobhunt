@@ -1,14 +1,14 @@
-const Internship = require('../models/internship.model.js');
+const Category = require('../models/category.model.js');
 const constants = require('../config/constants');
 const filteredBody = require('../utils/filteredBody');
 
-class InternshipService {
+class CategoryService {
   /**
-   * @description Get All Internship
+   * @description Get All Category
    */
-  async getInternships() {
+  async getCategorys() {
     try {
-      const result = await Internship.find({}).populate("employer").sort({createdAt: -1});
+      const result = await Category.find({}).sort({createdAt: -1});
       if(result) return result
       return undefined;
     } catch (e) {
@@ -17,11 +17,11 @@ class InternshipService {
   }
 
   /**
-   * @description Get A Internship by Id
+   * @description Get A Category by Id
    */
-  async getInternshipById(id) {
+  async getCategoryById(id) {
     try {
-      const result = await Internship.findOne({ _id: id });
+      const result = await Category.findOne({ _id: id });
       if(result) return result.toJSON();
       return undefined;
     } catch (e) {
@@ -30,11 +30,11 @@ class InternshipService {
   }
 
   /**
-   * @description Get A Internship by Url
+   * @description Get A Category by Url
    */
-  async getInternshipByUrl(url) {
+  async getCategoryByUrl(url) {
     try {
-      const result = await Internship.findOne({ url: url }).populate("employer");
+      const result = await Category.findOne({ url: url });
       if(result) return result.toJSON();
       return undefined;
     } catch (e) {
@@ -42,28 +42,28 @@ class InternshipService {
     }
   }
 
-  async getInternshipByEmployer(id) {
-    const internship = await Internship.find({ employer: id });
-    if(internship) return internship.toJSON();
+  async getCategoryByEmployer(id) {
+    const category = await Category.find({ employer: id });
+    if(category) return category.toJSON();
     return undefined;
   }
   
-  async getInternshipByApplicants(id) {
-    const internship = await Internship.find({ applicants: id });
-    if(internship) return internship.toJSON();
+  async getCategoryByApplicants(id) {
+    const category = await Category.find({ applicants: id });
+    if(category) return category.toJSON();
     return undefined;
   }
 
   /**
-   * @description Add new Internship
+   * @description Add new Category
    * @param {Object} obj
    */
-  addNewInternship(obj) {
+  addNewCategory(obj) {
     return new Promise(async (resolve, reject) => {
       try {
-        const body = filteredBody(obj, constants.WHITELIST.internship.create);
+        const body = filteredBody(obj, constants.WHITELIST.category.create);
         body.url = body.title.replace(/ /g, '-').toLowerCase();
-        Internship.findOne(
+        Category.findOne(
           {
             $or: [
               {
@@ -71,27 +71,27 @@ class InternshipService {
               },
             ],
           },
-          (err, existingInternship) => {
+          (err, existingCategory) => {
             if (err) {
               reject(err);
               return;
             }
 
-            // If internship is not unique, return error
-            if (existingInternship) {
+            // If category is not unique, return error
+            if (existingCategory) {
               reject({
                 message: 'That title is already in use.',
               });
               return;
             }
 
-            // If internship url is unique, create internship
-            const internship = new Internship({
+            // If category url is unique, create category
+            const category = new Category({
               ...body,
               url: String(body.url).toLowerCase(),
             });
 
-            internship.save((err2, item) => {
+            category.save((err2, item) => {
               if (err2) {
                 reject(err2);
                 return;
@@ -107,32 +107,32 @@ class InternshipService {
   }
   
   /**
-   * @description Update internship
+   * @description Update category
    * @param {Object} obj
    * @param {id} id
    */
-   async updateInternship(userId, id, payload) {
+   async updateCategory(userId, id, payload) {
     try {
       if (!payload) return;
-      const internship = await this.getInternshipById(id);
-      if(userId.toString() !== internship.employer.toString()) {
+      const category = await this.getCategoryById(id);
+      if(userId.toString() !== category.employer.toString()) {
         reject({
           message: 'Unauthorized',
         });
       }
 
-      const body = filteredBody(payload, constants.WHITELIST.internship.create);
+      const body = filteredBody(payload, constants.WHITELIST.category.create);
       body.updatedAt = Date.now();
       const updatePromise = new Promise(async (resolve, reject) => {
         const query = { _id: id };
-        await Internship.findOneAndUpdate(query, body, { new: false }, (err, result) => {
+        await Category.findOneAndUpdate(query, body, { new: false }, (err, result) => {
           if (err) reject(err);
           return resolve(result);
         });
       });
       const result = await updatePromise;
       if (result) {
-        const item = await this.getInternshipById(id);
+        const item = await this.getCategoryById(id);
         return item;
       }
       return undefined;
@@ -142,24 +142,18 @@ class InternshipService {
   }
   
   /**
-   * @description Delete internship
+   * @description Delete category
    * @param {userId} user id
    * @param {id} id
    */
-   async deleteInternship(userId, id) {
+   async deleteCategory(userId, id) {
     try {
-      const internship = await this.getInternshipById(id);
-      if (!internship) throw Error('Internship not found');
-      
-      if(userId.toString() !== internship.employer.toString()) {
-        reject({
-          message: 'Unauthorized',
-        });
-      }
+      const category = await this.getCategoryById(id);
+      if (!category) throw Error('Category not found');
 
       const updatePromise = new Promise(async (resolve, reject) => {
         const query = { _id: id };
-        await Internship.findOneAndDelete(query, (err, result) => {
+        await Category.findOneAndDelete(query, (err, result) => {
           if (err) reject(err);
           return resolve(result);
         });
@@ -173,5 +167,5 @@ class InternshipService {
   }
 }
 
-const internshipService = new InternshipService();
-module.exports = internshipService;
+const categoryService = new CategoryService();
+module.exports = categoryService;

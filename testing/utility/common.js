@@ -14,5 +14,6 @@ class CommonUtility {
         await driver.get(url);
         await driver.sleep(testData.ThinkTimeOuts.ShortWait);
         await driver.manage().window().maximize();
+        console.log(LoginPO)
     }
 }

@@ -5,29 +5,29 @@
       <h3>User Login</h3>
       <span></span>
       <div class="select-user">
-        <span @click="userType('student')">Student</span>
-        <span @click="userType('employer')">Employer</span>
+        <span @click="userType('student')" id="login-student">Student</span>
+        <span @click="userType('employer')" id="login-employer">Employer</span>
       </div>
       <div v-if="error" class="error-message">
         {{this.message}}
       </div>
       <form>
         <div class="cfield">
-          <input type="text" placeholder="Email" id="email" v-model="email" name="email"/>
+          <input type="text" placeholder="Email" id="login-email" v-model="email" name="email"/>
           <i class="la la-envelope"></i>
         </div>
         <div class="cfield">
           <input
             type="password"
             placeholder="********"
-            id="password"
+            id="login-password"
             v-model="password"
             name="password"
           />
           <i class="la la-key"></i>
         </div>
         <a href="#" title="">Forgot Password?</a>
-        <button @click.prevent="login" type="submit">Login</button>
+        <button @click.prevent="login" id="login-submit" type="submit">Login</button>
       </form>
       <div class="extra-login">
         <span>Or</span>
@@ -45,8 +45,7 @@
 </template>
 
 <script>
-// import Axios from 'axios';
-// import * as yup from 'yup';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: 'LoginPopup',
@@ -62,21 +61,15 @@ export default {
       loggedInSuccess: false,
     };
   },
-  computed: {
-    loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
-    },
-  },
-  created() {
-    if (this.loggedIn) {
-      // this.$router.push('/');
-    }
-  },
+  computed: { ...mapGetters(["user", "token", "isLoading", "isLoggedIn"]) },
   methods: {
+    ...mapActions(["userLogin"]),
+
     userType(type) {
       this.user_type = type;
     },
-    login() {
+
+    async login() {
       this.loading = true;
       console.log(this.email, this.password, this.user_type, this.remember_me);
 
@@ -98,27 +91,15 @@ export default {
         user_type: this.user_type,
         remember_me: this.remember_me,
       };
-      
-      this.$store.dispatch('auth/login', user).then(
-        () => {
-          if(this.user_type == 'student') {
-            this.$router.push('/student-dashboard');
-          }
-          if(this.user_type == 'employer') {
-            this.$router.push('/employer-dashboard');
-          }
-        },
-        (error) => {
-          console.log(error);
-          this.loading = false;
-          this.error = true;
-          this.message = (error.response
-              && error.response.data
-              && error.response.data.message)
-            || error.message
-            || error.toString();
-        },
-      );
+
+      await this.userLogin(user);
+      window.location.reload();
+      // if(this.user_type == 'student') {
+      //   this.$router.push('/student-dashboard');
+      // }
+      // if(this.user_type == 'employer') {
+      //   this.$router.push('/employer-dashboard');
+      // }
     },
   },
 };
