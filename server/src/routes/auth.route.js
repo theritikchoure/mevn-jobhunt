@@ -6,6 +6,7 @@ const PassportErrorHandler = require('../middleware/passportErrorResponse');
 const AuthController = require('../controller/auth.controller');
 const AuthValidations = require('../validations/auth.validation');
 const EmployerAuth = require('../middleware/employerAuth.js');
+const StudentAuth = require('../middleware/studentAuth.js');
 
 /**
  * @route POST api/auth/signin
@@ -26,6 +27,25 @@ router.post('/login', AuthValidations.login, (req, res) => {
 router.post('/register', AuthValidations.register, (req, res) => {
   AuthController.register(req, res);
 });
+
+/**
+ * @route GET api/auth/myprofile
+ * @description Get loggedIn user profile
+ * @returns JSON
+ * @access private
+ */
+router.get(
+  '/myprofile',
+  [
+    passport.authenticate('jwt', { session: false, failWithError: true }),
+    PassportErrorHandler.success,
+    PassportErrorHandler.error,
+    StudentAuth,
+  ],
+  (req, res) => {
+    AuthController.loggedInUserProfile(req, res);
+  },
+);
 
 /**
  * @route GET api/auth/secure

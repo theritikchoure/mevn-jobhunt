@@ -47,6 +47,28 @@ class AuthController {
       createError(res, e);
     }
   }
+  
+  /**
+   * @description get loggedin student profile
+   */
+  async loggedInUserProfile(req, res) {
+    try {
+      let response;
+      if(req.user.role == 'student') {
+        response = await StudentService.getStudent(req.user._id);
+      } else if(req.user.role == 'employer') {
+        response = await EmployerService.getEmployer(req.user._id);
+      }
+      console.log("controller", response)
+      if (response) {
+        createResponse(res, 'ok', 'Profile Fetched successfully', response);
+      } else {
+        createError(res, {}, { message: 'Unable to update profile, please try again' });
+      }
+    } catch (e) {
+      createError(res, e);
+    }
+  }
 
   /**
    * @description update employer profile

@@ -9,123 +9,30 @@
               <span>Leading Employers already using job and talent. </span>
             </div>
             <!-- Heading -->
-            <div class="job-listings-sec">
-              <div class="job-listing">
+            <div class="job-listings-sec" v-for="(internship, index) in internshipList" :key="internship.id">
+              <div class="job-listing" :index="index">
                 <div class="job-title-sec">
                   <div class="c-logo">
                     <img src="images/resource/l1.png" alt="" />
                   </div>
                   <h3>
-                    <a href="#" title="">Web Designer / Developer </a>
+                    <router-link :to="{ name: 'InternshipDetail', params: { url: internship.url }}">
+                      {{internship.title}} 
+                    </router-link>
                   </h3>
-                  <span>Massimo Artemisis </span>
+                  <span>{{internship.employer.name}} </span>
                 </div>
                 <span class="job-lctn">
-                  <i class="la la-map-marker"> </i>Sacramento, California
                 </span>
-                <span class="fav-job">
+                <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(internship.url)" v-if="likedInternship.includes(internship.id)">
+                  <i class="la la-heart-o red"> </i>
+                </span>
+                <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(internship.url)" v-else>
                   <i class="la la-heart-o"> </i>
                 </span>
-                <span class="job-is ft">FULL TIME </span>
-              </div>
-              <!-- Job -->
-              <div class="job-listing">
-                <div class="job-title-sec">
-                  <div class="c-logo">
-                    <img src="images/resource/l2.png" alt="" />
-                  </div>
-                  <h3>
-                    <a href="#" title="">Marketing Director </a>
-                  </h3>
-                  <span>Tix Dog </span>
-                </div>
-                <span class="job-lctn">
-                  <i class="la la-map-marker"> </i>Rennes, France
-                </span>
-                <span class="fav-job">
-                  <i class="la la-heart-o"> </i>
-                </span>
-                <span class="job-is pt">PART TIME </span>
-              </div>
-              <!-- Job -->
-              <div class="job-listing">
-                <div class="job-title-sec">
-                  <div class="c-logo">
-                    <img src="images/resource/l3.png" alt="" />
-                  </div>
-                  <h3>
-                    <a href="#" title="">C Developer (Senior) C .Net </a>
-                  </h3>
-                  <span>StarHealth </span>
-                </div>
-                <span class="job-lctn">
-                  <i class="la la-map-marker"> </i>London, United Kingdom
-                </span>
-                <span class="fav-job">
-                  <i class="la la-heart-o"> </i>
-                </span>
-                <span class="job-is ft">FULL TIME </span>
-              </div>
-              <!-- Job -->
-              <div class="job-listing">
-                <div class="job-title-sec">
-                  <div class="c-logo">
-                    <img src="images/resource/l4.png" alt="" />
-                  </div>
-                  <h3>
-                    <a href="#" title="">Application Developer For Android </a>
-                  </h3>
-                  <span>Altes Bank </span>
-                </div>
-                <span class="job-lctn">
-                  <i class="la la-map-marker"> </i>Istanbul, Turkey
-                </span>
-                <span class="fav-job">
-                  <i class="la la-heart-o"> </i>
-                </span>
-                <span class="job-is fl">FREELANCE </span>
-              </div>
-              <!-- Job -->
-              <div class="job-listing">
-                <div class="job-title-sec">
-                  <div class="c-logo">
-                    <img src="images/resource/l5.png" alt="" />
-                  </div>
-                  <h3>
-                    <a href="#" title=""
-                      >Regional Sales Manager South east Asia
-                    </a>
-                  </h3>
-                  <span>Vincent </span>
-                </div>
-                <span class="job-lctn">
-                  <i class="la la-map-marker"> </i>Ajax, Ontario
-                </span>
-                <span class="fav-job">
-                  <i class="la la-heart-o"> </i>
-                </span>
-                <span class="job-is tp">TEMPORARY </span>
-              </div>
-              <!-- Job -->
-              <div class="job-listing">
-                <div class="job-title-sec">
-                  <div class="c-logo">
-                    <img src="images/resource/l6.png" alt="" />
-                  </div>
-                  <h3>
-                    <a href="#" title=""
-                      >Social Media and Public Relation Executive
-                    </a>
-                  </h3>
-                  <span>MediaLab </span>
-                </div>
-                <span class="job-lctn">
-                  <i class="la la-map-marker"> </i>Ankara / Turkey
-                </span>
-                <span class="fav-job">
-                  <i class="la la-heart-o"> </i>
-                </span>
-                <span class="job-is ft">FULL TIME </span>
+                <router-link :to="{ name: 'InternshipDetail', params: { url: internship.url }}">
+                  <span class="job-is ft">Apply Now </span>
+                </router-link>
               </div>
               <!-- Job -->
             </div>
@@ -142,10 +49,39 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: 'FeaturedJobs',
+  computed: { ...mapGetters(["user", "internshipList", "likedInternship", "isLoading"]) },
+  methods: {
+    ...mapActions(["fetchAllInternships", "getUsersLikedInternship", "likeUnlikeToInternship"]),
+
+    async likeUnlikeToThisInternship(url){
+      console.log("Like/Unlike", url)
+      await this.likeUnlikeToInternship(url);
+      console.log("Liked/Unliked")
+    },
+  },
+  created() {
+    this.fetchAllInternships();
+    this.getUsersLikedInternship();
+  },
 };
 </script>
 
-<style>
-</style>
+<style scoped>
+.job-is.ft {
+  cursor: pointer;
+}
+
+.job-is.ft:hover {
+  color: #fff;
+  border-color: #8b91dd;
+  background-color: #8b91dd;
+}
+
+.la.la-heart-o.red {
+  color: red;
+}
+</style>>

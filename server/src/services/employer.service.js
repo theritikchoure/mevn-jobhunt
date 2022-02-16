@@ -9,7 +9,7 @@ class EmployerService {
   async getEmployer(id) {
     try {
       const result = await Employer.findOne({ _id: id });
-      return result.toJSON();
+      return result
     } catch (e) {
       throw e;
     }

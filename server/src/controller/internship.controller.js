@@ -104,6 +104,23 @@ class InternshipController {
       createError(res, e);
     }
   }
+  
+  /**
+   * @description like/unlike to an internship
+   */
+  async likeUnlikeToInternship(req, res) {
+    try {
+      let internship = await InternshipService.likeUnlikeToInternship(req.user._id, req.params.url);
+
+      if (internship) {
+        createResponse(res, 'ok', 'Like/Unlike to internship successfully', internship);
+      } else {
+        createError(res, {}, { message: 'Unable to apply to internship, please try again' });
+      }
+    } catch (e) {
+      createError(res, e);
+    }
+  }
 }
 
 const internshipController = new InternshipController();

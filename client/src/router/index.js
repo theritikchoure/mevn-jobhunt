@@ -1,14 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router';
 // import Home from '../views/Home.vue';
 import Index from '../views/Index.vue';
-import StudentDashboard from '../views/Student/Dashboard.vue';
-import EmployerDashboard from '../views/Employer/Dashboard.vue';
 import AboutUs from '../views/Pages/AboutUs.vue';
 import ErrorPage from '../views/Pages/404.vue';
 import ContactUs from '../views/Pages/ContactUs.vue';
 import FAQ from '../views/Pages/FAQs.vue';
 import HowItWorks from '../views/Pages/HowItWorks.vue';
 import TAndC from '../views/Pages/T&C.vue';
+
+import StudentDashboard from '../views/Student/Dashboard.vue';
+import StudentProfile from '../views/Student/Profile.vue';
+
+import EmployerDashboard from '../views/Employer/Dashboard.vue';
 
 import Internships from '../views/Internship/InternshipList.vue';
 import InternshipDetail from '../views/Internship/InternshipDetail.vue';
@@ -67,9 +70,15 @@ const routes = [
 
   // Student Routes
   {
-    path: '/student-dashboard',
+    path: '/student/dashboard',
     name: 'StudentDashboard',
     component: StudentDashboard,
+    meta: { authorize: [Role.Student] } 
+  },
+  {
+    path: '/student/myprofile',
+    name: 'StudentProfile',
+    component: StudentProfile,
     meta: { authorize: [Role.Student] } 
   },
 

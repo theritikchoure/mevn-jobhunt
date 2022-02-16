@@ -1,9 +1,7 @@
 const { hashSync, compareSync, genSaltSync } = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
-const { DEFAULT_USER_ROLES } = require('../config/constants');
 const { EXPRESS_SECRET } = require('../config/env');
-const { isNull } = require('lodash');
 
 const Schema = mongoose.Schema;
 
@@ -85,6 +83,11 @@ const studentSchema = new mongoose.Schema(
         required: false
     },
 
+    liked_internship: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Internships"
+    }],
+
     resetPasswordToken: String,
     resetPasswordExpire: Date,
 
@@ -152,26 +155,27 @@ studentSchema.methods = {
       created_at: this.created_at,
       country: this.country, 
       state: this.state,
+      liked_internship: this.liked_internship,
       token: `${this.createToken()}`,
     };
   },
 
-  toJSON() {
-    return {
-      id: this._id,
-      name: this.name,
-      email: this.email,
-      role: this.role,
-    };
-  },
+  // toJSON() {
+  //   return {
+  //     id: this._id,
+  //     name: this.name,
+  //     email: this.email,
+  //     role: this.role,
+  //   };
+  // },
 
-  toJSONWithObject(hasFullUser = false) {
-    return {
-      id: this._id,
-      name: this.name,
-      email: this.email,
-      role: this.role,
-    };
-  },
+  // toJSONWithObject(hasFullUser = false) {
+  //   return {
+  //     id: this._id,
+  //     name: this.name,
+  //     email: this.email,
+  //     role: this.role,
+  //   };
+  // },
 };
 module.exports = mongoose.model('Students', studentSchema);

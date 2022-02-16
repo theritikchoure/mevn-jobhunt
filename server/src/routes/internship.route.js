@@ -29,6 +29,26 @@ router.post(
 );
 
 /**
+ * @route POST api/internships/like/:url
+ * @description like/unlike to internship
+ * @returns JSON
+ * @access private
+ */
+
+router.post(
+    '/like/:url',
+    [
+      passport.authenticate('jwt', { session: false, failWithError: true }),
+      PassportErrorHandler.success,
+      PassportErrorHandler.error,
+      StudentAuth,
+    ],
+    (req, res) => {
+      InternshipController.likeUnlikeToInternship(req, res);
+    },
+);
+
+/**
  * @route POST api/internships/
  * @description create new internship
  * @returns JSON

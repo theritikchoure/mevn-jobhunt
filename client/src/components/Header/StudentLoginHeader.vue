@@ -16,14 +16,14 @@
             ></span>
           </div>
           <div class="wishlist-dropsec">
-            <span><i class="la la-heart"></i><strong>3</strong></span>
+            <span><i class="la la-heart"></i><strong>{{likedInternship.length}}</strong></span>
             <div class="wishlist-dropdown">
               <ul class="scrollbar">
                 <li>
                   <div class="job-listing">
                     <div class="job-title-sec">
                       <div class="c-logo">
-                        <img src="images/resource/l1.png" alt="" />
+                        <img src="/images/resource/l1.png" alt="" />
                       </div>
                       <h3><a href="#" title="">Web Designer / Developer</a></h3>
                       <span>Massimo Artemisis</span>
@@ -35,7 +35,7 @@
                   <div class="job-listing">
                     <div class="job-title-sec">
                       <div class="c-logo">
-                        <img src="images/resource/l2.png" alt="" />
+                        <img src="/images/resource/l2.png" alt="" />
                       </div>
                       <h3>
                         <a href="#" title="">C Developer (Senior) C .Net</a>
@@ -49,34 +49,10 @@
                   <div class="job-listing">
                     <div class="job-title-sec">
                       <div class="c-logo">
-                        <img src="images/resource/l3.png" alt="" />
+                        <img src="/images/resource/l3.png" alt="" />
                       </div>
                       <h3><a href="#" title="">Marketing Director</a></h3>
                       <span>Tix Dog</span>
-                    </div>
-                  </div>
-                  <!-- Job -->
-                </li>
-                <li>
-                  <div class="job-listing">
-                    <div class="job-title-sec">
-                      <div class="c-logo">
-                        <img src="images/resource/l4.png" alt="" />
-                      </div>
-                      <h3><a href="#" title="">Web Designer / Developer</a></h3>
-                      <span>Massimo Artemisis</span>
-                    </div>
-                  </div>
-                  <!-- Job -->
-                </li>
-                <li>
-                  <div class="job-listing">
-                    <div class="job-title-sec">
-                      <div class="c-logo">
-                        <img src="images/resource/l5.png" alt="" />
-                      </div>
-                      <h3><a href="#" title="">Web Designer / Developer</a></h3>
-                      <span>Massimo Artemisis</span>
                     </div>
                   </div>
                   <!-- Job -->
@@ -121,11 +97,25 @@
 
 <script>
 import StudentSidebar from '../../components/StudentSidebar.vue';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "StudentLoginHeader",
   components: { StudentSidebar },
+  computed: { ...mapGetters(["likedInternship", "isLoading"]) },
   props: ['user'],
+  methods: {
+    ...mapActions(["getUsersLikedInternship"]),
+
+    // async likeUnlikeToThisInternship(url){
+    //   console.log("Like/Unlike", url)
+    //   await this.likeUnlikeToInternship(url);
+    //   console.log("Liked/Unliked")
+    // },
+  },
+  created() {
+    this.getUsersLikedInternship();
+  },
 };
 </script>
 

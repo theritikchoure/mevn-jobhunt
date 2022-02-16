@@ -31,6 +31,23 @@ const actions = {
         commit('setIsLoggedIn', false);
     }
   },
+  
+  async loggedInUserCompleteDetails({ commit }) {
+    commit('setIsLoading', true);
+    await AuthService.getLoggedInUserDetail().then(
+      (response) => {
+        console.log(response.data.data)
+        commit('setUserDetail', response.data.data);
+        commit('setIsLoading', false);
+        return Promise.resolve(response);
+      },
+      (error) => {
+          console.log('error', error);
+          commit('setIsLoading', false);    
+          return Promise.reject(error);
+      },
+    );
+  },
 
   async userLogin({ commit }, object) {
 
@@ -74,28 +91,16 @@ const actions = {
     );
   },
 
-  async fetchDetailInternship({ commit }, url) {
-    commit('setIsLoading', true);
-    await InternshipService.getInternshipDetail(url).then(
-      (internship) => {
-        console.log(internship.data.data)
-        commit('setInternshipDetail', internship.data.data);
-        commit('setIsLoading', false);
-        return Promise.resolve(internship);
-      },
-      (error) => {
-          console.log('error', error);
-          commit('setIsLoading', false);    
-          return Promise.reject(error);
-      },
-    );
-  },
 }
 
 // mutations
 const mutations = {
   setUser: (state, user) => {
     state.user = user
+  },
+  
+  setUserDetail: (state, userDetails) => {
+    state.userDetails = userDetails
   },
 
   setToken: (state, token) => {

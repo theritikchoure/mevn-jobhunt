@@ -52,15 +52,17 @@
                       <!-- Job Head -->
                     </div>
                     <div class="col-lg-4">
-                      <a class="apply-thisjob" href="#" @click.prevent="applyToThisInternship(internship.url)" title=""
-                        ><i class="la la-paper-plane"></i>Apply for job</a
-                      >
-                      <div class="apply-alternative">
-                        <a href="#" title=""
-                          ><i class="la la-linkedin"></i> Apply with Linkedin</a
-                        >
+                      <a class="apply-thisjob" href="#" 
+                        @click.prevent="applyToThisInternship(internship.url)" title="" v-if="internship.applicants.includes(user.id)">
+                        <i class="la la-paper-plane"></i>Revert Your Application
+                      </a>
+                      <a class="apply-thisjob" href="#" 
+                        @click.prevent="applyToThisInternship(internship.url)" title="" v-else>
+                        <i class="la la-paper-plane"></i>Apply Now
+                      </a>
+                      <!-- <div class="apply-alternative">
                         <span><i class="la la-heart-o"></i> Shortlist</span>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -137,87 +139,7 @@
                         <h3>Recent Jobs</h3>
                         <div class="job-list-modern">
                           <div class="job-listings-sec no-border">
-                            <div class="job-listing wtabs">
-                              <div class="job-title-sec">
-                                <div class="c-logo">
-                                  <img src="/images/resource/l1.png" alt="" />
-                                </div>
-                                <h3>
-                                  <a href="#" title=""
-                                    >Web Designer / Developer</a
-                                  >
-                                </h3>
-                                <span>Massimo Artemisis</span>
-                              </div>
-                              <div class="job-style-bx">
-                                <span class="job-is ft">Full time</span>
-                                <span class="fav-job"
-                                  ><i class="la la-heart-o"></i
-                                ></span>
-                                <i>5 months ago</i>
-                              </div>
-                            </div>
-                            <div class="job-listing wtabs">
-                              <div class="job-title-sec">
-                                <div class="c-logo">
-                                  <img src="/images/resource/l2.png" alt="" />
-                                </div>
-                                <h3>
-                                  <a href="#" title=""
-                                    >C Developer (Senior) C .Net</a
-                                  >
-                                </h3>
-                                <span>Massimo Artemisis</span>
-                              </div>
-                              <div class="job-style-bx">
-                                <span class="job-is pt">Part time</span>
-                                <span class="fav-job"
-                                  ><i class="la la-heart-o"></i
-                                ></span>
-                                <i>5 months ago</i>
-                              </div>
-                            </div>
-                            <!-- Job -->
-                            <div class="job-listing wtabs">
-                              <div class="job-title-sec">
-                                <div class="c-logo">
-                                  <img src="/images/resource/l3.png" alt="" />
-                                </div>
-                                <h3>
-                                  <a href="#" title=""
-                                    >Regional Sales Manager South</a
-                                  >
-                                </h3>
-                                <span>Massimo Artemisis</span>
-                              </div>
-                              <div class="job-style-bx">
-                                <span class="job-is ft">Full time</span>
-                                <span class="fav-job"
-                                  ><i class="la la-heart-o"></i
-                                ></span>
-                                <i>5 months ago</i>
-                              </div>
-                            </div>
-                            <!-- Job -->
-                            <div class="job-listing wtabs">
-                              <div class="job-title-sec">
-                                <div class="c-logo">
-                                  <img src="/images/resource/l4.png" alt="" />
-                                </div>
-                                <h3>
-                                  <a href="#" title="">Marketing Dairector</a>
-                                </h3>
-                                <span>Massimo Artemisis</span>
-                              </div>
-                              <div class="job-style-bx">
-                                <span class="job-is ft">Full time</span>
-                                <span class="fav-job"
-                                  ><i class="la la-heart-o"></i
-                                ></span>
-                                <i>5 months ago</i>
-                              </div>
-                            </div>
-                            <!-- Job -->
+                            <InternshipTab :internship="internship" />
                           </div>
                         </div>
                       </div>
@@ -294,7 +216,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["internship", "isLoading"]),
+    ...mapGetters(["user", "internship", "isLoading"]),
   },
   methods: {
     ...mapActions(["fetchDetailInternship", "applyToInternship"]),

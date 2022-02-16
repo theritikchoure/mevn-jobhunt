@@ -15,17 +15,34 @@
       <router-link :to="{ name: 'InternshipDetail', params: { url: internship.url }}">
         <span class="job-is pt">Apply Now</span>
       </router-link>
-      <span class="fav-job"><i class="la la-heart-o"></i></span>
+      <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(internship.url)" v-if="likedInternship.includes(internship.id)">
+        <i class="la la-heart-o red"></i>
+      </span>
+      <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(internship.url)" v-else>
+        <i class="la la-heart-o"> </i>
+      </span>
       <i>{{internship.created_at}}</i>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "InternshipTab",
   props: ['internship'],
+  computed: { ...mapGetters(["likedInternship"]) },
+  methods: {
+    ...mapActions(["likeUnlikeToInternship"]),
+
+    async likeUnlikeToThisInternship(url){
+      console.log("Like/Unlike", url)
+      await this.likeUnlikeToInternship(url);
+      console.log("Liked/Unliked")
+    },
+  },
+  created() {},
 };
 </script>
 
@@ -41,4 +58,7 @@ export default {
   background-color: #8b91dd;
 }
 
+.la.la-heart-o.red {
+  color: red;
+}
 </style>

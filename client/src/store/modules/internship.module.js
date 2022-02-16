@@ -1,11 +1,13 @@
 import axios from 'axios';
 import InternshipService from '../../services/internship.service';
+import AuthService from '../../services/auth.service';
 
 // initial state
 const state = () => ({
   internships: [],
   internshipsPaginatedData: null,
   internship: null,
+  likedInternship: [],
   isLoading: false,
   isCreating: false,
   createdData: null,
@@ -20,6 +22,7 @@ const getters = {
   internshipList: state => state.internships,
   internshipsPaginatedData: state => state.internshipsPaginatedData,
   internship: state => state.internship,
+  likedInternship: state => state.likedInternship,
   isLoading: state => state.isLoading,
   isCreating: state => state.isCreating,
   isUpdating: state => state.isUpdating,
@@ -85,6 +88,34 @@ const actions = {
     );
   },
 
+  async getUsersLikedInternship({ commit }) {
+    await AuthService.getLoggedInUserDetail().then(
+      (response) => {
+        console.log(response.data.data)
+        commit('setLikedInternship', response.data.data.liked_internship);
+        return Promise.resolve(response);
+      },
+      (error) => {
+        console.log('error', error); 
+        return Promise.reject(error);
+      },
+    );
+  },
+
+  async likeUnlikeToInternship({ commit }, url) {
+    await InternshipService.likeUnlikeToInternship(url).then(
+      (response) => {
+        console.log(response.data.data)
+        commit('setLikedInternship', response.data.data.liked_internship);
+        return Promise.resolve(response);
+      },
+      (error) => {
+        console.log('error', error); 
+        return Promise.reject(error);
+      },
+    );
+  },
+
   async storeInternship({ commit }, internship) {
     commit('setInternshipIsCreating', true);
     await axios.post(`${process.env.VUE_APP_API_URL}internships`, internship)
@@ -140,6 +171,10 @@ const mutations = {
 
   setInternshipDetail: (state, internship) => {
     state.internship = internship
+  },
+  
+  setLikedInternship: (state, likedInternship) => {
+    state.likedInternship = likedInternship
   },
 
   setDeleteInternship: (state, id) => {

@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import handleReponse from '../helpers/handle-response';
 const API_URL = 'http://localhost:4000/api/auth/';
+const token = JSON.parse(localStorage.getItem('token'));
 
 class AuthService {
 
@@ -49,6 +50,16 @@ class AuthService {
       }
       return response.data;
     });
+  }
+  
+  getLoggedInUserDetail() {
+    return Axios
+      .get(`${API_URL}myprofile`, { headers: { 'Authorization': `Bearer ${token}` }})
+      .then(handleReponse)
+      .then(response => {
+        console.log(response);
+        return response;
+      })
   }
 }
 

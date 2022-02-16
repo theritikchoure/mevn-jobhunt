@@ -9,7 +9,7 @@ class StudentService {
   async getStudent(id) {
     try {
       const result = await Student.findOne({ _id: id });
-      return result.toJSONWithObject(true);
+      return result;
     } catch (e) {
       throw e;
     }

@@ -1,4 +1,5 @@
 const Internship = require('../models/internship.model.js');
+const Student = require('../models/student.model.js');
 const constants = require('../config/constants');
 const filteredBody = require('../utils/filteredBody');
 
@@ -205,6 +206,46 @@ class InternshipService {
       const result = await updatePromise;
       if (result) {
         const item = await this.getInternshipByUrl(url);
+        return item;
+      }
+      return undefined;
+    } catch (e) {
+      throw e;
+    }
+  }
+  
+  /**
+   * @description like/unlike to an internship
+   * @param {Object} obj
+   * @param {id} id
+   */
+   async likeUnlikeToInternship(userId, url) {
+    try {
+
+      const internship = await this.getInternshipByUrl(url);
+      if (!internship) throw Error('Internship not found');
+
+      const updatePromise = new Promise(async (resolve, reject) => {
+        const query = { _id: userId };
+        await Student.findOne(query, { new: false }, async (err, result) => {
+          if (err) reject(err);
+          console.log(result);
+          if(result.liked_internship.includes(internship.id)){
+            const index = result.liked_internship.indexOf(internship.id);
+
+            result.liked_internship.splice(index, 1);
+
+            await result.save();
+          } else {
+            result.liked_internship.push(internship.id);
+              await result.save();
+          }        
+          return resolve(result);
+        });
+      });
+      const result = await updatePromise;
+      if (result) {
+        const item = await Student.findOne({ _id: userId });
         return item;
       }
       return undefined;

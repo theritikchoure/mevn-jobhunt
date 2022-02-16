@@ -5,7 +5,7 @@
         <div
           data-velocity="-.1"
           style="
-            background: url(images/resource/mslider1.jpg) repeat scroll 50%
+            background: url(/images/resource/mslider1.jpg) repeat scroll 50%
               422.28px transparent;
           "
           class="parallax scrolly-invisible no-parallax"
@@ -15,7 +15,7 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="inner-header">
-                <h3>Welcome {{this.currentUser.name}}</h3>
+                <h3>Welcome {{user.name}}</h3>
               </div>
             </div>
           </div>
@@ -110,21 +110,19 @@
 
 <script>
 import StudentSidebar from '../../components/StudentSidebar.vue';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: 'StudentDashboard',
   components: { StudentSidebar },
   computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
-    },
+    ...mapGetters(["user"]),
   },
-  mounted() { 
-    if(!this.currentUser) {
-      console.warn("User Not LoggedIn")
-    } else {
-      console.log(this.currentUser)
-    }
+  methods: {
+    ...mapActions(["loggedInUserCompleteDetails"]),
+  },
+  created() {
+    this.loggedInUserCompleteDetails(this.user.id);
   },
 };
 </script>

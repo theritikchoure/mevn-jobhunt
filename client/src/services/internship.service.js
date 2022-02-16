@@ -37,6 +37,17 @@ class InternshipService {
         return response;
       })
   }
+  
+  likeUnlikeToInternship(url) {
+    console.log(token)
+    return Axios
+      .post(`${API_URL}like/${url}`, {}, { headers: { 'Authorization': `Bearer ${token}` }})
+      .then(handleReponse)
+      .then(response => {
+        console.log(response);
+        return response;
+      })
+  }
 }
 
 export default new InternshipService();
