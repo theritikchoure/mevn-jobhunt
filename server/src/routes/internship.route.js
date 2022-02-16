@@ -6,6 +6,27 @@ const PassportErrorHandler = require('../middleware/passportErrorResponse');
 const InternshipController = require('../controller/internship.controller');
 const InternshipValidations = require('../validations/internship.validation');
 const EmployerAuth = require('../middleware/employerAuth.js');
+const StudentAuth = require('../middleware/studentAuth.js');
+
+/**
+ * @route POST api/internships/apply/:url
+ * @description apply to internship
+ * @returns JSON
+ * @access private
+ */
+
+router.post(
+    '/apply/:url',
+    [
+      passport.authenticate('jwt', { session: false, failWithError: true }),
+      PassportErrorHandler.success,
+      PassportErrorHandler.error,
+      StudentAuth,
+    ],
+    (req, res) => {
+      InternshipController.applyToInternship(req, res);
+    },
+);
 
 /**
  * @route POST api/internships/

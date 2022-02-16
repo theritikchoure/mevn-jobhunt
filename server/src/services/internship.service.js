@@ -35,7 +35,7 @@ class InternshipService {
   async getInternshipByUrl(url) {
     try {
       const result = await Internship.findOne({ url: url }).populate("employer");
-      if(result) return result.toJSON();
+      if(result !== null) return result.toJSON();
       return undefined;
     } catch (e) {
       throw e;
@@ -166,6 +166,47 @@ class InternshipService {
       });
       const result = await updatePromise;
       if (result) return true;
+      return undefined;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+    
+  /**
+   * @description apply to an internship
+   * @param {Object} obj
+   * @param {id} id
+   */
+   async applyToInternship(userId, url) {
+    try {
+
+      const internship = await this.getInternshipByUrl(url);
+      if (!internship) throw Error('Internship not found');
+
+      const updatePromise = new Promise(async (resolve, reject) => {
+        const query = { url: url };
+        await Internship.findOne(query, { new: false }, async (err, result) => {
+          if (err) reject(err);
+          console.log(result);
+          if(result.applicants.includes(userId)){
+            const index = result.applicants.indexOf(userId);
+
+            result.applicants.splice(index, 1);
+
+            await result.save();
+          } else {
+            result.applicants.push(userId);
+              await result.save();
+          }        
+          return resolve(result);
+        });
+      });
+      const result = await updatePromise;
+      if (result) {
+        const item = await this.getInternshipByUrl(url);
+        return item;
+      }
       return undefined;
     } catch (e) {
       throw e;

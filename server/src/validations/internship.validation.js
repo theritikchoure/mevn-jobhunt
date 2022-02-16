@@ -1,4 +1,4 @@
-const { isEmpty } = require('../utils/validator');
+const { isEmpty, isNumber} = require('../utils/validator');
 const { createValidationResponse } = require('../utils/helpers');
 
 class InternshipValidator {
@@ -26,6 +26,9 @@ class InternshipValidator {
     }
     if (isEmpty(no_of_openings)) {
       errors.no_of_openings = 'No of Openings is required';
+    }
+    if(!isNumber(no_of_openings)) {
+      errors.no_of_openings = 'No of Openings should be number';
     }
     if (isEmpty(duration)) {
       errors.duration = 'Duration is required';

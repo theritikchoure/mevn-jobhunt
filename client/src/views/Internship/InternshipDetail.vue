@@ -40,7 +40,7 @@
                           <h3>{{internship.employer.name}}</h3>
                           <ul class="tags-jobs">
                             <li>
-                              <i class="la la-file-text"></i> Applications 1
+                              <i class="la la-file-text"></i> Applications {{internship.applicants.length}}
                             </li>
                             <li>
                               <i class="la la-calendar-o"></i> Post Date: {{internship.created_at}}
@@ -52,7 +52,7 @@
                       <!-- Job Head -->
                     </div>
                     <div class="col-lg-4">
-                      <a class="apply-thisjob" href="#" title=""
+                      <a class="apply-thisjob" href="#" @click.prevent="applyToThisInternship(internship.url)" title=""
                         ><i class="la la-paper-plane"></i>Apply for job</a
                       >
                       <div class="apply-alternative">
@@ -297,7 +297,13 @@ export default {
     ...mapGetters(["internship", "isLoading"]),
   },
   methods: {
-    ...mapActions(["fetchDetailInternship"]),
+    ...mapActions(["fetchDetailInternship", "applyToInternship"]),
+
+    async applyToThisInternship(url){
+      console.log("APply", url)
+      await this.applyToInternship(url);
+      console.log("Applied")
+    },
   },
   created() {
     this.fetchDetailInternship(this.url);

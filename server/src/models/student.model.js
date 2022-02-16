@@ -90,6 +90,12 @@ const studentSchema = new mongoose.Schema(
 
     mobileOtp: String,
     mobileOtpExpire: Date,
+
+    is_active: {
+      type: Number,
+      required: false,
+      default: 1 // 1 for TRUE || 0 for FALSE
+    },
   },
   { timestamps: true, usePushEach: true }, // UTC format
 );

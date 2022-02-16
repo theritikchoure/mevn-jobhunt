@@ -67,6 +67,23 @@ const actions = {
       },
     );
   },
+  
+  async applyToInternship({ commit }, url) {
+    commit('setInternshipIsLoading', true);
+    await InternshipService.applyToInternship(url).then(
+      (internship) => {
+        console.log(internship.data.data)
+        commit('setInternshipDetail', internship.data.data);
+        commit('setInternshipIsLoading', false);
+        return Promise.resolve(internship);
+      },
+      (error) => {
+          console.log('error', error); 
+          commit('setInternshipIsLoading', false);
+          return Promise.reject(error);
+      },
+    );
+  },
 
   async storeInternship({ commit }, internship) {
     commit('setInternshipIsCreating', true);
