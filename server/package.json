@@ -1,9 +1,9 @@
 {
-  "name": "geo-spree",
+  "name": "jobhunt",
   "version": "1.0.0",
   "private": true,
-  "description": "geo-spree",
-  "main": "index.js",
+  "description": "jobhunt",
+  "main": "src/server.js",
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -1,0 +1,10 @@
+{
+  "projectName": "jobhunt",
+  "meta": {
+    "type": "backend"
+  },
+  "backend": {
+    "platform": "node12"
+  },
+  "hash": "19915be6"
+}

@@ -10,8 +10,12 @@ import TAndC from '../views/Pages/T&C.vue';
 
 import StudentDashboard from '../views/Student/Dashboard.vue';
 import StudentProfile from '../views/Student/Profile.vue';
+import StudentChangePassword from '../views/Student/ChangePassword.vue';
 
 import EmployerDashboard from '../views/Employer/Dashboard.vue';
+import EmployerProfile from '../views/Employer/Profile.vue';
+import EmployerPostNewJob from '../views/Employer/PostNewJob.vue';
+import EmployerChangePassword from '../views/Employer/ChangePassword.vue';
 
 import Internships from '../views/Internship/InternshipList.vue';
 import InternshipDetail from '../views/Internship/InternshipDetail.vue';
@@ -76,17 +80,41 @@ const routes = [
     meta: { authorize: [Role.Student] } 
   },
   {
-    path: '/student/myprofile',
+    path: '/student/profile',
     name: 'StudentProfile',
     component: StudentProfile,
+    meta: { authorize: [Role.Student] } 
+  },
+  {
+    path: '/student/change-password',
+    name: 'StudentChangePassword',
+    component: StudentChangePassword,
     meta: { authorize: [Role.Student] } 
   },
 
   // Employer Routes
   {
-    path: '/employer-dashboard',
+    path: '/employer/dashboard',
     name: 'EmployerDashboard',
     component: EmployerDashboard,
+    meta: { authorize: [Role.Employer] } 
+  },
+  {
+    path: '/employer/profile',
+    name: 'EmployerProfile',
+    component: EmployerProfile,
+    meta: { authorize: [Role.Employer] } 
+  },
+  {
+    path: '/employer/post-new-job',
+    name: 'EmployerPostNewJob',
+    component: EmployerPostNewJob,
+    meta: { authorize: [Role.Employer] } 
+  },
+  {
+    path: '/employer/change-password',
+    name: 'EmployerChangePassword',
+    component: EmployerChangePassword,
     meta: { authorize: [Role.Employer] } 
   },
 

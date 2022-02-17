@@ -8,7 +8,7 @@ class StudentService {
    */
   async getStudent(id) {
     try {
-      const result = await Student.findOne({ _id: id });
+      const result = await Student.findOne({ _id: id }).populate('liked_internship');
       return result;
     } catch (e) {
       throw e;

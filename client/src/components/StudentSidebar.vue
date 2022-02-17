@@ -32,7 +32,7 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Index' }">
+        <router-link :to="{ name: 'StudentChangePassword' }">
           <i class="la la-flash"></i>Change Password
         </router-link>
       </li>

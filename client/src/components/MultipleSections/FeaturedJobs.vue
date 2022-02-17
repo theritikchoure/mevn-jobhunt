@@ -24,7 +24,7 @@
                 </div>
                 <span class="job-lctn">
                 </span>
-                <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(internship.url)" v-if="likedInternship.includes(internship.id)">
+                <span class="fav-job" v-if="likedInternship.includes(internship.id)" @click.prevent="likeUnlikeToThisInternship(internship.url)">
                   <i class="la la-heart-o red"> </i>
                 </span>
                 <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(internship.url)" v-else>

@@ -105,6 +105,30 @@ class AuthenticationValidator {
       next();
     }
   }
+
+  /**
+   * @description Validate Change Password
+   */
+  password(req, res, next) {
+    const errors = {};
+    const { old_password, new_password, repeat_password } = req.body;
+
+    if (isEmpty(old_password)) {
+      errors.old_password = 'Old Password is required';
+    }
+    if (isEmpty(new_password)) {
+      errors.new_password = 'New Password is required';
+    }
+    if(new_password !== repeat_password) {
+      errors.password = 'New Password & Repeat Password does not match';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      createValidationResponse(res, errors);
+    } else {
+      next();
+    }
+  }
 }
 
 const validationObj = new AuthenticationValidator();

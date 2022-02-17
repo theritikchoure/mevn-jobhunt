@@ -12,7 +12,7 @@
                   <div class="job-search">
                     <h3>The Easiest Way to Get Your New Job</h3>
                     <span>Find Jobs, Employment & Career Opportunities </span>
-                    <form>
+                    <!-- <form>
                       <div class="row">
                         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                           <div class="job-field">
@@ -30,7 +30,7 @@
                     <div class="or-browser">
                       <span>Browse job offers by </span>
                       <a href="#" title="">Category </a>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div class="scroll-to">

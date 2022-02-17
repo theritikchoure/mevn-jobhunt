@@ -72,19 +72,21 @@
         </div>
       </div>
     </div>
-    <BeforeLoginHeader v-if="!isLoggedIn"/>
-    <StudentLoginHeader v-else :user="user" />
+    <EmployerLoginHeader v-if="user.role == 'employer'" />
+    <StudentLoginHeader v-else-if="user.role == 'student'" :user="user" />
+    <BeforeLoginHeader v-else />
   </div>
 </template>
 
 <script>
 import BeforeLoginHeader from './BeforeLoginHeader.vue'
 import StudentLoginHeader from './StudentLoginHeader.vue'
+import EmployerLoginHeader from './EmployerLoginHeader.vue'
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Header",
-  components: { BeforeLoginHeader, StudentLoginHeader },
+  components: { BeforeLoginHeader, StudentLoginHeader, EmployerLoginHeader },
   data() {
     return {
 
