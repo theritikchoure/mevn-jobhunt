@@ -11,6 +11,7 @@ import TAndC from '../views/Pages/T&C.vue';
 import StudentDashboard from '../views/Student/Dashboard.vue';
 import StudentProfile from '../views/Student/Profile.vue';
 import StudentChangePassword from '../views/Student/ChangePassword.vue';
+import StudentAppliedJobs from '../views/Student/AppliedJob.vue';
 
 import EmployerDashboard from '../views/Employer/Dashboard.vue';
 import EmployerProfile from '../views/Employer/Profile.vue';
@@ -91,6 +92,12 @@ const routes = [
     component: StudentChangePassword,
     meta: { authorize: [Role.Student] } 
   },
+  {
+    path: '/student/applied-jobs',
+    name: 'StudentAppliedJobs',
+    component: StudentAppliedJobs,
+    meta: { authorize: [Role.Student] } 
+  },
 
   // Employer Routes
   {
@@ -141,7 +148,8 @@ router.beforeEach((to, from, next) => {
   if (authorize) {
       if (!currentUser) {
           // not logged in so redirect to login page with the return url
-          return next({ path: '/', query: { returnUrl: to.path } });
+          // return next({ path: '/', query: { returnUrl: to.path } });
+          return next({ path: '/' });
       }
 
       // check if route is restricted by role

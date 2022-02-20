@@ -144,4 +144,23 @@ router.delete(
   },
 );
 
+/**
+ * @route GET api/internships/student/applied-jobs
+ * @description get loggedIn student's applied jobs
+ * @returns JSON
+ * @access private
+ */
+ router.get(
+  '/student/applied-jobs',
+  [
+    passport.authenticate('jwt', { session: false, failWithError: true }),
+    PassportErrorHandler.success,
+    PassportErrorHandler.error,
+    StudentAuth
+  ],
+  (req, res) => {
+    InternshipController.studentAppliedJobs(req, res);
+  },
+);
+
 module.exports = router;

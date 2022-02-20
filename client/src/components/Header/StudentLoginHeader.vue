@@ -85,9 +85,9 @@
         <div class="cst"><img src="/images/resource/es1.jpg" alt="" /></div>
         <h3>{{user.name.toUpperCase()}}</h3>
         <span><i>UX / UI Designer</i> at Atract Solutions</span>
-        <p>creativelayers088@gmail.com</p>
+        <p>{{user.email}}</p>
         <p>Member Since, 2017</p>
-        <p><i class="la la-map-marker"></i>Istanbul / Turkey</p>
+        <p><i class="la la-map-marker"></i>{{user.state}} / {{user.country}}</p>
       </div>
       <StudentSidebar />
     </div>

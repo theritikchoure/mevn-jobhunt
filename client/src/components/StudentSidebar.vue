@@ -7,28 +7,13 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Index' }">
+        <router-link :to="{ name: 'StudentProfile' }">
           <i class="la la-file-text"></i>My Profile
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Index' }">
-          <i class="la la-money"></i>Shorlisted Job
-        </router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'Index' }">
+        <router-link :to="{ name: 'StudentAppliedJobs' }">
           <i class="la la-paper-plane"></i>Applied Job
-        </router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'Index' }">
-          <i class="la la-user"></i>Job Alerts
-        </router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'Index' }">
-          <i class="la la-file-text"></i>Cv & Cover Letter
         </router-link>
       </li>
       <li>

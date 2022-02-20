@@ -119,6 +119,9 @@ class AuthenticationValidator {
     if (isEmpty(new_password)) {
       errors.new_password = 'New Password is required';
     }
+    if (isEmpty(repeat_password)) {
+      errors.repeat_password = 'Repeat Password is required';
+    }
     if(new_password !== repeat_password) {
       errors.password = 'New Password & Repeat Password does not match';
     }

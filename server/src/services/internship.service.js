@@ -9,8 +9,11 @@ class InternshipService {
    */
   async getInternships() {
     try {
-      const result = await Internship.find({}).populate("employer").sort({createdAt: -1});
-      if(result) return result
+      const result = await Internship.find({})
+        .populate('employer')
+        .populate('applicants')
+        .sort({ createdAt: -1 });
+      if (result) return result;
       return undefined;
     } catch (e) {
       throw e;
@@ -23,7 +26,7 @@ class InternshipService {
   async getInternshipById(id) {
     try {
       const result = await Internship.findOne({ _id: id });
-      if(result) return result.toJSON();
+      if (result) return result.toJSON();
       return undefined;
     } catch (e) {
       throw e;
@@ -35,8 +38,8 @@ class InternshipService {
    */
   async getInternshipByUrl(url) {
     try {
-      const result = await Internship.findOne({ url: url }).populate("employer");
-      if(result !== null) return result.toJSON();
+      const result = await Internship.findOne({ url: url }).populate('employer');
+      if (result !== null) return result.toJSON();
       return undefined;
     } catch (e) {
       throw e;
@@ -45,13 +48,13 @@ class InternshipService {
 
   async getInternshipByEmployer(id) {
     const internship = await Internship.find({ employer: id });
-    if(internship) return internship.toJSON();
+    if (internship) return internship.toJSON();
     return undefined;
   }
-  
+
   async getInternshipByApplicants(id) {
     const internship = await Internship.find({ applicants: id });
-    if(internship) return internship.toJSON();
+    if (internship) return internship;
     return undefined;
   }
 
@@ -106,17 +109,17 @@ class InternshipService {
       }
     });
   }
-  
+
   /**
    * @description Update internship
    * @param {Object} obj
    * @param {id} id
    */
-   async updateInternship(userId, id, payload) {
+  async updateInternship(userId, id, payload) {
     try {
       if (!payload) return;
       const internship = await this.getInternshipById(id);
-      if(userId.toString() !== internship.employer.toString()) {
+      if (userId.toString() !== internship.employer.toString()) {
         reject({
           message: 'Unauthorized',
         });
@@ -141,18 +144,18 @@ class InternshipService {
       throw e;
     }
   }
-  
+
   /**
    * @description Delete internship
    * @param {userId} user id
    * @param {id} id
    */
-   async deleteInternship(userId, id) {
+  async deleteInternship(userId, id) {
     try {
       const internship = await this.getInternshipById(id);
       if (!internship) throw Error('Internship not found');
-      
-      if(userId.toString() !== internship.employer.toString()) {
+
+      if (userId.toString() !== internship.employer.toString()) {
         reject({
           message: 'Unauthorized',
         });
@@ -173,15 +176,13 @@ class InternshipService {
     }
   }
 
-    
   /**
    * @description apply to an internship
    * @param {Object} obj
    * @param {id} id
    */
-   async applyToInternship(userId, url) {
+  async applyToInternship(userId, url) {
     try {
-
       const internship = await this.getInternshipByUrl(url);
       if (!internship) throw Error('Internship not found');
 
@@ -190,7 +191,7 @@ class InternshipService {
         await Internship.findOne(query, { new: false }, async (err, result) => {
           if (err) reject(err);
           console.log(result);
-          if(result.applicants.includes(userId)){
+          if (result.applicants.includes(userId)) {
             const index = result.applicants.indexOf(userId);
 
             result.applicants.splice(index, 1);
@@ -198,8 +199,8 @@ class InternshipService {
             await result.save();
           } else {
             result.applicants.push(userId);
-              await result.save();
-          }        
+            await result.save();
+          }
           return resolve(result);
         });
       });
@@ -213,15 +214,14 @@ class InternshipService {
       throw e;
     }
   }
-  
+
   /**
    * @description like/unlike to an internship
    * @param {Object} obj
    * @param {id} id
    */
-   async likeUnlikeToInternship(userId, url) {
+  async likeUnlikeToInternship(userId, url) {
     try {
-
       const internship = await this.getInternshipByUrl(url);
       if (!internship) throw Error('Internship not found');
 
@@ -230,7 +230,7 @@ class InternshipService {
         await Student.findOne(query, { new: false }, async (err, result) => {
           if (err) reject(err);
           console.log(result);
-          if(result.liked_internship.includes(internship.id)){
+          if (result.liked_internship.includes(internship.id)) {
             const index = result.liked_internship.indexOf(internship.id);
 
             result.liked_internship.splice(index, 1);
@@ -238,8 +238,8 @@ class InternshipService {
             await result.save();
           } else {
             result.liked_internship.push(internship.id);
-              await result.save();
-          }        
+            await result.save();
+          }
           return resolve(result);
         });
       });

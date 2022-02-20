@@ -6,7 +6,7 @@ module.exports = {
       register: ['name', 'email', 'mobile', 'password', 'user_type'],
       updateProfile: ['name', 'mobile'],
       updateEmail: ['email'],
-      updatePassword: ['password'],
+      updatePassword: ['new_password'],
     },
 
     employer : {

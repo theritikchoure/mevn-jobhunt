@@ -88,17 +88,34 @@ class AuthController {
   }
   
   /**
-   * @description update employer profile
+   * @description update user's profile
    */
   async changePassword(req, res) {
     try {
       let response;
       if(req.user.role == 'student') {
-        response = await StudentService.changePassword(req.user._id);
+        response = await StudentService.changePassword(req.user._id, req.body);
       } else if(req.user.role == 'employer') {
-        response = await EmployerService.changePassword(req.user._id);
+        response = await EmployerService.changePassword(req);
       }
 
+      if (response) {
+        createResponse(res, 'ok', 'Password updated successfully', response);
+      } else {
+        createError(res, {}, { message: 'Unable to update profile, please try again' });
+      }
+    } catch (e) {
+      createError(res, e);
+    }
+  }
+  
+  /**
+   * @description update user's profile
+   */
+  async studentAppliedJobs(req, res) {
+    try {
+      const response = await StudentService.studentAppliedJobs(req.user._id);
+      
       if (response) {
         createResponse(res, 'ok', 'Password updated successfully', response);
       } else {

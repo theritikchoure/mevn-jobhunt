@@ -87,8 +87,8 @@ class EmployerService {
     });
   }
 
-    /**
-   * @description Update internship
+  /**
+   * @description Update Profile
    * @param {Object} obj
    * @param {id} id
    */
@@ -108,6 +108,43 @@ class EmployerService {
         const result = await updatePromise;
         if (result) {
           const item = await this.getEmployer(userId);
+          return item;
+        }
+        return undefined;
+      } catch (e) {
+        throw e;
+      }
+    }
+  
+  /**
+   * @description change password
+   * @param {Object} obj
+   * @param {id} id
+   */
+    async changePassword(req) {
+      try {
+        const user = req.user;
+        const oldPassword = req.body.old_password;
+        const payload = req.body;
+        if (!payload) return;
+        const isValidate = await this.validateEmployerCredential(user.email, oldPassword);
+        if(isValidate == null) {
+          throw Error("Invalid Credentials");
+        }
+
+        const body = filteredBody(payload, constants.WHITELIST.user.updatePassword);
+        body.password = body.new_password;
+        body.updatedAt = Date.now();
+        const updatePromise = new Promise(async (resolve, reject) => {
+          const query = { _id: user.id };
+          await Employer.findOneAndUpdate(query, body, { new: false }, (err, result) => {
+            if (err) reject(err);
+            return resolve(result);
+          });
+        });
+        const result = await updatePromise;
+        if (result) {
+          const item = await this.getEmployer(user.id);
           return item;
         }
         return undefined;

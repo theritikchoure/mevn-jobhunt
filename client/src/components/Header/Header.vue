@@ -5,7 +5,7 @@
         <div class="res-logo">
           <router-link :to="{ name: 'Index' }">
             <a href="index.html" title="">
-              <img src="images/resource/logo.png" alt="" />
+              <img src="/images/resource/logo.png" alt="" />
             </a>
           </router-link>
         </div>

@@ -4,7 +4,7 @@
       <div class="container">
         <div class="logo">
           <a href="index.html" title=""
-            ><img src="images/resource/logo10.png" alt=""
+            ><img src="/images/resource/logo10.png" alt=""
           /></a>
         </div>
         <!-- Logo -->

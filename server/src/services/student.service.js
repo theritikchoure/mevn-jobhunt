@@ -1,20 +1,24 @@
 const Student = require('../models/student.model.js');
+const Internship = require('../models/internship.model.js');
 const constants = require('../config/constants');
 const filteredBody = require('../utils/filteredBody');
 
 class StudentService {
   /**
-   * @description Get Student
+   * @description Get Student by Id
    */
   async getStudent(id) {
     try {
-      const result = await Student.findOne({ _id: id }).populate('liked_internship');
+      const result = await Student.findOne({ _id: id });
       return result;
     } catch (e) {
       throw e;
     }
   }
 
+  /**
+   * @description Get Student By Email
+   */
   async getStudentByEmail(email) {
     const valid_email = String(email)
       .toUpperCase()
@@ -23,6 +27,9 @@ class StudentService {
     return student;
   }
 
+  /**
+   * @description Validate Student's Credentials
+   */
   async validateStudentCredential(email, password) {
     const valid_email = String(email).toLowerCase().trim();
     const student = await Student.findOne({ email: valid_email });
@@ -31,6 +38,18 @@ class StudentService {
       return student.toAuthJSON();
     }
     return null;
+  }
+
+  /**
+   * @description Get Student's Applied Job
+   */
+   async studentAppliedJobs(id) {
+    try {
+      const result = await Internship.findOne({ _id: id }).populate('');
+      return result;
+    } catch (e) {
+      throw e;
+    }
   }
 
   /**

@@ -89,23 +89,23 @@ router.get(
   },
 );
 
-// /**
-//  * @route PUT api/auth/change-password
-//  * @description update user's password (loggedIn user)
-//  * @returns JSON
-//  * @access private
-//  */
-//  router.put(
-//   '/change-password',
-//   [
-//     passport.authenticate('jwt', { session: false, failWithError: true }),
-//     PassportErrorHandler.success,
-//     PassportErrorHandler.error,
-//     AuthValidations.password
-//   ],
-//   (req, res) => {
-//     AuthController.changePassword(req, res);
-//   },
-// );
+/**
+ * @route PUT api/auth/change-password
+ * @description update user's password (loggedIn user)
+ * @returns JSON
+ * @access private
+ */
+ router.put(
+  '/change-password',
+  [
+    passport.authenticate('jwt', { session: false, failWithError: true }),
+    PassportErrorHandler.success,
+    PassportErrorHandler.error,
+    AuthValidations.password
+  ],
+  (req, res) => {
+    AuthController.changePassword(req, res);
+  },
+);
 
 module.exports = router;

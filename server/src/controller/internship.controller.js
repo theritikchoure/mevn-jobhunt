@@ -121,6 +121,23 @@ class InternshipController {
       createError(res, e);
     }
   }
+  
+  /**
+   * @description GET student's applied job
+   */
+  async studentAppliedJobs(req, res) {
+    try {
+      let internship = await InternshipService.getInternshipByApplicants(req.user._id);
+
+      if (internship) {
+        createResponse(res, 'ok', 'Applied Internships', internship);
+      } else {
+        createError(res, {}, { message: 'Unable to fetch applied internship, please try again' });
+      }
+    } catch (e) {
+      createError(res, e);
+    }
+  }
 }
 
 const internshipController = new InternshipController();
