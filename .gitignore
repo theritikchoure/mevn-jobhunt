@@ -2,5 +2,7 @@ server/node_modules
 client/node_modules
 testing/node_modules
 
+admin
+
 testing/Selenium-Mocha_TestAutomation_Framework.docx
 testing/TestCaseDesign_Template.xlsx

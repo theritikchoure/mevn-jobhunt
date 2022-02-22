@@ -35,131 +35,30 @@
             <div class="col-lg-9 column">
               <div class="padding-left">
                 <div class="manage-jobs-sec">
-                  <h3>Manage Jobs</h3>
+                  <h3>Manage Internships</h3>
                   <table>
                     <thead>
                       <tr>
-                        <td>Applied Job</td>
                         <td>Position</td>
                         <td>Date</td>
-                        <td></td>
+                        <td>Action</td>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
+                    <tbody v-for="(internship, index) in appliedInternship" :key="internship.id">
+                      <tr :index="index">
                         <td>
                           <div class="table-list-title">
-                            <i>Massimo Artemisis</i><br />
-                            <span
-                              ><i class="la la-map-marker"></i>Sacramento,
-                              California</span
-                            >
+                            <i>{{internship.title}}</i><br />
                           </div>
                         </td>
-                        <td>
-                          <div class="table-list-title">
-                            <h3>
-                              <a href="#" title="">Web Designer / Developer</a>
-                            </h3>
-                          </div>
-                        </td>
-                        <td><span>October 27, 2017</span><br /></td>
+                        <td><span>{{internship.created_at}}</span><br /></td>
                         <td>
                           <ul class="action_job">
                             <li>
-                              <span>Delete</span
-                              ><a href="#" title=""
-                                ><i class="la la-trash-o"></i
-                              ></a>
-                            </li>
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="table-list-title">
-                            <i>StarHealth</i><br />
-                            <span
-                              ><i class="la la-map-marker"></i>Rennes,
-                              France</span
-                            >
-                          </div>
-                        </td>
-                        <td>
-                          <div class="table-list-title">
-                            <h3>
-                              <a href="#" title=""
-                                >Regional Sales Manager South east Asia</a
-                              >
-                            </h3>
-                          </div>
-                        </td>
-                        <td><span>October 27, 2017</span><br /></td>
-                        <td>
-                          <ul class="action_job">
-                            <li>
-                              <span>Delete</span
-                              ><a href="#" title=""
-                                ><i class="la la-trash-o"></i
-                              ></a>
-                            </li>
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="table-list-title">
-                            <i>Altes Bank</i><br />
-                            <span
-                              ><i class="la la-map-marker"></i>Istanbul,
-                              Turkey</span
-                            >
-                          </div>
-                        </td>
-                        <td>
-                          <div class="table-list-title">
-                            <h3>
-                              <a href="#" title=""
-                                >C Developer (Senior) C .Net</a
-                              >
-                            </h3>
-                          </div>
-                        </td>
-                        <td><span>October 27, 2017</span><br /></td>
-                        <td>
-                          <ul class="action_job">
-                            <li>
-                              <span>Delete</span
-                              ><a href="#" title=""
-                                ><i class="la la-trash-o"></i
-                              ></a>
-                            </li>
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="table-list-title">
-                            <i>MediaLab</i><br />
-                            <span
-                              ><i class="la la-map-marker"></i>Ajax,
-                              Ontario</span
-                            >
-                          </div>
-                        </td>
-                        <td>
-                          <div class="table-list-title">
-                            <h3><a href="#" title="">Marketing Director</a></h3>
-                          </div>
-                        </td>
-                        <td><span>October 27, 2017</span><br /></td>
-                        <td>
-                          <ul class="action_job">
-                            <li>
-                              <span>Delete</span
-                              ><a href="#" title=""
-                                ><i class="la la-trash-o"></i
-                              ></a>
+                              <span>Revert Application</span>
+                              <a @click.prevent="revertApplication(internship.url)">
+                                <i class="la la-trash-o"></i>
+                              </a>
                             </li>
                           </ul>
                         </td>
@@ -184,13 +83,19 @@ export default {
   name: "StudentAppliedJobs",
   components: { StudentSidebar },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["user", "appliedInternship"]),
   },
   methods: {
-    ...mapActions(["loggedInUserCompleteDetails"]),
+    ...mapActions(["appliedInternships", "applyToInternship"]),
+
+    async revertApplication(url){
+      console.log("Revert", url)
+      await this.applyToInternship(url);
+      console.log("Reverted")
+    },
   },
   created() {
-    this.loggedInUserCompleteDetails(this.user.id);
+    this.appliedInternships();
   },
 };
 </script>

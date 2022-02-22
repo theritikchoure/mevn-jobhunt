@@ -24,10 +24,10 @@
                 </div>
                 <span class="job-lctn">
                 </span>
-                <span class="fav-job" v-if="likedInternship.includes(internship.id)" @click.prevent="likeUnlikeToThisInternship(internship.url)">
+                <span class="fav-job" v-if="likedInternship.includes(internship.id) && isLoggedIn" @click.prevent="likeUnlikeToThisInternship(internship.url)">
                   <i class="la la-heart-o red"> </i>
                 </span>
-                <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(internship.url)" v-else>
+                <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(internship.url)" v-else-if="isLoggedIn">
                   <i class="la la-heart-o"> </i>
                 </span>
                 <router-link :to="{ name: 'InternshipDetail', params: { url: internship.url }}">
@@ -53,7 +53,7 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: 'FeaturedJobs',
-  computed: { ...mapGetters(["user", "internshipList", "likedInternship", "isLoading"]) },
+  computed: { ...mapGetters(["user", "internshipList", "likedInternship", "isLoading", "isLoggedIn"]) },
   methods: {
     ...mapActions(["fetchAllInternships", "getUsersLikedInternship", "likeUnlikeToInternship"]),
 
@@ -65,7 +65,7 @@ export default {
   },
   created() {
     this.fetchAllInternships();
-    this.getUsersLikedInternship();
+    if(this.isLoggedIn) this.getUsersLikedInternship();
   },
 };
 </script>

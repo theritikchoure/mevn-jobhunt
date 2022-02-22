@@ -8,6 +8,7 @@ const state = () => ({
   internshipsPaginatedData: null,
   internship: null,
   likedInternship: [],
+  appliedInternship: [],
   isLoading: false,
   isCreating: false,
   createdData: null,
@@ -23,6 +24,7 @@ const getters = {
   internshipsPaginatedData: state => state.internshipsPaginatedData,
   internship: state => state.internship,
   likedInternship: state => state.likedInternship,
+  appliedInternship: state => state.appliedInternship,
   isLoading: state => state.isLoading,
   isCreating: state => state.isCreating,
   isUpdating: state => state.isUpdating,
@@ -115,6 +117,20 @@ const actions = {
       },
     );
   },
+ 
+  async appliedInternships({ commit }, url) {
+    await InternshipService.getAppliedInternships().then(
+      (response) => {
+        console.log(response.data.data)
+        commit('setAppliedInternships', response.data.data);
+        return Promise.resolve(response);
+      },
+      (error) => {
+        console.log('error', error); 
+        return Promise.reject(error);
+      },
+    );
+  },
 
   async storeInternship({ commit }, internship) {
     commit('setInternshipIsCreating', true);
@@ -175,6 +191,10 @@ const mutations = {
   
   setLikedInternship: (state, likedInternship) => {
     state.likedInternship = likedInternship
+  },
+  
+  setAppliedInternships: (state, appliedInternship) => {
+    state.appliedInternship = appliedInternship
   },
 
   setDeleteInternship: (state, id) => {

@@ -48,6 +48,17 @@ class InternshipService {
         return response;
       })
   }
+
+  getAppliedInternships() {
+    console.log(token)
+    return Axios
+      .get(`${API_URL}/student/applied-jobs`, { headers: { 'Authorization': `Bearer ${token}` }})
+      .then(handleReponse)
+      .then(response => {
+        console.log(response);
+        return response;
+      })
+  }
 }
 
 export default new InternshipService();
