@@ -30,9 +30,12 @@
                 <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(internship.url)" v-else-if="isLoggedIn">
                   <i class="la la-heart-o"> </i>
                 </span>
-                <router-link :to="{ name: 'InternshipDetail', params: { url: internship.url }}">
+                <router-link :to="{ name: 'InternshipDetail', params: { url: internship.url }}" v-if="isLoggedIn">
                   <span class="job-is ft">Apply Now </span>
                 </router-link>
+                <a @click="loginWarning()" v-else>
+                  <span class="job-is ft">Apply Now </span>
+                </a>
               </div>
               <!-- Job -->
             </div>
@@ -62,6 +65,11 @@ export default {
       await this.likeUnlikeToInternship(url);
       console.log("Liked/Unliked")
     },
+
+    loginWarning(){
+      this.$toast.warning(`Please Login First`, { position: "top", duration: 2000, queue: true,});
+    }
+
   },
   created() {
     this.fetchAllInternships();

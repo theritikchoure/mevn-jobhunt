@@ -3,6 +3,7 @@ const http = require('http');
 const express = require('express');
 const app = express();
 const server = http.Server(app);
+
 // Init Router
 const favicon = require('express-favicon');
 const chalk = require('chalk');
@@ -11,26 +12,22 @@ const routes = require('./routes/index.route.js');
 const env = require('./config/env');
 const connect = require('./config/database');
 const logErrorService = require('./utils/errorLog/log');
-const userService = require('./services/student.service');
+
+const studentService = require('./services/student.service');
+const employerService = require('./services/employer.service');
+const studentData = require('./utils/data/student.data.js');
+const employerData = require('./utils/data/employer.data.js');
 
 async function autoSignup() {
   try {
-    const body = {
-      firstName: 'Ritik',
-      lastName: 'C',
-      email: 'ritik.c@test.com',
-      mobile: "1234567892",
-      password: 'test@1234',
-      confirmPassword: 'test@1234',
-      role: 'super_admin',
-    };
-    await userService.addNewStudent(body);
+    await studentService.addNewStudent(studentData);
+    await employerService.addNewEmployer(employerData);
   } catch (e) {
     console.log(e);
   }
 }
 
-// autoSignup();
+autoSignup();
 
 // Initialize all middlewares here
 middlewares.init(app);

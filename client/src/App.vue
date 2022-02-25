@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Loader/>
     <div class="theme-layout" id="scrollup">
       <Header v-if="!headerDisabled" />
       <router-view/>
@@ -15,6 +16,7 @@ import Footer from './components/Footer.vue';
 import Header from './components/Header/Header.vue';
 import LoginPopup from './components/LoginPopup.vue';
 import SignupPopup from './components/SignupPopup.vue';
+import Loader from './components/Loader/Loader.vue';
 
 export default {
   name: 'app',

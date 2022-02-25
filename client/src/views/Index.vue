@@ -157,6 +157,9 @@ export default {
     } else {
       console.log(this.currentUser)
     }
+  },
+  methods: {
+    
   }
 };
 </script>

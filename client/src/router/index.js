@@ -134,6 +134,9 @@ const routes = [
   { path: '/:catchAll(.*)', redirect: '/404' }
 ];
 
+const state = {
+  loading: false
+};
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -141,6 +144,16 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  console.log("next page");
+  state.loading = true;
+
+  console.log(state.loading)
+
+  setTimeout(() => {
+    state.loading = false;
+  }, 3000);
+
+
   // redirect to login page if not logged in and trying to access a restricted page
   const { authorize } = to.meta;
   const currentUser = authService.currentUser();
