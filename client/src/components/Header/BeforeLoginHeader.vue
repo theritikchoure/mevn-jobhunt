@@ -13,10 +13,10 @@
         <!-- Logo -->
         <div class="btn-extars">
           <ul class="account-btns">
-            <li class="signup-popup" id="registerBtn">
+            <li class="signup-popup" id="registerBtn" @click='$emit("signupPopup")'>
               <a title=""> <i class="la la-key"> </i> Sign Up </a>
             </li>
-            <li class="signin-popup" id="loginBtn">
+            <li class="signin-popup" id="loginBtn" @click='$emit("loginPopup")'>
               <a title="">
                 <i class="la la-external-link-square"> </i> Login
               </a>

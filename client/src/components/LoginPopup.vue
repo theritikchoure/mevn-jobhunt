@@ -1,12 +1,16 @@
 <template>
   <div class="account-popup-area signin-popup-box" v-if="!loggedInSuccess">
     <div class="account-popup">
-      <span class="close-popup"><i class="la la-close"></i></span>
+      <span class="close-popup" @click='$emit("loginPopup")'><i class="la la-close"></i></span>
       <h3>User Login</h3>
       <span></span>
       <div class="select-user">
-        <span @click="userType('student')" id="login-student">Student</span>
-        <span @click="userType('employer')" id="login-employer">Employer</span>
+        <span @click="userType('student')"
+         id="login-student" :class="{ active: studentButtonActive }"
+        >Student</span>
+        <span @click="userType('employer')" 
+         id="login-employer" :class="{ active: employerButtonActive }"
+        >Employer</span>
       </div>
       <div v-if="error" class="error-message">
         {{this.message}}
@@ -59,6 +63,9 @@ export default {
       message: '',
       error: false,
       loggedInSuccess: false,
+
+      studentButtonActive: false,
+      employerButtonActive: false,
     };
   },
   computed: { ...mapGetters(["user", "token", "isLoading", "isLoggedIn"]) },
@@ -67,6 +74,8 @@ export default {
 
     userType(type) {
       this.user_type = type;
+      this.studentButtonActive = type == "student" ? true : false;
+      this.employerButtonActive = type == "employer" ? true : false;
     },
 
     async login() {

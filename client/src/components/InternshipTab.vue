@@ -32,6 +32,7 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "InternshipTab",
   props: ['internship'],
+  components: {},
   computed: { ...mapGetters(["likedInternship"]) },
   methods: {
     ...mapActions(["likeUnlikeToInternship"]),

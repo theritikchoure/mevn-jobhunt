@@ -6,22 +6,18 @@
       <router-view/>
       <Footer />
     </div>
-    <LoginPopup />
-    <SignupPopup />
   </div>
 </template>
 
 <script>
 import Footer from './components/Footer.vue';
 import Header from './components/Header/Header.vue';
-import LoginPopup from './components/LoginPopup.vue';
-import SignupPopup from './components/SignupPopup.vue';
 import Loader from './components/Loader/Loader.vue';
 
 export default {
   name: 'app',
   components: {
-    Footer, Header, LoginPopup, SignupPopup,
+    Footer, Header,
   },
   data() {
     return {

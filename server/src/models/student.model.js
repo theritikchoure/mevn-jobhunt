@@ -125,6 +125,7 @@ studentSchema.pre('findOneAndUpdate', function(next) {
 
 studentSchema.methods = {
   authenticateStudent(password) {
+    console.log(password, this.password)
     return compareSync(password, this.password);
   },
 

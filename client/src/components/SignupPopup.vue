@@ -1,11 +1,11 @@
 <template>
   <div class="account-popup-area signup-popup-box" >
     <div class="account-popup">
-      <span class="close-popup"><i class="la la-close"></i></span>
+      <span class="close-popup" @click='$emit("signupPopup")'><i class="la la-close"></i></span>
       <h3>Sign Up</h3>
       <div class="select-user">
-        <span @click="userType('student')">Student</span>
-        <span @click="userType('employer')">Employer</span>
+        <span @click="userType('student')" :class="{ active: studentButtonActive }">Student</span>
+        <span @click="userType('employer')" :class="{ active: employerButtonActive }">Employer</span>
       </div>
       <div v-if="error" class="error-message">
         {{this.message}}
@@ -65,6 +65,9 @@ export default {
       loading: false,
       message: '',
       error: false,
+
+      studentButtonActive: false,
+      employerButtonActive: false,
     };
   },
   computed: { ...mapGetters(["user", "token", "isLoading", "isLoggedIn"]) },
@@ -73,6 +76,8 @@ export default {
     
     userType(type) {
       this.user_type = type;
+      this.studentButtonActive = type == "student" ? true : false;
+      this.employerButtonActive = type == "employer" ? true : false;
     },
 
     async signup() {

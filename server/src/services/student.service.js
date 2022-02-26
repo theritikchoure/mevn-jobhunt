@@ -33,7 +33,6 @@ class StudentService {
   async validateStudentCredential(email, password) {
     const valid_email = String(email).toLowerCase().trim();
     const student = await Student.findOne({ email: valid_email });
-
     if (student && student.authenticateStudent(password)) {
       return student.toAuthJSON();
     }

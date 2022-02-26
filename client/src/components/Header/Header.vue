@@ -10,21 +10,21 @@
           </router-link>
         </div>
         <div class="menu-resaction">
-          <div class="res-openmenu">
-            <img src="images/icon.png" alt="" /> Menu
+          <div class="res-openmenu" @click="resmenu" v-if="!responsiveMenu">
+            <img src="/images/icon.png" alt="" /> Menu
           </div>
-          <div class="res-closemenu">
-            <img src="images/icon2.png" alt="" /> Close
+          <div class="res-closemenu" @click="resmenu" v-if="responsiveMenu">
+            <img src="/images/icon2.png" alt="" /> Close
           </div>
         </div>
       </div>
-      <div class="responsive-opensec">
-        <div class="btn-extars">
+      <div class="responsive-opensec" v-if="responsiveMenu">
+        <div class="btn-extars" v-if="!isLoggedIn">
           <ul class="account-btns">
-            <li class="signup-popup">
+            <li class="signup-popup" @click="signupPopup">
               <a title=""> <i class="la la-key"> </i> Sign Up </a>
             </li>
-            <li class="signin-popup">
+            <li class="signin-popup" @click="loginPopup">
               <a title="">
                 <i class="la la-external-link-square"> </i> Login
               </a>
@@ -32,20 +32,22 @@
           </ul>
         </div>
         <!-- Btn Extras -->
-        <form class="res-search">
-          <input
-            type="text"
-            placeholder="Job title, keywords or company name"
-          />
-          <button type="submit">
-            <i class="la la-search"> </i>
-          </button>
-        </form>
+        <!-- Before Login responsive Menu -->
         <div class="responsivemenu">
           <ul>
             <li class="menu-item-has-children">
               <router-link :to="{ name: 'Index' }">
                 <a href="#" title="">Home </a>
+              </router-link>
+            </li>
+            <li class="menu-item-has-children" v-if="user.role == 'student'">
+              <router-link :to="{ name: 'StudentDashboard' }">
+                <a href="#" title="">Dashboard </a>
+              </router-link>
+            </li>
+            <li class="menu-item-has-children" v-if="user.role == 'employer'">
+              <router-link :to="{ name: 'EmployerDashboard' }">
+                <a href="#" title="">Dashboard </a>
               </router-link>
             </li>
             <li class="menu-item-has-children">
@@ -70,11 +72,14 @@
             </li>
           </ul>
         </div>
+        <!-- Before Login responsive Menu -->
       </div>
     </div>
     <EmployerLoginHeader v-if="user.role == 'employer'" />
     <StudentLoginHeader v-else-if="user.role == 'student'" :user="user" />
-    <BeforeLoginHeader v-else />
+    <BeforeLoginHeader v-else @loginPopup="loginPopup" @signupPopup="signupPopup" />
+    <LoginPopup v-if="loginShow" @loginPopup="loginPopup" />
+    <SignupPopup v-if="signupShow" @signupPopup="signupPopup" />
   </div>
 </template>
 
@@ -82,14 +87,20 @@
 import BeforeLoginHeader from './BeforeLoginHeader.vue'
 import StudentLoginHeader from './StudentLoginHeader.vue'
 import EmployerLoginHeader from './EmployerLoginHeader.vue'
+import LoginPopup from '../LoginPopup.vue';
+import SignupPopup from '../SignupPopup.vue';
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Header",
-  components: { BeforeLoginHeader, StudentLoginHeader, EmployerLoginHeader },
+  components: { BeforeLoginHeader, StudentLoginHeader, 
+    EmployerLoginHeader, LoginPopup, SignupPopup, 
+  },
   data() {
     return {
-
+      responsiveMenu: false,
+      loginShow: false,
+      signupShow: false,
     };
   },
   computed: { ...mapGetters(["user", "token", "isLoading", "isLoggedIn"]) },
@@ -98,6 +109,18 @@ export default {
   },
   methods: {
     ...mapActions(["loggedInUser"]),
+
+    resmenu() {
+      this.responsiveMenu = !this.responsiveMenu;
+    }, 
+
+    loginPopup() {
+      this.loginShow = !this.loginShow;
+    },
+    
+    signupPopup() {
+      this.signupShow = !this.signupShow;
+    }
   },
   created() {
     this.loggedInUser();
