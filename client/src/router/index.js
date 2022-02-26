@@ -31,38 +31,59 @@ const routes = [
     path: '/',
     name: 'Index',
     component: Index,
+    meta: {
+      title: "Home",
+    },
   },
   {
     path: '/about-us',
     name: 'AboutUs',
     component: AboutUs,
+    meta: {
+      title: "About Us",
+    },
   },
   {
     path: '/contact-us',
     name: 'ContactUs',
     component: ContactUs,
+    meta: {
+      title: "Contact Us",
+    },
   },
   {
     path: '/faq',
     name: 'FAQ',
     component: FAQ,
+    meta: {
+      title: "Frequently Asked Questions",
+    },
   },
   {
     path: '/how-it-works',
     name: 'HowItWorks',
     component: HowItWorks,
+    meta: {
+      title: "How It Works",
+    },
   },
   {
     path: '/terms-and-conditions',
     name: 'TAndC',
     component: TAndC,
+    meta: {
+      title: "Terms & Conditions",
+    },
   },
 
   {
     path: '/internships',
     name: 'Internships',
     component: Internships,
-    meta: { authorize: [Role.Student, Role.Admin, Role.Employer] } 
+    meta: { 
+      authorize: [Role.Student, Role.Admin, Role.Employer],
+      title: 'Internships',
+    } 
   },
   
   {
@@ -70,7 +91,10 @@ const routes = [
     props: true,
     name: 'InternshipDetail',
     component: InternshipDetail,
-    meta: { authorize: [Role.Student, Role.Admin, Role.Employer] } 
+    meta: { 
+      authorize: [Role.Student, Role.Admin, Role.Employer],
+      title: "Internship Detail"
+    } 
   },
 
   // Student Routes
@@ -78,25 +102,25 @@ const routes = [
     path: '/student/dashboard',
     name: 'StudentDashboard',
     component: StudentDashboard,
-    meta: { authorize: [Role.Student] } 
+    meta: { authorize: [Role.Student], title: "Student Dashboard" } 
   },
   {
     path: '/student/profile',
     name: 'StudentProfile',
     component: StudentProfile,
-    meta: { authorize: [Role.Student] } 
+    meta: { authorize: [Role.Student], title: "My Profile" } 
   },
   {
     path: '/student/change-password',
     name: 'StudentChangePassword',
     component: StudentChangePassword,
-    meta: { authorize: [Role.Student] } 
+    meta: { authorize: [Role.Student], title: "Change Password" } 
   },
   {
     path: '/student/applied-jobs',
     name: 'StudentAppliedJobs',
     component: StudentAppliedJobs,
-    meta: { authorize: [Role.Student] } 
+    meta: { authorize: [Role.Student], title: 'My Applied Jobs'} 
   },
 
   // Employer Routes
@@ -104,25 +128,25 @@ const routes = [
     path: '/employer/dashboard',
     name: 'EmployerDashboard',
     component: EmployerDashboard,
-    meta: { authorize: [Role.Employer] } 
+    meta: { authorize: [Role.Employer], title: "Employer Dashboard" } 
   },
   {
     path: '/employer/profile',
     name: 'EmployerProfile',
     component: EmployerProfile,
-    meta: { authorize: [Role.Employer] } 
+    meta: { authorize: [Role.Employer], title: "My Profile" } 
   },
   {
     path: '/employer/post-new-job',
     name: 'EmployerPostNewJob',
     component: EmployerPostNewJob,
-    meta: { authorize: [Role.Employer] } 
+    meta: { authorize: [Role.Employer], title: "Post New Internship"} 
   },
   {
     path: '/employer/change-password',
     name: 'EmployerChangePassword',
     component: EmployerChangePassword,
-    meta: { authorize: [Role.Employer] } 
+    meta: { authorize: [Role.Employer], title: "Change Password"} 
   },
 
   // 404 Page Route
@@ -130,6 +154,9 @@ const routes = [
     path: '/404',
     name: 'ErrorPage',
     component: ErrorPage,
+    meta: {
+      title: "Page Not Found",
+    },
   },
   { path: '/:catchAll(.*)', redirect: '/404' }
 ];
@@ -144,6 +171,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  // Add Meta Title
+  document.title = `${to.meta.title} | JobHunt - Remote Internship Platform`;
+
   console.log("next page");
   state.loading = true;
 

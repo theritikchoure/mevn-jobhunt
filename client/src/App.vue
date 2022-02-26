@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader/>
+    <Loader v-if="showLoader" @loader="loader"/>
     <div class="theme-layout" id="scrollup">
       <Header v-if="!headerDisabled" />
       <router-view/>
@@ -17,15 +17,17 @@ import Loader from './components/Loader/Loader.vue';
 export default {
   name: 'app',
   components: {
-    Footer, Header,
+    Footer, Header, Loader,
   },
   data() {
     return {
       headerDisabled: null,
+      showLoader: true,
     };
   },
   created() {
     this.checkRoute();
+    this.loader();
   },
   methods: {
     checkRoute() {
@@ -39,6 +41,12 @@ export default {
         this.headerDisabled = true;
         return;
       } this.headerDisabled = false;
+    },
+
+    loader() {
+      setTimeout(() => {
+        this.showLoader = !this.showLoader;
+      }, 3000);
     }
   },
   watch: {

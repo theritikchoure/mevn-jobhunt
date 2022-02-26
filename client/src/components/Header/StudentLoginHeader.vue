@@ -9,15 +9,17 @@
             </router-link>
           </div>
           <!-- Logo -->
-          <div class="my-profiles-sec">
+          <div class="my-profiles-sec" @click="toggleProfileSidebar">
             <span
               ><img src="/images/resource/mp1.jpg" alt="" /> {{user.name.toUpperCase()}}
               <i class="la la-bars"></i
             ></span>
           </div>
           <div class="wishlist-dropsec">
-            <span><i class="la la-heart"></i><strong>{{likedInternship.length}}</strong></span>
-            <div class="wishlist-dropdown">
+            <span @click="toggleWishlist"><i class="la la-heart"></i>
+              <strong>{{likedInternship.length}}</strong>
+            </span>
+            <div class="wishlist-dropdown" v-if="wishlistShow">
               <ul class="scrollbar">
                 <li>
                   <div class="job-listing">
@@ -79,8 +81,8 @@
       </div>
     </header>
 
-    <div class="profile-sidebar">
-      <span class="close-profile"><i class="la la-close"></i></span>
+    <div class="profile-sidebar" :class="{ active: profileSidebar }">
+      <span class="close-profile" @click="toggleProfileSidebar"><i class="la la-close"></i></span>
       <div class="can-detail-s">
         <div class="cst"><img src="/images/resource/es1.jpg" alt="" /></div>
         <h3>{{user.name.toUpperCase()}}</h3>
@@ -102,16 +104,26 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "StudentLoginHeader",
   components: { StudentSidebar },
+  data() {
+    return {
+      wishlistShow: false,
+      profileSidebar: false,
+    };
+  },
   computed: { ...mapGetters(["likedInternship", "isLoading"]) },
   props: ['user'],
   methods: {
     ...mapActions(["getUsersLikedInternship"]),
 
-    // async likeUnlikeToThisInternship(url){
-    //   console.log("Like/Unlike", url)
-    //   await this.likeUnlikeToInternship(url);
-    //   console.log("Liked/Unliked")
-    // },
+    toggleWishlist() {
+      console.log("Wishlist")
+      this.wishlistShow = !this.wishlistShow;
+      console.log(this.wishlistShow)
+    },
+
+    toggleProfileSidebar() {
+      this.profileSidebar = !this.profileSidebar;
+    }
   },
   created() {
     this.getUsersLikedInternship();

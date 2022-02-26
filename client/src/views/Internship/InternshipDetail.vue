@@ -176,22 +176,6 @@
                         </ul>
                       </div>
                       <!-- Job Overview -->
-                      <div class="quick-form-job">
-                        <h3>Contact</h3>
-                        <form>
-                          <input type="text" placeholder="Enter your Name *" />
-                          <input type="text" placeholder="Email Address*" />
-                          <input type="text" placeholder="Phone Number" />
-                          <textarea
-                            placeholder="Message should have more than 50 characters"
-                          ></textarea>
-                          <button class="submit">Send Email</button>
-                          <span
-                            >You accepts our
-                            <a href="#" title="">Terms and Conditions</a></span
-                          >
-                        </form>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -227,8 +211,9 @@ export default {
       console.log("Applied")
     },
   },
-  created() {
-    this.fetchDetailInternship(this.url);
+  async created() {
+    await this.fetchDetailInternship(this.url);  
+    document.title = this.internship.title ? this.internship.title : "Loading internship";
   },
 };
 </script>

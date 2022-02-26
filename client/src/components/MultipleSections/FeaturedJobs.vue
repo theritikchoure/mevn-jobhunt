@@ -42,7 +42,12 @@
           </div>
           <div class="col-lg-12">
             <div class="browse-all-cat">
-              <a href="#" title="">Load More Internships... </a>
+              <router-link :to="{ name: 'Internships' }" v-if="isLoggedIn">
+                Want to See More Internships...
+              </router-link>
+              <a @click="loginWarning()" v-else>
+                Want to See More Internships...
+              </a>
             </div>
           </div>
         </div>

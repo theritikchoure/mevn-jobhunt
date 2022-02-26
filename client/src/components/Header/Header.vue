@@ -37,37 +37,46 @@
           <ul>
             <li class="menu-item-has-children">
               <router-link :to="{ name: 'Index' }">
-                <a href="#" title="">Home </a>
+                Home 
+              </router-link>
+            </li>
+            <!-- LoggedIn Student Menu Links (Start) -->
+            <li class="menu-item-has-children" v-if="user.role == 'student'">
+              <router-link :to="{ name: 'StudentDashboard' }">
+                Dashboard
               </router-link>
             </li>
             <li class="menu-item-has-children" v-if="user.role == 'student'">
-              <router-link :to="{ name: 'StudentDashboard' }">
-                <a href="#" title="">Dashboard </a>
+              <router-link :to="{ name: 'Internships' }">
+                Internships
               </router-link>
             </li>
+            <!-- LoggedIn Student Menu Links (End) -->
+            <!-- LoggedIn Employer Menu Links (Start) -->
             <li class="menu-item-has-children" v-if="user.role == 'employer'">
               <router-link :to="{ name: 'EmployerDashboard' }">
-                <a href="#" title="">Dashboard </a>
+                Dashboard 
               </router-link>
             </li>
+            <!-- LoggedIn Employer Menu Links (End) -->
             <li class="menu-item-has-children">
               <router-link :to="{ name: 'AboutUs' }">
-                <a href="#" title="">About Us </a>
+                About Us 
               </router-link>
             </li>
             <li class="menu-item-has-children">
               <router-link :to="{ name: 'HowItWorks' }">
-                <a href="#" title="">How It Works</a>
+                How It Works
               </router-link>
             </li>
             <li class="menu-item-has-children">
               <router-link :to="{ name: 'FAQ' }">
-                <a href="#" title="">FAQs </a>
+                FAQs 
               </router-link>
             </li>
             <li class="menu-item-has-children">
               <router-link :to="{ name: 'ContactUs' }">
-                <a href="#" title="">Contact Us </a>
+                Contact Us 
               </router-link>
             </li>
           </ul>

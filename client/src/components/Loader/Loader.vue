@@ -1,16 +1,15 @@
 <template>
-    <div class="page-loading">
-        <img src="images/loader.gif" alt="" />
-        <span>Skip Loader</span>
-    </div>
+  <div class="page-loading">
+    <img src="/images/loader.gif" alt="" />
+    <span>Skip Loader</span>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'Loader',
-}
+  name: "Loader",
+};
 </script>
 
 <style>
-
 </style>

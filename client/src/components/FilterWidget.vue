@@ -1,8 +1,8 @@
 <template>
   <aside class="col-lg-3 column">
     <div class="widget border">
-      <h3 class="sb-title open">Date Posted</h3>
-      <div class="posted_widget">
+      <h3 class="sb-title open" @click="togglePostedWidget">Date Posted</h3>
+      <div class="posted_widget" v-show="postedWidget">
         <input type="radio" name="choose" id="232" /><label for="232"
           >Last Hour</label
         ><br />
@@ -26,8 +26,8 @@
       </div>
     </div>
     <div class="widget border">
-      <h3 class="sb-title closed">Offerd Salary</h3>
-      <div class="specialism_widget">
+      <h3 class="sb-title open" @click="toggleSalaryWidget">Offerd Salary</h3>
+      <div class="specialism_widget" v-show="salaryWidget">
         <div class="simple-checkbox">
           <p>
             <input type="checkbox" name="smplechk" id="1" /><label for="1"
@@ -53,8 +53,8 @@
       </div>
     </div>
     <div class="widget border">
-      <h3 class="sb-title closed">Qualification</h3>
-      <div class="specialism_widget">
+      <h3 class="sb-title open" @click="toggleQualificationWidget">Qualification</h3>
+      <div class="specialism_widget" v-show="qualificationWidget">
         <div class="simple-checkbox">
           <p>
             <input type="checkbox" name="smplechk" id="19" /><label for="19"
@@ -83,6 +83,26 @@
 <script>
 export default {
   name: "FilterWidget",
+  data() {
+    return {
+      postedWidget: true,
+      salaryWidget: false,
+      qualificationWidget: false,
+    };
+  },
+  methods: {
+    togglePostedWidget() {
+      this.postedWidget = !this.postedWidget;
+    },
+
+    toggleSalaryWidget() {
+      this.salaryWidget = !this.salaryWidget;
+    },
+    
+    toggleQualificationWidget() {
+      this.qualificationWidget = !this.qualificationWidget;
+    },
+  },
 };
 </script>
 
