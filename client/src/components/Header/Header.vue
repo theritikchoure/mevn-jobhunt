@@ -46,11 +46,11 @@
                 Dashboard
               </router-link>
             </li>
-            <li class="menu-item-has-children" v-if="user.role == 'student'">
+            <!-- <li class="menu-item-has-children" v-if="user.role == 'student'">
               <router-link :to="{ name: 'Internships' }">
                 Internships
               </router-link>
-            </li>
+            </li> -->
             <!-- LoggedIn Student Menu Links (End) -->
             <!-- LoggedIn Employer Menu Links (Start) -->
             <li class="menu-item-has-children" v-if="user.role == 'employer'">

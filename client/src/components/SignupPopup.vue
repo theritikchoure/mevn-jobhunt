@@ -1,7 +1,7 @@
 <template>
   <div class="account-popup-area signup-popup-box" >
     <div class="account-popup">
-      <span class="close-popup" @click='$emit("signupPopup")'><i class="la la-close"></i></span>
+      <span class="close-popup" @click='closePopup'><i class="la la-close"></i></span>
       <h3>Sign Up</h3>
       <div class="select-user">
         <span @click="userType('student')" :class="{ active: studentButtonActive }">Student</span>
@@ -73,6 +73,10 @@ export default {
   computed: { ...mapGetters(["user", "token", "isLoading", "isLoggedIn"]) },
   methods: {
     ...mapActions(["userRegister"]),
+
+    closePopup() {
+      this.$emit("signupPopup")
+    },
     
     userType(type) {
       this.user_type = type;

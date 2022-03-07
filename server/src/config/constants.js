@@ -9,6 +9,10 @@ module.exports = {
       updatePassword: ['new_password'],
     },
 
+    student: {
+      update: ['name', 'linkedin', 'country', 'state', 'city', 'gender', 'about']
+    },
+
     employer : {
       update: ['name', 'description', 'address', 'city', 'state', 'zip_code', 'mobile', 'email', 'website', 'linkedin', 'logo']
     },

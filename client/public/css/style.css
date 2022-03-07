@@ -2260,7 +2260,6 @@ Author:         Creative Layer
      width: 100%;
      text-align: center;
      padding: 40px 0;
-     background: #8b91dd;
      -webkit-transition: all 0.4s ease 0s;
      -moz-transition: all 0.4s ease 0s;
      -ms-transition: all 0.4s ease 0s;
@@ -2268,24 +2267,32 @@ Author:         Creative Layer
      transition: all 0.4s ease 0s;
  }
 
- .simple-text:hover {
+ /* .simple-text:hover {
      background: #fb236a;
- }
+ } */
 
  .simple-text h3 {
      float: left;
      width: 100%;
      font-weight: bold;
-     color: #ffffff;
+     color: black;
  }
+
+ /* .simple-text h3:hover {
+     color: white;
+ } */
 
  .simple-text span {
      float: left;
      width: 100%;
      font-size: 15px;
-     color: #ffffff;
+     color: black;
      margin: 0;
  }
+
+ /* .simple-text span:hover {
+     color:white;
+ } */
 
  footer {
      float: left;

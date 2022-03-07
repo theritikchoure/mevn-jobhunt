@@ -53,7 +53,13 @@ class InternshipService {
   }
 
   async getInternshipByApplicants(id) {
-    const internship = await Internship.find({ applicants: id });
+    const internship = await Internship.find({ 'applications.applicant':  id });
+    if (internship) return internship;
+    return undefined;
+  }
+  
+  async allApplicationOfAnInternship(id) {
+    const internship = await Internship.findById(id).populate('applications.applicant');
     if (internship) return internship;
     return undefined;
   }
@@ -115,10 +121,10 @@ class InternshipService {
    * @param {Object} obj
    * @param {id} id
    */
-  async updateInternship(userId, id, payload) {
+  async updateInternship(userId, url, payload) {
     try {
       if (!payload) return;
-      const internship = await this.getInternshipById(id);
+      const internship = await this.getInternshipByUrl(url);
       if (userId.toString() !== internship.employer.toString()) {
         reject({
           message: 'Unauthorized',
@@ -128,7 +134,7 @@ class InternshipService {
       const body = filteredBody(payload, constants.WHITELIST.internship.create);
       body.updatedAt = Date.now();
       const updatePromise = new Promise(async (resolve, reject) => {
-        const query = { _id: id };
+        const query = { url };
         await Internship.findOneAndUpdate(query, body, { new: false }, (err, result) => {
           if (err) reject(err);
           return resolve(result);
@@ -148,11 +154,11 @@ class InternshipService {
   /**
    * @description Delete internship
    * @param {userId} user id
-   * @param {id} id
+   * @param {url} url
    */
-  async deleteInternship(userId, id) {
+  async deleteInternship(userId, url) {
     try {
-      const internship = await this.getInternshipById(id);
+      const internship = await this.getInternshipByUrl(url);
       if (!internship) throw Error('Internship not found');
 
       if (userId.toString() !== internship.employer.toString()) {
@@ -162,7 +168,7 @@ class InternshipService {
       }
 
       const updatePromise = new Promise(async (resolve, reject) => {
-        const query = { _id: id };
+        const query = { url };
         await Internship.findOneAndDelete(query, (err, result) => {
           if (err) reject(err);
           return resolve(result);
@@ -170,6 +176,41 @@ class InternshipService {
       });
       const result = await updatePromise;
       if (result) return true;
+      return undefined;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  /**
+   * @description Update internship status
+   * @param {Object} obj
+   * @param {url} url
+   */ 
+  async updateStatus(userId, url) {
+    try {
+      if (!payload) return;
+      const internship = await this.getInternshipByUrl(url);
+      if (userId.toString() !== internship.employer.toString()) {
+        reject({
+          message: 'Unauthorized',
+        });
+      }
+      
+      body.status = internship.status === 1 ? 0 : 1;
+      body.updatedAt = Date.now();
+      const updatePromise = new Promise(async (resolve, reject) => {
+        const query = { url };
+        await Internship.findOneAndUpdate(query, body, { new: false }, (err, result) => {
+          if (err) reject(err);
+          return resolve(result);
+        });
+      });
+      const result = await updatePromise;
+      if (result) {
+        const item = await this.getInternshipByUrl(url);
+        return item;
+      }
       return undefined;
     } catch (e) {
       throw e;
@@ -190,15 +231,18 @@ class InternshipService {
         const query = { url: url };
         await Internship.findOne(query, { new: false }, async (err, result) => {
           if (err) reject(err);
-          console.log(result);
-          if (result.applicants.includes(userId)) {
-            const index = result.applicants.indexOf(userId);
 
-            result.applicants.splice(index, 1);
+          const userExists = result.applications.find((element) => element.applicant.toString() === userId.toString());
 
+          if (userExists) {
+            const index = result.applications.indexOf(userExists);
+            result.applications.splice(index, 1);
             await result.save();
           } else {
-            result.applicants.push(userId);
+            let object = {
+              applicant: userId,
+            }
+            result.applications.push(object);
             await result.save();
           }
           return resolve(result);
@@ -246,6 +290,50 @@ class InternshipService {
       const result = await updatePromise;
       if (result) {
         const item = await Student.findOne({ _id: userId });
+        return item;
+      }
+      return undefined;
+    } catch (e) {
+      throw e;
+    }
+  }
+  
+  /**
+   * @description shortlist student
+   * @param {Object} obj
+   */
+  async shortlistStudent(obj) {
+    try {
+      const userId = obj.id;
+      const url = obj.url;
+      const internship = await this.getInternshipByUrl(obj.url);
+      if (!internship) throw Error('Internship not found');
+
+      // TODO - check student exists or not
+
+      const updatePromise = new Promise(async (resolve, reject) => {
+        const query = { url: obj.url };
+        await Internship.findOne(query, { new: false }, async (err, result) => {
+          if (err) reject(err);
+
+          const userExists = result.applications.find((element) => element.applicant.toString() === obj.id.toString());
+
+          if (!userExists) throw Error('Applicant is not found');
+
+          result.applications.forEach((element) => {
+            if (element.applicant == userId) {
+              element.isShortListed = element.isShortListed === 0 ? 1 : 0 ;
+            }
+          });
+
+          await result.save();
+        
+          return resolve(result);
+        });
+      });
+      const result = await updatePromise;
+      if (result) {
+        const item = await this.getInternshipByUrl(obj.url);
         return item;
       }
       return undefined;

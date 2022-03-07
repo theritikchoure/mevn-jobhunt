@@ -66,8 +66,9 @@
               <div class="job-list-modern">
                 <div class="job-listings-sec no-border">
                   <!-- Job -->
-                  <div v-for="(item, index) in internshipList" :key="item.id">
-                    <InternshipTab :index="index" :internship="item" />
+                  <div v-for="(item, index) in internshipList || []" :key="item.id">
+                    <!-- <InternshipTab :index="index" :internship="item" /> -->
+                    <h1>Hello {{index}}</h1>
                   </div>
                   <!-- Job -->
                 </div>
@@ -108,12 +109,14 @@ export default {
     return {
     };
   },
-  computed: { ...mapGetters(["internshipList", "internshipsPaginatedData", "isLoading"]) },
+  computed: { 
+    ...mapGetters(["internshipList", "internshipsPaginatedData", "isLoading"]),
+  },
   methods: {
     ...mapActions(["fetchAllInternships"]),
   },
-  created() {
-    this.fetchAllInternships();
+  async created() {
+    await this.fetchAllInternships();
   },
 };
 </script>

@@ -1,4 +1,6 @@
 const authRoutes = require('./auth.route');
+const studentRoutes = require('./student.route');
+const employerRoutes = require('./employer.route');
 const internshipRoutes = require('./internship.route');
 const contactusRoutes = require('./contactus.route');
 const categoryRoutes = require('./category.route');
@@ -8,6 +10,8 @@ const categoryRoutes = require('./category.route');
  */
 module.exports = (app) => {
   app.use('/api/auth', authRoutes);
+  app.use('/api/students', studentRoutes);
+  app.use('/api/employers', employerRoutes);
   app.use('/api/internships', internshipRoutes);
   app.use('/api/contactus', contactusRoutes);
   app.use('/api/category', categoryRoutes);

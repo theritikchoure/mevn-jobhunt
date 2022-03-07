@@ -81,7 +81,7 @@ const routes = [
     name: 'Internships',
     component: Internships,
     meta: { 
-      authorize: [Role.Student, Role.Admin, Role.Employer],
+      authorize: [Role.Student],
       title: 'Internships',
     } 
   },
@@ -92,7 +92,7 @@ const routes = [
     name: 'InternshipDetail',
     component: InternshipDetail,
     meta: { 
-      authorize: [Role.Student, Role.Admin, Role.Employer],
+      authorize: [Role.Student],
       title: "Internship Detail"
     } 
   },

@@ -1,5 +1,6 @@
 const { createResponse, createError } = require('../utils/helpers');
 const InternshipService = require('../services/internship.service');
+const EmployerService = require('../services/employer.service');
 
 class InternshipController {
   /**
@@ -9,8 +10,9 @@ class InternshipController {
     try {
       req.body.employer = req.user._id;
       let internship = await InternshipService.addNewInternship(req.body);
+      let postedInternship = await EmployerService.addPostedInternship({employer: req.user._id, internship: internship.id})
 
-      if (internship) {
+      if (internship && postedInternship) {
         createResponse(res, 'ok', 'Internship created successfully', internship);
       } else {
         createError(res, {}, { message: 'Unable to create new internship, please try again' });
@@ -59,7 +61,7 @@ class InternshipController {
    */
   async update(req, res) {
     try {
-      let internship = await InternshipService.updateInternship(req.user._id, req.params.id, req.body );
+      let internship = await InternshipService.updateInternship(req.user._id, req.params.url, req.body );
 
       if (internship) {
         createResponse(res, 'ok', 'Internship updated successfully', internship);
@@ -76,12 +78,29 @@ class InternshipController {
    */
   async delete(req, res) {
     try {
-      let internship = await InternshipService.deleteInternship(req.user._id, req.params.id);
+      let internship = await InternshipService.deleteInternship(req.user._id, req.params.url);
 
       if (internship) {
         createResponse(res, 'ok', 'Internship deleted successfully', internship);
       } else {
         createError(res, {}, { message: 'Unable to delete internship, please try again' });
+      }
+    } catch (e) {
+      createError(res, e);
+    }
+  }
+  
+  /**
+   * @description update internship status
+   */
+  async updateStatus(req, res) {
+    try {
+      let internship = await InternshipService.updateStatus(req.user._id, req.params.url);
+
+      if (internship) {
+        createResponse(res, 'ok', 'Internship status updated successfully', internship);
+      } else {
+        createError(res, {}, { message: 'Unable to update status, please try again' });
       }
     } catch (e) {
       createError(res, e);
@@ -96,9 +115,9 @@ class InternshipController {
       let internship = await InternshipService.applyToInternship(req.user._id, req.params.url);
 
       if (internship) {
-        createResponse(res, 'ok', 'Apply to internship successfully', internship);
+        createResponse(res, 'ok', 'Applied successfully', internship);
       } else {
-        createError(res, {}, { message: 'Unable to apply to internship, please try again' });
+        createError(res, {}, { message: 'Unable to apply, please try again' });
       }
     } catch (e) {
       createError(res, e);
@@ -115,7 +134,7 @@ class InternshipController {
       if (internship) {
         createResponse(res, 'ok', 'Like/Unlike to internship successfully', internship);
       } else {
-        createError(res, {}, { message: 'Unable to apply to internship, please try again' });
+        createError(res, {}, { message: 'Unable to like/unlike to internship, please try again' });
       }
     } catch (e) {
       createError(res, e);
@@ -123,16 +142,33 @@ class InternshipController {
   }
   
   /**
-   * @description GET student's applied job
+   * @description shortlist student
    */
-  async studentAppliedJobs(req, res) {
+  async shortlistStudent(req, res) {
     try {
-      let internship = await InternshipService.getInternshipByApplicants(req.user._id);
+      let internship = await InternshipService.shortlistStudent(req.params);
 
       if (internship) {
-        createResponse(res, 'ok', 'Applied Internships', internship);
+        createResponse(res, 'ok', 'Shortlist student successfully', internship);
       } else {
         createError(res, {}, { message: 'Unable to fetch applied internship, please try again' });
+      }
+    } catch (e) {
+      createError(res, e);
+    }
+  }
+  
+  /**
+   * @description all application of an internship
+   */
+  async allApplicationOfAnInternship(req, res) {
+    try {
+      let internship = await InternshipService.allApplicationOfAnInternship(req.params.id);
+
+      if (internship) {
+        createResponse(res, 'ok', 'All applications fetched successfully', internship);
+      } else {
+        createError(res, {}, { message: 'Unable to fetch applications, please try again' });
       }
     } catch (e) {
       createError(res, e);

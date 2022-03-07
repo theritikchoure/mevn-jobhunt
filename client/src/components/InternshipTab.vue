@@ -1,8 +1,8 @@
 <template>
-  <div class="job-listing wtabs">
-    <div class="job-title-sec">
+  <div class="job-listing wtabs" >
+    <div class="job-title-sec" >
       <div class="c-logo">
-        <img src="images/resource/l5.png" alt="" />
+        <img src="/images/resource/l5.png" alt="" />
       </div>
       <h3>
         <router-link :to="{ name: 'InternshipDetail', params: { url: internship.url }}">
@@ -31,19 +31,23 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "InternshipTab",
-  props: ['internship'],
+  props: ["internship"],
+  data() {
+    return {
+      list: true
+    };
+  },
   components: {},
-  computed: { ...mapGetters(["likedInternship"]) },
+  computed: { ...mapGetters(["likedInternship", "internshipList"]) },
   methods: {
     ...mapActions(["likeUnlikeToInternship"]),
 
-    async likeUnlikeToThisInternship(url){
-      console.log("Like/Unlike", url)
+    async likeUnlikeToThisInternship(url) {
+      console.log("Like/Unlike", url);
       await this.likeUnlikeToInternship(url);
-      console.log("Liked/Unliked")
+      console.log("Liked/Unliked");
     },
   },
-  created() {},
 };
 </script>
 

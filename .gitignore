@@ -3,6 +3,7 @@ client/node_modules
 testing/node_modules
 
 admin
+client
 
 testing/Selenium-Mocha_TestAutomation_Framework.docx
 testing/TestCaseDesign_Template.xlsx

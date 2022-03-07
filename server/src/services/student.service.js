@@ -40,18 +40,6 @@ class StudentService {
   }
 
   /**
-   * @description Get Student's Applied Job
-   */
-   async studentAppliedJobs(id) {
-    try {
-      const result = await Internship.findOne({ _id: id }).populate('');
-      return result;
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  /**
    * @description Add new Student
    * @param {Object} obj
    */
@@ -105,11 +93,28 @@ class StudentService {
     });
   }
 
-  async getByRole(role) {
+  /**
+   * @description Update Profile
+   * @param {Object} obj
+   * @param {id} id
+   */
+  async updateProfile(userId, payload) {
     try {
-      const result = await Student.find({ role }).populate([{ path: 'shop' }]);
+      if (!payload) return;
+
+      const body = filteredBody(payload, constants.WHITELIST.student.update);
+      body.updatedAt = Date.now();
+      const updatePromise = new Promise(async (resolve, reject) => {
+        const query = { _id: userId };
+        await Student.findOneAndUpdate(query, body, { new: false }, (err, result) => {
+          if (err) reject(err);
+          return resolve(result);
+        });
+      });
+      const result = await updatePromise;
       if (result) {
-        return result.map((item) => item.toJSON());
+        const item = await this.getStudent(userId);
+        return item;
       }
       return undefined;
     } catch (e) {
@@ -117,42 +122,38 @@ class StudentService {
     }
   }
 
-  async updateStampsForStudent(id, payload) {
+  /**
+   * @description change password
+   * @param {Object} obj
+   * @param {id} id
+   */
+  async changePassword(req) {
     try {
+      const user = req.user;
+      const oldPassword = req.body.old_password;
+      const payload = req.body;
       if (!payload) return;
-      const existingItem = await this.getStudent(id);
-      if (!existingItem) throw Error('Student not exists');
-
-      let stamp_items = existingItem.stamp_items || [];
-      // check if same spree Id exists add the stamps in the existing one
-      // if not exists add new obj
-      let stamp_item_index = stamp_items.findIndex((x) => String(x.spree) === String(payload.spree));
-      if (stamp_item_index !== -1) {
-        let item = stamp_items[stamp_item_index];
-        item.stamps = Number(item.stamps) + Number(payload.stamps);
-      } else {
-        stamp_items.push(payload);
+      const isValidate = await this.validateStudentCredential(user.email, oldPassword);
+      if(isValidate == null) {
+        throw Error("Invalid Credentials");
       }
 
-      const condition = {
-        _id: id,
-      };
-
-      const doc = {
-        stamp_items,
-      };
-
-      const promiseResult = await new Promise(async (resolve, reject) => {
-        Student.findOneAndUpdate(condition, doc, async (err) => {
+      const body = filteredBody(payload, constants.WHITELIST.user.updatePassword);
+      body.password = body.new_password;
+      body.updatedAt = Date.now();
+      const updatePromise = new Promise(async (resolve, reject) => {
+        const query = { _id: user.id };
+        await Student.findOneAndUpdate(query, body, { new: false }, (err, result) => {
           if (err) reject(err);
-          return resolve(true);
+          return resolve(result);
         });
       });
-      if (promiseResult) {
-        const student = await this.getStudent(id);
-        if (student) return student;
+      const result = await updatePromise;
+      if (result) {
+        const item = await this.getStudent(user.id);
+        return item;
       }
-      return;
+      return undefined;
     } catch (e) {
       throw e;
     }

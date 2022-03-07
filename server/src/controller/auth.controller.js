@@ -57,13 +57,13 @@ class AuthController {
       if(req.user.role == 'student') {
         response = await StudentService.getStudent(req.user._id);
       } else if(req.user.role == 'employer') {
-        response = await EmployerService.getEmployer(req.user._id);
+        response = await EmployerService.getEmployerCompleteDetails(req.user._id);
       }
-      console.log("controller", response)
+      
       if (response) {
         createResponse(res, 'ok', 'Profile Fetched successfully', response);
       } else {
-        createError(res, {}, { message: 'Unable to update profile, please try again' });
+        createError(res, {}, { message: 'Unable to fetch profile, please try again' });
       }
     } catch (e) {
       createError(res, e);
@@ -73,9 +73,14 @@ class AuthController {
   /**
    * @description update employer profile
    */
-  async employerProfileUpdate(req, res) {
+  async profileUpdate(req, res) {
     try {
-      let response = await EmployerService.updateProfile(req.user._id, req.body );
+      let response;
+      if(req.user.role == 'student') { 
+        response = await StudentService.updateProfile(req.user._id, req.body );
+      } else if(req.user.role == 'employer') {
+        response = await EmployerService.updateProfile(req.user._id, req.body );
+      }
 
       if (response) {
         createResponse(res, 'ok', 'Profile updated successfully', response);
@@ -102,29 +107,13 @@ class AuthController {
       if (response) {
         createResponse(res, 'ok', 'Password updated successfully', response);
       } else {
-        createError(res, {}, { message: 'Unable to update profile, please try again' });
+        createError(res, {}, { message: 'Unable to change password, please try again' });
       }
     } catch (e) {
       createError(res, e);
     }
   }
   
-  /**
-   * @description update user's profile
-   */
-  async studentAppliedJobs(req, res) {
-    try {
-      const response = await StudentService.studentAppliedJobs(req.user._id);
-      
-      if (response) {
-        createResponse(res, 'ok', 'Password updated successfully', response);
-      } else {
-        createError(res, {}, { message: 'Unable to update profile, please try again' });
-      }
-    } catch (e) {
-      createError(res, e);
-    }
-  }
 }
 
 const authController = new AuthController();

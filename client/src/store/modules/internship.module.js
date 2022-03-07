@@ -134,14 +134,18 @@ const actions = {
 
   async storeInternship({ commit }, internship) {
     commit('setInternshipIsCreating', true);
-    await axios.post(`${process.env.VUE_APP_API_URL}internships`, internship)
-      .then(res => {
-        commit('saveNewInternships', res.data.data);
+    await InternshipService.createInternship(internship).then(
+      (response) => {
+        commit('saveNewInternships', response.data.data);
         commit('setInternshipIsCreating', false);
-      }).catch(err => {
-        console.log('error', err);
+        return Promise.resolve(response);
+      },
+      (error) => {
+        console.log('error', error);
         commit('setInternshipIsCreating', false);
-      });
+        return Promise.reject(error);
+      },
+    );
   },
 
   async updateInternship({ commit }, internship) {
@@ -172,6 +176,10 @@ const actions = {
 
   updateInternshipInput({ commit }, e) {
     commit('setInternshipDetailInput', e);
+  },
+
+  resetInternshipState({ commit }) {
+    commit('resetInternshipState');
   }
 }
 
@@ -232,6 +240,10 @@ const mutations = {
   setInternshipIsDeleting(state, isDeleting) {
     state.isDeleting = isDeleting
   },
+
+  resetInternshipState(state) {
+    Object.assign(state, state())
+  }
 
 }
 

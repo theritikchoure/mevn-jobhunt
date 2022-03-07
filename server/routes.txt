@@ -1,0 +1,33 @@
+** API Routes **
+
+1. Auth Routes ('/auth', base route)
+[✅]. '/register', Register
+[✅]. '/login', Login
+
+[✅]. '/myprofile', LoggedIn User Complete Details
+
+[✅]. '/update-profile', Update Profile
+[✅]. '/change-password', Change Password
+
+[]. '/forget-password', Forget Password
+[]. '/reset-password', Reset Password
+
+2. Employer Routes ('/employer', base route)
+[✅]. '/application/:id', All Applications (id - id of internship)
+[✅]. '/applicant/:id', Details of Applicant (id - id of student)
+[✅]. '/shortlist/:id/:url', Shortlist Student (id - id of student, url - url of internship)
+
+3. Student Routes ('/student', base route) 
+[✅]. '/applied-internship', Applied Internship
+[✅]. '/shortlisted-internship', Shortlisted Internship
+
+4. Internship Routes ('/internship', base route) 
+[✅]. '/', Create
+[✅]. '/', Read
+[✅]. '/:url', Read
+[✅]. '/:url', Update
+[✅]. '/:url', Delete
+
+[✅]. '/status/:url', Active/Inactive Internship (url - url of internship)
+[✅]. '/apply/:url', Apply/Revert Internship (url - url of internship)
+[✅]. '/like/:url', Like/Inlike Internship (url - url of internship)

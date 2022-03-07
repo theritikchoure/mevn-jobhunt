@@ -13,10 +13,10 @@
         <!-- Logo -->
         <div class="btn-extars">
           <ul class="account-btns">
-            <li class="signup-popup" id="registerBtn" @click='$emit("signupPopup")'>
+            <li class="signup-popup" id="registerBtn" @click='signupPopup'>
               <a title=""> <i class="la la-key"> </i> Sign Up </a>
             </li>
-            <li class="signin-popup" id="loginBtn" @click='$emit("loginPopup")'>
+            <li class="signin-popup" id="loginBtn" @click='loginPopup'>
               <a title="">
                 <i class="la la-external-link-square"> </i> Login
               </a>
@@ -61,7 +61,16 @@
 
 <script>
 export default {
-  name: 'BeforeLoginHeader'
+  name: 'BeforeLoginHeader',
+  methods: {
+    loginPopup() {
+      this.$emit("loginPopup")
+    },
+    
+    signupPopup() {
+      this.$emit("signupPopup")
+    },
+  }
 };
 </script>
 

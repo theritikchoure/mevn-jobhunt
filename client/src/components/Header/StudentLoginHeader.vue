@@ -70,9 +70,9 @@
                 </router-link>
               </li>
               <li class="menu-item-has-children">
-                <router-link :to="{ name: 'Internships' }">
+                <!-- <router-link :to="{ name: 'Internships' }">
                   <a href="#" title="">Internships </a>
-                </router-link>
+                </router-link> -->
               </li>
             </ul>
           </nav>

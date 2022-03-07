@@ -1,29 +1,7 @@
 <template>
   <div>
-    <section class="overlape">
-      <div class="block no-padding">
-        <div
-          data-velocity="-.1"
-          style="
-            background: url(/images/resource/mslider1.jpg) repeat scroll 50%
-              422.28px transparent;
-          "
-          class="parallax scrolly-invisible no-parallax"
-        ></div>
-        <!-- PARALLAX BACKGROUND IMAGE -->
-        <div class="container fluid">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="inner-header">
-                <h3>Welcome Tera Planer</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
+    <EmployerWelcomeBanner />
+    <section v-if="!isLoading">
       <div class="block no-padding">
         <div class="container">
           <div class="row no-gape">
@@ -40,8 +18,13 @@
                   <h3>Manage Jobs</h3>
                   <div class="extra-job-info">
                     <span
-                      ><i class="la la-clock-o"></i><strong>9</strong> Job
-                      Posted</span
+                      ><i class="la la-clock-o"></i
+                      ><strong>{{
+                        dashboardEmployer.posted_internships
+                          ? dashboardEmployer.posted_internships.length
+                          : 0
+                      }}</strong>
+                      Job Posted</span
                     >
                     <span
                       ><i class="la la-file-text"></i
@@ -62,163 +45,34 @@
                         <td>Action</td>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody
+                      v-for="(
+                        item, index
+                      ) in dashboardEmployer.posted_internships || []"
+                      :key="index"
+                    >
                       <tr>
                         <td>
                           <div class="table-list-title">
                             <h3>
-                              <a href="#" title="">Web Designer / Developer</a>
+                              <a href="#" title="">{{ item.title }}</a>
                             </h3>
-                            <span
-                              ><i class="la la-map-marker"></i>Sacramento,
-                              California</span
-                            >
                           </div>
                         </td>
                         <td>
-                          <span class="applied-field">3+ Applied</span>
+                          <span class="applied-field"
+                            >{{ item.applications.length || 0 }} Applied</span
+                          >
                         </td>
                         <td>
-                          <span>October 27, 2017</span><br />
-                          <span>April 25, 2011</span>
+                          <span>{{ item.created_at }}</span
+                          ><br />
+                          <span>{{ item.last_date }}</span>
                         </td>
                         <td>
-                          <span class="status active">Active</span>
-                        </td>
-                        <td>
-                          <ul class="action_job">
-                            <li>
-                              <span>View Job</span
-                              ><a href="#" title=""
-                                ><i class="la la-eye"></i
-                              ></a>
-                            </li>
-                            <li>
-                              <span>Edit</span
-                              ><a href="#" title=""
-                                ><i class="la la-pencil"></i
-                              ></a>
-                            </li>
-                            <li>
-                              <span>Delete</span
-                              ><a href="#" title=""
-                                ><i class="la la-trash-o"></i
-                              ></a>
-                            </li>
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="table-list-title">
-                            <h3>
-                              <a href="#" title="">Web Designer / Developer</a>
-                            </h3>
-                            <span
-                              ><i class="la la-map-marker"></i>Sacramento,
-                              California</span
-                            >
-                          </div>
-                        </td>
-                        <td>
-                          <span class="applied-field">3+ Applied</span>
-                        </td>
-                        <td>
-                          <span>October 27, 2017</span><br />
-                          <span>April 25, 2011</span>
-                        </td>
-                        <td>
-                          <span class="status active">Active</span>
-                        </td>
-                        <td>
-                          <ul class="action_job">
-                            <li>
-                              <span>View Job</span
-                              ><a href="#" title=""
-                                ><i class="la la-eye"></i
-                              ></a>
-                            </li>
-                            <li>
-                              <span>Edit</span
-                              ><a href="#" title=""
-                                ><i class="la la-pencil"></i
-                              ></a>
-                            </li>
-                            <li>
-                              <span>Delete</span
-                              ><a href="#" title=""
-                                ><i class="la la-trash-o"></i
-                              ></a>
-                            </li>
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="table-list-title">
-                            <h3>
-                              <a href="#" title="">Web Designer / Developer</a>
-                            </h3>
-                            <span
-                              ><i class="la la-map-marker"></i>Sacramento,
-                              California</span
-                            >
-                          </div>
-                        </td>
-                        <td>
-                          <span class="applied-field">3+ Applied</span>
-                        </td>
-                        <td>
-                          <span>October 27, 2017</span><br />
-                          <span>April 25, 2011</span>
-                        </td>
-                        <td>
-                          <span class="status">Inactive</span>
-                        </td>
-                        <td>
-                          <ul class="action_job">
-                            <li>
-                              <span>View Job</span
-                              ><a href="#" title=""
-                                ><i class="la la-eye"></i
-                              ></a>
-                            </li>
-                            <li>
-                              <span>Edit</span
-                              ><a href="#" title=""
-                                ><i class="la la-pencil"></i
-                              ></a>
-                            </li>
-                            <li>
-                              <span>Delete</span
-                              ><a href="#" title=""
-                                ><i class="la la-trash-o"></i
-                              ></a>
-                            </li>
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="table-list-title">
-                            <h3>
-                              <a href="#" title="">Web Designer / Developer</a>
-                            </h3>
-                            <span
-                              ><i class="la la-map-marker"></i>Sacramento,
-                              California</span
-                            >
-                          </div>
-                        </td>
-                        <td>
-                          <span class="applied-field">3+ Applied</span>
-                        </td>
-                        <td>
-                          <span>October 27, 2017</span><br />
-                          <span>April 25, 2011</span>
-                        </td>
-                        <td>
-                          <span class="status active">Active</span>
+                          <span class="status active">{{
+                            item.status === 1 ? "Active" : "Inactive"
+                          }}</span>
                         </td>
                         <td>
                           <ul class="action_job">
@@ -256,24 +110,31 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 import EmployerSidebar from "../../components/EmployerSidebar.vue";
+import EmployerWelcomeBanner from "../../components/UserWelcomeBanner.vue";
+
 export default {
   name: "EmployerDashboard",
-  components: { EmployerSidebar },
+  components: { EmployerSidebar, EmployerWelcomeBanner },
   computed: {
+    ...mapGetters(["dashboardEmployer", "isLoading"]),
+
     currentUser() {
       return this.$store.state.auth.user;
     },
   },
-  mounted() {
-    if (!this.currentUser) {
-      console.warn("User Not LoggedIn");
-    } else {
-      console.log(this.currentUser);
-    }
+  methods: {
+    ...mapActions(["employerDashboard"]),
+  },
+  async created() {
+    await this.employerDashboard();
   },
 };
 </script>
 
-<style>
+<style scoped>
+.manage-jobs-sec {
+  overflow-x: auto;
+}
 </style>

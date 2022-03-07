@@ -9,46 +9,6 @@ const EmployerAuth = require('../middleware/employerAuth.js');
 const StudentAuth = require('../middleware/studentAuth.js');
 
 /**
- * @route POST api/internships/apply/:url
- * @description apply to internship
- * @returns JSON
- * @access private
- */
-
-router.post(
-    '/apply/:url',
-    [
-      passport.authenticate('jwt', { session: false, failWithError: true }),
-      PassportErrorHandler.success,
-      PassportErrorHandler.error,
-      StudentAuth,
-    ],
-    (req, res) => {
-      InternshipController.applyToInternship(req, res);
-    },
-);
-
-/**
- * @route POST api/internships/like/:url
- * @description like/unlike to internship
- * @returns JSON
- * @access private
- */
-
-router.post(
-    '/like/:url',
-    [
-      passport.authenticate('jwt', { session: false, failWithError: true }),
-      PassportErrorHandler.success,
-      PassportErrorHandler.error,
-      StudentAuth,
-    ],
-    (req, res) => {
-      InternshipController.likeUnlikeToInternship(req, res);
-    },
-);
-
-/**
  * @route POST api/internships/
  * @description create new internship
  * @returns JSON
@@ -78,9 +38,9 @@ router.post(
  router.get(
     '/',
     [
-      // passport.authenticate('jwt', { session: false, failWithError: true }),
-      // PassportErrorHandler.success,
-      // PassportErrorHandler.error,
+      passport.authenticate('jwt', { session: false, failWithError: true }),
+      PassportErrorHandler.success,
+      PassportErrorHandler.error,
     ],
     (req, res) => {
       InternshipController.getAll(req, res);
@@ -112,7 +72,7 @@ router.get(
  * @access private
  */
 router.put(
-  '/:id',
+  '/:url',
   [
     passport.authenticate('jwt', { session: false, failWithError: true }),
     PassportErrorHandler.success,
@@ -126,13 +86,13 @@ router.put(
 );
 
 /**
- * @route DELETE api/internships/:id
- * @description delete an internship by id
+ * @route DELETE api/internships/:url
+ * @description delete an internship by url
  * @returns 
  * @access private
  */
 router.delete(
-  '/:id',
+  '/:url',
   [
     passport.authenticate('jwt', { session: false, failWithError: true }),
     PassportErrorHandler.success,
@@ -145,13 +105,33 @@ router.delete(
 );
 
 /**
- * @route GET api/internships/student/applied-jobs
- * @description get loggedIn student's applied jobs
- * @returns JSON
+ * @route PUT api/internships/status/:url
+ * @description delete an internship by url
+ * @returns 
  * @access private
  */
- router.get(
-  '/student/applied-jobs',
+router.put(
+  '/status/:url',
+  [
+    passport.authenticate('jwt', { session: false, failWithError: true }),
+    PassportErrorHandler.success,
+    PassportErrorHandler.error,
+    EmployerAuth,
+  ],
+  (req, res) => {
+    InternshipController.updateStatus(req, res);
+  },
+);
+
+
+/**
+ * @route PUT api/internships/apply/:url
+ * @description delete an internship by url
+ * @returns 
+ * @access private
+ */
+router.put(
+  '/apply/:url',
   [
     passport.authenticate('jwt', { session: false, failWithError: true }),
     PassportErrorHandler.success,
@@ -159,7 +139,26 @@ router.delete(
     StudentAuth
   ],
   (req, res) => {
-    InternshipController.studentAppliedJobs(req, res);
+    InternshipController.applyToInternship(req, res);
+  },
+);
+
+/**
+ * @route PUT api/internships/like/:url
+ * @description delete an internship by url
+ * @returns 
+ * @access private
+ */
+router.put(
+  '/like/:url',
+  [
+    passport.authenticate('jwt', { session: false, failWithError: true }),
+    PassportErrorHandler.success,
+    PassportErrorHandler.error,
+    StudentAuth
+  ],
+  (req, res) => {
+    InternshipController.likeUnlikeToInternship(req, res);
   },
 );
 

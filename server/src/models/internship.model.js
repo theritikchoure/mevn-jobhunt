@@ -30,9 +30,18 @@ const internshipSchema = new mongoose.Schema(
       ref: "Employers"
     },
  
-    applicants: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Students"
+    applications: [{
+
+      applicant: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Students"
+      },
+
+      isShortListed: {
+        type: Number,
+        required: false,
+        default: 0 // 0 is for false || 1 is for True
+      }
     }],
 
     is_paid: {
@@ -99,7 +108,7 @@ internshipSchema.methods = {
       category: this.category,
       url: this.url,
       employer: this.employer,
-      applicants: this.applicants,
+      applications: this.applications,
       is_paid: this.is_paid,
       salary: this.salary,
       no_of_openings: this.no_of_openings,

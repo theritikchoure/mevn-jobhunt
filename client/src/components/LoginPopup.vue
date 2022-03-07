@@ -1,7 +1,7 @@
 <template>
   <div class="account-popup-area signin-popup-box" v-if="!loggedInSuccess">
     <div class="account-popup">
-      <span class="close-popup" @click='$emit("loginPopup")'><i class="la la-close"></i></span>
+      <span class="close-popup" @click='closePopup'><i class="la la-close"></i></span>
       <h3>User Login</h3>
       <span></span>
       <div class="select-user">
@@ -72,6 +72,10 @@ export default {
   methods: {
     ...mapActions(["userLogin"]),
 
+    closePopup() {
+      this.$emit("loginPopup")
+    },
+
     userType(type) {
       this.user_type = type;
       this.studentButtonActive = type == "student" ? true : false;
@@ -103,12 +107,6 @@ export default {
 
       await this.userLogin(user);
       window.location.reload();
-      // if(this.user_type == 'student') {
-      //   this.$router.push('/student-dashboard');
-      // }
-      // if(this.user_type == 'employer') {
-      //   this.$router.push('/employer-dashboard');
-      // }
     },
   },
 };
