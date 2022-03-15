@@ -1,7 +1,8 @@
-import Axios from 'axios';
+import axios from 'axios';
 import handleReponse from '../helpers/handle-response';
-const API_URL = 'http://localhost:4000/api/auth/';
+const API_URL = 'http://localhost:4000/api/auth';
 const token = JSON.parse(localStorage.getItem('token'));
+import { getAPIResponseError } from '../helpers/common';
 
 class AuthService {
 
@@ -9,23 +10,15 @@ class AuthService {
     return JSON.parse(localStorage.getItem('user'));
   }
 
-  login(user) {
-    return Axios
-      .post(`${API_URL}login`, {
-        email: user.email,
-        password: user.password,
-        user_type: user.user_type,
-        remember_me: user.remember_me,
-      })
-      .then(handleReponse)
-      .then(response => {
-        console.log(response);
-        if (response.data.data) {
-          localStorage.setItem('user', JSON.stringify(response.data.data));
-          localStorage.setItem('token', JSON.stringify(response.data.data.token));
-        }
-        return response.data;
-      })
+  async login(payload) {
+    try {
+      const { data } = await axios.post(`${API_URL}/login`, payload);
+      localStorage.setItem('user', JSON.stringify(data.data));
+      localStorage.setItem('token', JSON.stringify(data.data.token));
+      return data;
+    } catch (error) {
+      return getAPIResponseError(error) || 'Unable to login please try again';
+    }
   }
 
   logout() {

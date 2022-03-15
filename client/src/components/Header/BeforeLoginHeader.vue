@@ -3,7 +3,7 @@
     <div class="menu-sec">
       <div class="container">
         <div class="logo">
-          <router-link :to="{ name: 'Index' }">
+          <router-link :to="{ name: 'Home' }">
             <a href="#" title="">
               <img class="hidesticky" src="images/resource/logo.png" alt="" />
               <img class="showsticky" src="images/resource/logo10.png" alt="" />
@@ -11,7 +11,7 @@
           </router-link>
         </div>
         <!-- Logo -->
-        <div class="btn-extars">
+        <div class="btn-extars" v-if="!isLoggedIn">
           <ul class="account-btns">
             <li class="signup-popup" id="registerBtn" @click='signupPopup'>
               <a title=""> <i class="la la-key"> </i> Sign Up </a>
@@ -27,7 +27,7 @@
         <nav>
           <ul>
             <li class="menu-item-has-children">
-              <router-link :to="{ name: 'Index' }">
+              <router-link :to="{ name: 'Home' }">
                 <a href="#" title="">Home </a>
               </router-link>
             </li>
@@ -62,6 +62,7 @@
 <script>
 export default {
   name: 'BeforeLoginHeader',
+  props: ["isLoggedIn"],
   methods: {
     loginPopup() {
       this.$emit("loginPopup")

@@ -1,32 +1,36 @@
 import axios from 'axios';
 import AuthService from '../../services/auth.service';
+import AuthValidation from '../../validations/auth.validation';
+import { getAPIResponseError } from '../../helpers/common';
+import { deleteAllLocalData, saveUserDetails, getUserDetails } from '../../helpers/localStorageHelper';
+import { saveToken } from '../../helpers/authTokenHelper';
+const API_URL = 'http://localhost:4000/api/auth';
 
 // initial state
 const state = () => ({
   user: {},
-  token: null,
-  isLoading: false,
+  isAuthLoading: false,
+  authErrorMsg: '',
+  authSuccessMsg: '',
   isLoggedIn: false,
 })
 
 // getters
 const getters = {
   user: state => state.user,
-  token: state => state.token,
-  isLoading: state => state.isLoading,
+  isAuthLoading: state => state.isAuthLoading,
   isLoggedIn: state => state.isLoggedIn,
+  authSuccessMsg: state => state.authSuccessMsg,
+  authErrorMsg: state => state.authErrorMsg,
 };
 
 // actions
 const actions = {
 
   async loggedInUser({ commit }) {
-    const currentUser = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')): {};
-    const userToken = JSON.parse(localStorage.getItem('token')) ? JSON.parse(localStorage.getItem('token')): null;
-    commit('setUser', currentUser);
-    commit('setToken', userToken);
-    if(JSON.parse(localStorage.getItem('user'))) {
+    if(getUserDetails()) {
         commit('setIsLoggedIn', true);
+        commit('setUser', getUserDetails());
     } else {
         commit('setIsLoggedIn', false);
     }
@@ -49,25 +53,32 @@ const actions = {
     );
   },
 
-  async userLogin({ commit }, object) {
+  async userLogin({ commit }, payload) {
 
-    commit('setIsLoading', true);
+    try {
+      const errors = AuthValidation.login(payload);
+      if(errors) {
+        commit('setAuthErrorMsg', errors);
+        return;
+      };
+  
+      commit('setIsLoading', true);
 
-    await AuthService.login(object).then(
-        (response) => {
-          console.log(response);
-          commit('setUser', response.data);
-          commit('setToken', response.data.token);
-          commit('setIsLoading', false);
-          commit('setIsLoggedIn', true);
-          return Promise.resolve(response);
-        },
-        (error) => {
-            console.log('error', error);
-            commit('setIsLoading', false);    
-            return Promise.reject(error);
-        },
-    );
+      const { data } = await axios.post(`${API_URL}/login`, payload);
+
+      commit('setUser', data.data);
+      commit('setIsLoading', false);
+      commit('setIsLoggedIn', true);
+
+      saveUserDetails(data.data);
+      saveToken(data.data.token);
+      
+      return true;
+    } catch (error) {
+      commit('setIsLoading', false);
+      commit('setAuthErrorMsg', getAPIResponseError(error) || 'Unable to login please try again');
+      return false;
+    }
   },
   
   async userRegister({ commit }, object) {
@@ -90,7 +101,6 @@ const actions = {
         },
     );
   },
-
 }
 
 // mutations
@@ -103,16 +113,28 @@ const mutations = {
     state.userDetails = userDetails
   },
 
-  setToken: (state, token) => {
-    state.token = token
-  },
-
   setIsLoggedIn: (state, isLoggedIn) => {
     state.isLoggedIn = isLoggedIn
   },
 
-  setIsLoading(state, isLoading) {
-    state.isLoading = isLoading
+  setIsLoading(state, isAuthLoading) {
+    state.isAuthLoading = isAuthLoading
+  },
+
+  setAuthSuccessMsg(state, authSuccessMsg) {
+    state.authSuccessMsg = authSuccessMsg
+  },
+  
+  setAuthErrorMsg(state, authErrorMsg) {
+    state.authErrorMsg = authErrorMsg
+  },
+
+  setClearAuthSuccessMsg(state) {
+    state.authSuccessMsg = ''
+  },
+
+  setClearAuthErrorMsg(state) {
+    state.authErrorMsg = ''
   },
 }
 

@@ -1,6 +1,4 @@
 import { createStore, createLogger } from 'vuex';
-// import { auth } from './auth.module';
-// import { internship } from './internship.module';
 import auth from './modules/auth.module';
 import internship from './modules/internship.module';
 import employer from './modules/employer.module';

@@ -1,6 +1,9 @@
 import axios from 'axios';
 import InternshipService from '../../services/internship.service';
 import AuthService from '../../services/auth.service';
+import { getAPIResponseError } from '../../helpers/common';
+const API_URL = 'http://localhost:4000/api/internships';
+const token = JSON.parse(localStorage.getItem('token'));
 
 // initial state
 const state = () => ({
@@ -20,7 +23,7 @@ const state = () => ({
 
 // getters
 const getters = {
-  internshipList: state => state.internships,
+  internships: state => state.internships,
   internshipsPaginatedData: state => state.internshipsPaginatedData,
   internship: state => state.internship,
   likedInternship: state => state.likedInternship,
@@ -39,21 +42,18 @@ const getters = {
 const actions = {
   async fetchAllInternships({ commit }) {
 
-    commit('setInternshipIsLoading', true);
+    try {
+      commit('setInternshipIsLoading', true);
 
-    await InternshipService.getAll().then(
-        (internship) => {
-          console.log(internship.data.data)
-          commit('setInternships', internship.data.data);
-          commit('setInternshipIsLoading', false);
-          return Promise.resolve(internship);
-        },
-        (error) => {
-            console.log('error', error);
-            commit('setInternshipIsLoading', false);    
-            return Promise.reject(error);
-        },
-    );
+      const { data } = await axios.get(`${API_URL}`, { headers: { 'Authorization': `Bearer ${token}` }});
+
+      console.log(data.data)
+      commit('setInternships', data.data);
+      commit('setInternshipIsLoading', false);
+    } catch (error) {
+      console.log('error', error);
+      commit('setInternshipIsLoading', false);  
+    }
   },
 
   async fetchDetailInternship({ commit }, url) {
