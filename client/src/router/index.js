@@ -7,6 +7,7 @@ import HowItWorks from '../views/BasicPages/HowItWorks.vue';
 import TAndC from '../views/BasicPages/T&C.vue';
 
 import InternshipList from '../views/Internships/List.vue';
+import InternshipDetails from '../views/Internships/Details.vue';
 
 const routes = [
   {
@@ -50,11 +51,21 @@ const routes = [
   },
   {
     path: '/internships',
-    name: 'internships',
+    name: 'Internships',
     component: InternshipList,
     meta: {
       title: "Internship List",
     },
+  },
+  {
+    path: '/details/:url',
+    props: true,
+    name: 'InternshipDetails',
+    component: InternshipDetails,
+    // meta: { 
+    //   authorize: [Role.Student],
+    //   title: "Internship Detail"
+    // } 
   },
 ]
 

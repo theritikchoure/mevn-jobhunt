@@ -15,18 +15,18 @@
           </h3>
           <span>{{ item.employer.name || 'ritik' }}</span>
         </div>
-        <!-- <div class="job-style-bx">
-                    <router-link :to="{ name: 'InternshipDetail', params: { url: internship.url }}">
-                        <span class="job-is pt">Apply Now</span>
-                    </router-link>
-                    <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(internship.url)" v-if="likedInternship.includes(internship.id)">
-                        <i class="la la-heart-o red"></i>
-                    </span>
-                    <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(internship.url)" v-else>
-                        <i class="la la-heart-o"> </i>
-                    </span>
-                    <i>{{internship.created_at}}</i>
-                </div> -->
+        <div class="job-style-bx">
+            <router-link :to="{ name: 'InternshipDetails', params: { url: item.url }}">
+                <span class="job-is pt">Apply Now</span>
+            </router-link>
+            <!-- <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(item.url)" v-if="likedInternship.includes(item.id)">
+                <i class="la la-heart-o red"></i>
+            </span> -->
+            <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(item.url)" >
+                <i class="la la-heart-o"> </i>
+            </span>
+            <i>{{item.created_at}}</i>
+        </div>
       </div>
     </div>
     <!-- Job -->
@@ -39,7 +39,9 @@ export default {
   data() {
     return {};
   },
-  props: ['item'],
+  props: {
+    item: Object
+  },
   computed: { 
   },
   mounted() {

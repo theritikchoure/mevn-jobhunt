@@ -62,13 +62,15 @@
                         These</a
                       ></span
                     >
-                    <h5>{{ internships.length }} Internships</h5>
+                    <h5 v-if="internships !== null">{{ internships.length }} Internships</h5>
                   </div>
                 </div>
                 <!-- MOdern Job LIst -->
-                <div class="job-list-modern" >
+                <div class="job-list-modern">
                   <!-- Tab Component -->
-                    <InternshipTab v-for="item in internships" :key="item.id" :item="item" />
+                  <div v-for="(item, index) in internships" :key="item.id">
+                    <InternshipTab :index="index" :item="item" />
+                  </div>
 
                   <div class="pagination">
                     <ul>
@@ -109,18 +111,16 @@ export default {
   name: "InternshipList",
   components: { Layout, InternshipTab },
   computed: { 
-      ...mapGetters(["internships"]),
+      ...mapGetters(["internships", "isLoading"]),
   },
   mounted() {
-      // this.fetchAllInternships();
-       console.log(this.internships)
   },
   methods: {
       ...mapActions(["fetchAllInternships"]),
   },
   created() {
       this.fetchAllInternships();
-  }
+  },
 };
 </script>
 

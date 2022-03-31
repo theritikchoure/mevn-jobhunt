@@ -4,9 +4,9 @@
       <div class="container">
         <div class="logo">
           <router-link :to="{ name: 'Home' }">
-            <a href="#" title="">
-              <img class="hidesticky" src="images/resource/logo.png" alt="" />
-              <img class="showsticky" src="images/resource/logo10.png" alt="" />
+            <a  title="">
+              <img class="hidesticky" src="/images/resource/logo.png" alt="" />
+              <img class="showsticky" src="/images/resource/logo10.png" alt="" />
             </a>
           </router-link>
         </div>
@@ -25,7 +25,7 @@
         </div>
         <!-- Btn Extras -->
         <nav>
-          <ul>
+          <ul v-if="!isLoggedIn">
             <li class="menu-item-has-children">
               <router-link :to="{ name: 'Home' }">
                 <a href="#" title="">Home </a>
@@ -52,6 +52,25 @@
               </router-link>
             </li>
           </ul>
+          
+          <ul v-if="user.role == 'student'">
+            <li class="menu-item-has-children">
+              <router-link :to="{ name: 'Home' }">
+                <a title="">Home </a>
+              </router-link>
+            </li>
+            <li class="menu-item-has-children">
+              <router-link :to="{ name: 'Internships' }">
+                <a title="">Dashboard </a>
+              </router-link>
+            </li>
+            <li class="menu-item-has-children">
+              <router-link :to="{ name: 'Internships' }">
+                <a title="">Internships </a>
+              </router-link>
+            </li>
+          </ul>
+
         </nav>
         <!-- Menus -->
       </div>
@@ -62,7 +81,7 @@
 <script>
 export default {
   name: 'BeforeLoginHeader',
-  props: ["isLoggedIn"],
+  props: ["isLoggedIn", "user"],
   methods: {
     loginPopup() {
       this.$emit("loginPopup")

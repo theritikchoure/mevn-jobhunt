@@ -1,7 +1,8 @@
 <template>
   <div>
     <ResponsiveMenu :isLoggedIn="isLoggedIn" :user="user" />
-    <BeforLoginHeader :isLoggedIn="isLoggedIn" @loginPopup="loginPopup" @signupPopup="signupPopup" />
+    <BeforLoginHeader :isLoggedIn="isLoggedIn" :user="user"
+      @loginPopup="loginPopup" @signupPopup="signupPopup" />
 
     <LoginPopup v-if="loginShow" @loginPopup="loginPopup" />
     <SignupPopup v-if="signupShow" @signupPopup="signupPopup" />
@@ -11,7 +12,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import ResponsiveMenu from '@/components/Header/ResponsiveMenu.vue';
-import BeforLoginHeader from '@/components/Header/BeforeLoginHeader.vue';
+import BeforLoginHeader from '@/components/Header/Header.vue';
 import LoginPopup from '@/components/AuthPopup/Login.vue';
 import SignupPopup from '@/components/AuthPopup/Signup.vue';
 export default {
@@ -29,7 +30,7 @@ export default {
   },
   methods: {
 
-    ...mapActions(["loggedInUser"]),
+    ...mapActions(["loggedInUser", "fetchAllInternships"]),
 
     resmenu() {
       this.responsiveMenu = !this.responsiveMenu;
@@ -45,6 +46,7 @@ export default {
   },
   created() {
     this.loggedInUser();
+    this.fetchAllInternships();
   },
 };
 </script>

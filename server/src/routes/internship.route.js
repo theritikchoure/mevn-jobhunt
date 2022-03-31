@@ -38,9 +38,9 @@ router.post(
  router.get(
     '/',
     [
-      passport.authenticate('jwt', { session: false, failWithError: true }),
-      PassportErrorHandler.success,
-      PassportErrorHandler.error,
+      // passport.authenticate('jwt', { session: false, failWithError: true }),
+      // PassportErrorHandler.success,
+      // PassportErrorHandler.error,
     ],
     (req, res) => {
       InternshipController.getAll(req, res);

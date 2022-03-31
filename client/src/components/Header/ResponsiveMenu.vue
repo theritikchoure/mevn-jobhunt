@@ -3,7 +3,7 @@
     <div class="responsive-menubar">
       <div class="res-logo">
         <router-link :to="{ name: 'Home' }">
-          <a href="index.html" title="">
+          <a title="">
             <img src="/images/resource/logo.png" alt="" />
           </a>
         </router-link>
@@ -35,19 +35,20 @@
           <li class="menu-item-has-children">
             <router-link :to="{ name: 'Home' }"> Home </router-link>
           </li>
-          
           <!-- LoggedIn Student Menu Links (Start) -->
           <li class="menu-item-has-children" v-if="user.role == 'student'">
             <router-link :to="{ name: 'Home' }">
               Dashboard
             </router-link>
           </li>
+          
           <li class="menu-item-has-children" v-if="user.role == 'student'">
-              <router-link :to="{ name: 'Home' }">
-                Internships
-              </router-link>
-            </li>
+            <router-link :to="{ name: 'Internships' }">
+              Internships
+            </router-link>
+          </li>
           <!-- LoggedIn Student Menu Links (End) -->
+
           <!-- LoggedIn Employer Menu Links (Start) -->
           <li class="menu-item-has-children" v-if="user.role == 'employer'">
             <router-link :to="{ name: 'Home' }">
