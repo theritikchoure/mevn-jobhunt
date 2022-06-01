@@ -10,10 +10,17 @@
   "engines": {
     "node": "12.22.4"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "scripts": {
     "start": "node src/server.js",
     "dev": "cross-env APP_ENV=development nodemon src/server.js",
-    "test": "npm run test-jest && npm run lint && npm run test-format",
+    "test": "jest",
+    "test1": "npm run test-jest && npm run lint && npm run test-format",
     "test-jest": "cross-env APP_ENV=test jest",
     "lint": "eslint --max-warnings 0 app",
     "format": "prettier --write 'app/**/*.js'",
@@ -72,7 +79,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.1",
-    "jest": "^24.8.0",
+    "jest": "^24.9.0",
     "nodemon": "^1.19.1",
     "prettier": "^1.18.2",
     "supertest": "^4.0.2"
