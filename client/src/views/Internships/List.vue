@@ -106,10 +106,11 @@
 import { mapGetters, mapActions } from "vuex";
 import Layout from "../Layout/Layout.vue";
 import InternshipTab from "../../components/Internship/Tab.vue";
+import FilterWidget from "../../components/Widget/FilterWidget.vue"
 
 export default {
   name: "InternshipList",
-  components: { Layout, InternshipTab },
+  components: { Layout, InternshipTab, FilterWidget },
   computed: { 
       ...mapGetters(["internships", "isLoading"]),
   },

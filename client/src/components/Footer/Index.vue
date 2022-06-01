@@ -65,12 +65,12 @@
               <div class="link_widgets">
                 <div class="row">
                   <div class="col-lg-12">
-                    <!-- <router-link :to="{name: 'Index'}">Home </router-link>
+                    <router-link :to="{name: 'Home'}">Home </router-link>
                     <router-link :to="{name: 'AboutUs'}">About Us </router-link>
                     <router-link :to="{name: 'ContactUs'}">Contact Us </router-link>
                     <router-link :to="{name: 'HowItWorks'}">How It Works</router-link>
                     <router-link :to="{name: 'TAndC'}">Terms and Conditions</router-link>
-                    <router-link :to="{name: 'FAQ'}">FAQs</router-link> -->
+                    <router-link :to="{name: 'FAQ'}">FAQs</router-link>
                   </div>
                 </div>
               </div>
@@ -80,10 +80,10 @@
             <div class="widget">
               <div class="download_widget">
                 <a href="#" title="">
-                  <img src="images/resource/dw1.png" alt="" />
+                  <img src="/images/resource/dw1.png" alt="" />
                 </a>
                 <a href="#" title="">
-                  <img src="images/resource/dw2.png" alt="" />
+                  <img src="/images/resource/dw2.png" alt="" />
                 </a>
               </div>
             </div>

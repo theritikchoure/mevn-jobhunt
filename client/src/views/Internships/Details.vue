@@ -74,7 +74,7 @@
                       <div class="col-lg-8 column">
                         <div class="job-details">
                           <h3>Job Description</h3>
-                          <p>internship.description</p>
+                          <p>{{internship.description}}</p>
                           <h3>Required Knowledge, Skills, and Abilities</h3>
                           <ul>
                             <li>
@@ -212,9 +212,9 @@ export default {
       await this.applyToInternship(url);
     },
   },
-  created() {
-    this.fetchDetailInternship(this.url);  
-    // sdocument.title = this.internship.title ? this.internship.title : "Loading internship";
+  async created() {
+    await this.fetchDetailInternship(this.url);  
+    document.title = this.internship.title ? this.internship.title : "Loading internship";
   },
 };
 </script>

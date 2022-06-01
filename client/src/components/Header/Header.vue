@@ -52,25 +52,6 @@
               </router-link>
             </li>
           </ul>
-          
-          <ul v-if="user.role == 'student'">
-            <li class="menu-item-has-children">
-              <router-link :to="{ name: 'Home' }">
-                <a title="">Home </a>
-              </router-link>
-            </li>
-            <li class="menu-item-has-children">
-              <router-link :to="{ name: 'Internships' }">
-                <a title="">Dashboard </a>
-              </router-link>
-            </li>
-            <li class="menu-item-has-children">
-              <router-link :to="{ name: 'Internships' }">
-                <a title="">Internships </a>
-              </router-link>
-            </li>
-          </ul>
-
         </nav>
         <!-- Menus -->
       </div>

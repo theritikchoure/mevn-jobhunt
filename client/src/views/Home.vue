@@ -30,6 +30,36 @@
       </section>
       <!-- Hero Section (End) -->
 
+
+    <!-- Featured Internships (start) -->
+    <section id="scroll-here" >
+      <div class="block">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="heading">
+                        <h2>Featured Jobs</h2>
+                        <span>Leading Employers already using job and talent.</span>
+                    </div>
+                    <!-- Heading -->
+                    <div class="job-listings-sec">
+                        <!-- Job -->
+                        <div v-for="internship in internships" :key="internship.id">
+                          <InternshipTab :internship="internship"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="browse-all-cat">
+                        <a href="#" title="">Load more listings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+    <!-- Featured Internships (end) -->
+
       <!-- Brands Logos Section (Start)  -->
       <section>
         <div class="block">
@@ -138,10 +168,12 @@
 
 <script>
 import Layout from "./Layout/Layout.vue";
+import InternshipTab from '../components/Internship/TabForHome.vue';
+import { mapGetters } from "vuex";
 export default {
   name: "Home",
-  components: { Layout },
-  computed: {},
+  components: { Layout, InternshipTab },
+  computed: { ...mapGetters(["internships"]) },
   mounted() {},
   methods: {},
 };

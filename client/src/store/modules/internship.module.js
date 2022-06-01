@@ -44,7 +44,7 @@ const actions = {
 
     commit('setInternshipIsLoading', true);
 
-    await axios.get(API_URL, { headers: { 'Authorization': `Bearer ${token}` }})
+    await axios.get(API_URL)
       .then(res => {
         console.log(res);
         const products = res.data.data;

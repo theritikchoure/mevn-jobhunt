@@ -9,7 +9,7 @@
           </div>
           <h3>
             <!-- <router-link :to="{ name: 'Home', params: { url: internship.url }}"> -->
-            <router-link :to="{ name: 'Home' }">
+            <router-link :to="{ name: 'InternshipDetails', params: { url: item.url }}">
               {{ item.title || 'Home' }}
             </router-link>
           </h3>
@@ -17,7 +17,7 @@
         </div>
         <div class="job-style-bx">
             <router-link :to="{ name: 'InternshipDetails', params: { url: item.url }}">
-                <span class="job-is pt">Apply Now</span>
+                <span class="job-is ft">Apply Now</span>
             </router-link>
             <!-- <span class="fav-job" @click.prevent="likeUnlikeToThisInternship(item.url)" v-if="likedInternship.includes(item.id)">
                 <i class="la la-heart-o red"></i>
