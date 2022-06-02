@@ -29,12 +29,12 @@ module.exports = {
       create: ['title', 'description'],
     }
   },
-  DEFAULT_USER_ROLES: ['super_admin', 'admin', 'shop_admin', 'shop_user', 'end_user'],
+  DEFAULT_USER_ROLES: ['super_admin', 'admin', 'student', 'employer'],
+
   USER_ROLE_TYPES: Object.freeze({
     SUPER_ADMIN: 'super_admin',
     ADMIN: 'admin',
-    SHOP_ADMIN: 'shop_admin',
-    SHOP_USER: 'shop_user',
-    END_USER: 'end_user',
+    STUDENT: 'student',
+    EMPLOYER: 'employer',
   }),
 };
