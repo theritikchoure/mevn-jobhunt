@@ -50,6 +50,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { notifySuccess } from '../../utils/notify';
 
 export default {
   name: 'LoginPopup',
@@ -66,6 +67,12 @@ export default {
     };
   },
   computed: { ...mapGetters(["isAuthLoading", "authSuccessMsg", "authErrorMsg"]) },
+  setup () {
+    const successMsg = (msg) => {
+        notifySuccess(msg);
+    }
+    return { successMsg }
+  },
   methods: {
     ...mapActions(["userLogin"]),
 
@@ -90,7 +97,10 @@ export default {
       };
 
       const response = await this.userLogin(user);
-      if(response) this.closePopup();
+      if(response) {
+        this.successMsg("Successfully logged in")
+        this.closePopup();
+      }
     },
   },
 };

@@ -43,11 +43,6 @@ const studentSchema = new mongoose.Schema(
         default: 'student'
     },
 
-    linkedin:{
-        type:String,
-        required:false,
-    },
-
     country: {
         type: String,
         required: false,
@@ -81,6 +76,26 @@ const studentSchema = new mongoose.Schema(
     about: {
         type: String,
         required: false
+    },
+
+    linkedin:{
+      type:String,
+      required:false,
+    },
+
+    twitter:{
+      type:String,
+      required:false,
+    },
+
+    github:{
+      type:String,
+      required:false,
+    },
+
+    personal_portfolio:{
+      type:String,
+      required:false,
     },
 
     liked_internship: [{

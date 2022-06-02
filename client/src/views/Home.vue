@@ -51,7 +51,11 @@
                 </div>
                 <div class="col-lg-12">
                     <div class="browse-all-cat">
-                        <a href="#" title="">Load more listings</a>
+                        <router-link v-if="JSON.stringify(user) !== '{}'"
+                          :to="{ name: 'Internships'}"
+                        >
+                          More Internships
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -173,7 +177,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "Home",
   components: { Layout, InternshipTab },
-  computed: { ...mapGetters(["internships"]) },
+  computed: { ...mapGetters(["internships", "user"]) },
   mounted() {},
   methods: {},
 };

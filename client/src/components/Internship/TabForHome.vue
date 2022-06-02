@@ -51,9 +51,10 @@ export default {
   computed: { ...mapGetters(["user"]) },
   mounted() {},
   methods: {
-    
+    run() {
+        console.log(user)
+    },
   },
-
   created() {
     // console.log(user);
   },

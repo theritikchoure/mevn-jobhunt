@@ -7,8 +7,8 @@
         <span @click="userType('student')" :class="{ active: studentButtonActive }">Student</span>
         <span @click="userType('employer')" :class="{ active: employerButtonActive }">Employer</span>
       </div>
-      <div v-if="error" class="error-message">
-        {{this.message}}
+      <div v-if="!isAuthLoading" class="error-message">
+        {{authErrorMsg}}
       </div>
       <form>
         <div class="cfield">
@@ -50,6 +50,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { notifySuccess } from '../../utils/notify';
 
 export default {
   name: 'SignupPopup',
@@ -70,7 +71,13 @@ export default {
       employerButtonActive: false,
     };
   },
-  computed: { ...mapGetters(["user", "token", "isLoading", "isLoggedIn"]) },
+  computed: { ...mapGetters(["user", "token", "isLoading", "isLoggedIn", "authErrorMsg"]) },
+  setup () {
+    const successMsg = (msg) => {
+        notifySuccess(msg);
+    }
+    return { successMsg }
+  },
   methods: {
     ...mapActions(["userRegister"]),
 
@@ -88,18 +95,6 @@ export default {
       this.loading = true;
       console.log(this.name, this.email, this.mobile, this.password, this.repeat_password, this.user_type);
 
-      if(!this.name || !this.email || !this.mobile || !this.password || !this.repeat_password) {
-        this.error = true;
-        this.message = "Please Fill All The Details";
-        return;
-      }
-
-      if(this.user_type === '') {
-        this.error = true;
-        this.message = "Please Select Who Are You Student or Employer";
-        return;
-      }
-
       const user = {
         name: this.name,
         email: this.email,
@@ -109,8 +104,13 @@ export default {
         user_type: this.user_type,
       };
 
-      await this.userRegister(user);
-      window.location.reload();
+      const response = await this.userRegister(user);
+      console.log(response)
+
+      if(response) {
+        this.successMsg("Successfully registered, Please update your profile")
+        this.closePopup();
+      }
     },
   },
 };

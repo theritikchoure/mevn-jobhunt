@@ -81,25 +81,40 @@ const actions = {
     }
   },
   
-  async userRegister({ commit }, object) {
+  async userRegister({ commit }, payload) {
 
-    commit('setIsLoading', true);
+    try {
 
-    await AuthService.register(object).then(
-        (response) => {
-          console.log(response);
-          commit('setUser', response.data);
-          commit('setToken', response.data.token);
-          commit('setIsLoading', false);
-          commit('setIsLoggedIn', true);
-          return Promise.resolve(response);
-        },
-        (error) => {
-            console.log('error', error);
-            commit('setIsLoading', false);    
-            return Promise.reject(error);
-        },
-    );
+      commit('setIsLoading', true);
+
+      const errors = AuthValidation.register(payload);
+      if(errors) {
+        commit('setIsLoading', false);
+        commit('setAuthErrorMsg', errors);
+        return;
+      };
+
+      commit('setAuthErrorMsg', "");
+
+      const { data } = await axios.post(`${API_URL}/register`, payload);
+  
+      if(data) {
+        commit('setUser', data.data);
+        commit('setToken', data.data.token);
+        commit('setIsLoading', false);
+        commit('setIsLoggedIn', true);
+
+        saveUserDetails(data.data);
+        saveToken(data.data.token);
+        
+        return true;
+      }
+      
+    } catch (error) {
+      console.log(error);
+      commit('setIsLoading', false);
+      return false;
+    }
   },
 }
 

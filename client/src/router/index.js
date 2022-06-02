@@ -90,10 +90,10 @@ const routes = [
     path: '/student/profile',
     name: 'StudentProfile',
     component: StudentProfile,
-    // meta: { 
-    //   authorize: [Role.Student],
-    //   title: "Internship Detail"
-    // } 
+    meta: { 
+      authorize: ["student"],
+      title: "My Profile"
+    } 
   },
 ]
 
