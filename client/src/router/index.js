@@ -81,10 +81,10 @@ const routes = [
     path: '/student/dashboard',
     name: 'StudentDashboard',
     component: StudentDashboard,
-    // meta: { 
-    //   authorize: [Role.Student],
-    //   title: "Internship Detail"
-    // } 
+    meta: { 
+      authorize: ["student"],
+      title: "Dashboard"
+    } 
   },
   {
     path: '/student/profile',
@@ -105,7 +105,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
 
   // Add Meta Title
-  document.title = `${to.meta.title} | JobHunt - Remote Internship Platform`;
+  document.title = to.meta.title ? `${to.meta.title} | JobHunt - Remote Internship Platform` : 'JobHunt - Remote Internship Platform';
 
   // redirect to login page if not logged in and trying to access a restricted page
   const { authorize } = to.meta;

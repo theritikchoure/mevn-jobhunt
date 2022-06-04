@@ -95,6 +95,40 @@ class AuthValidation {
     }
 
   }
+
+  studentProfileUpdate(object) {
+    let error;
+
+    if(isEmpty(object.name)) {
+      error = 'Name is required';
+      return error;
+    }
+    
+    if(isEmpty(object.education)) {
+      error = 'Education is required';
+      return error;
+    }
+    
+    if(isEmpty(object.about)) {
+      error = 'Description is required';
+      return error;
+    }
+    
+    if(isEmpty(object.github)) {
+      error = 'Github profile is required';
+      return error;
+    }
+    
+    if(isEmpty(object.linkedin)) {
+      error = 'Linkedin profile is required';
+      return error;
+    }
+
+    if(isEmpty(object.address)) {
+      error = 'Address is required';
+      return error;
+    }
+  }
 }
 
 export default new AuthValidation();

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { deleteAuthToken, saveAuthToken } from './localStorageHelper';
+const token = JSON.parse(localStorage.getItem('token'));
 
 export const saveToken = (access_token) => {
   setAuthToken(access_token);
@@ -9,6 +10,10 @@ export const saveToken = (access_token) => {
 export const clearToken = () => {
   deleteAuthToken();
   clearAuthToken();
+};
+
+export const getToken = () => {
+  return token;
 };
 
 // header methods

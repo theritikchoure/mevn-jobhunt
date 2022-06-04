@@ -37,7 +37,7 @@
           </li>
           <!-- LoggedIn Student Menu Links (Start) -->
           <li class="menu-item-has-children" v-if="user.role == 'student'">
-            <router-link :to="{ name: 'Home' }">
+            <router-link :to="{ name: 'StudentDashboard' }">
               Dashboard
             </router-link>
           </li>

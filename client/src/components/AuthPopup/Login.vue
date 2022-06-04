@@ -98,8 +98,7 @@ export default {
 
       const response = await this.userLogin(user);
       if(response) {
-        this.successMsg("Successfully logged in")
-        this.closePopup();
+        window.location.reload()
       }
     },
   },

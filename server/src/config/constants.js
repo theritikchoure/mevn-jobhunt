@@ -10,7 +10,7 @@ module.exports = {
     },
 
     student: {
-      update: ['name', 'linkedin', 'country', 'state', 'city', 'gender', 'about']
+      update: ['name', 'education', 'linkedin', 'country', 'state', 'city', 'gender', 'about', 'github', 'twitter', 'website', 'address' ]
     },
 
     employer : {

@@ -3,7 +3,7 @@ import AuthService from '../../services/auth.service';
 import AuthValidation from '../../validations/auth.validation';
 import { getAPIResponseError } from '../../helpers/common';
 import { deleteAllLocalData, saveUserDetails, getUserDetails } from '../../helpers/localStorageHelper';
-import { saveToken } from '../../helpers/authTokenHelper';
+import { saveToken, getToken, } from '../../helpers/authTokenHelper';
 const API_URL = 'http://localhost:4000/api/auth';
 
 // initial state
@@ -13,6 +13,7 @@ const state = () => ({
   authErrorMsg: '',
   authSuccessMsg: '',
   isLoggedIn: false,
+  userDetails: {},
 })
 
 // getters
@@ -22,6 +23,7 @@ const getters = {
   isLoggedIn: state => state.isLoggedIn,
   authSuccessMsg: state => state.authSuccessMsg,
   authErrorMsg: state => state.authErrorMsg,
+  userDetails: state => state.userDetails
 };
 
 // actions
@@ -37,20 +39,20 @@ const actions = {
   },
   
   async loggedInUserCompleteDetails({ commit }) {
-    commit('setIsLoading', true);
-    await AuthService.getLoggedInUserDetail().then(
-      (response) => {
-        console.log(response.data.data)
-        commit('setUserDetail', response.data.data);
-        commit('setIsLoading', false);
-        return Promise.resolve(response);
-      },
-      (error) => {
-          console.log('error', error);
-          commit('setIsLoading', false);    
-          return Promise.reject(error);
-      },
-    );
+
+    try {
+      commit('setIsLoading', true);
+      const token = await getToken();
+      const { data } = await axios.get(`${API_URL}/myprofile`, {headers: { 'Authorization': `Bearer ${token}` }});
+      console.log(data.data)
+      commit('setUserDetail', data.data);
+      commit('setIsLoading', false);
+      return data.data;
+    } catch (error) {
+      console.log('error', error);
+      commit('setIsLoading', false);   
+      return false;
+    }
   },
 
   async userLogin({ commit }, payload) {
@@ -108,6 +110,41 @@ const actions = {
         saveToken(data.data.token);
         
         return true;
+      }
+      
+    } catch (error) {
+      console.log(error);
+      commit('setIsLoading', false);
+      return false;
+    }
+  },
+  
+  async updateProfile({ commit }, payload) {
+
+    try {
+
+      commit('setIsLoading', true);
+
+      const errors = AuthValidation.studentProfileUpdate(payload);
+      if(errors) {
+        commit('setIsLoading', false);
+        commit('setAuthErrorMsg', errors);
+        return;
+      };
+
+      commit('setAuthErrorMsg', "");
+
+      const token = await getToken();
+      const { data } = await axios.put(`${API_URL}/profile-update`, payload, { headers: { 'Authorization': `Bearer ${token}` }});
+  
+      if(data) {
+        commit('setUser', data.data);
+        commit('setIsLoading', false);
+        commit('setIsLoggedIn', true);
+
+        saveUserDetails(data.data);
+        
+        return data.data;
       }
       
     } catch (error) {

@@ -49,16 +49,10 @@ const studentSchema = new mongoose.Schema(
         default: "India"
     },
 
-    state: {
+    address: {
         type: String,
         required: false,
-        default: "Maharashtra"
-    },
-
-    city: {
-        type: String,
-        required: false,
-        default: "Mumbai"
+        default: "H No 102, Demo Road, City, State, Country"
     },
 
     gender: {
@@ -76,6 +70,12 @@ const studentSchema = new mongoose.Schema(
     about: {
         type: String,
         required: false
+    },
+
+    education: {
+        type: String,
+        required: false,
+        default: null,
     },
 
     linkedin:{

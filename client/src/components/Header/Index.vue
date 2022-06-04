@@ -34,7 +34,7 @@ export default {
   },
   methods: {
 
-    ...mapActions(["loggedInUser", "fetchAllInternships"]),
+    ...mapActions(["loggedInUser", "fetchAllInternships", "loggedInUserCompleteDetails"]),
 
     resmenu() {
       this.responsiveMenu = !this.responsiveMenu;
@@ -51,6 +51,7 @@ export default {
   created() {
     this.loggedInUser();
     this.fetchAllInternships();
+    this.loggedInUserCompleteDetails();
   },
 };
 </script>
