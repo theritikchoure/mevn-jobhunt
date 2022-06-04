@@ -56,12 +56,20 @@
                       </div>
                       <div class="col-lg-4">
                         <a class="apply-thisjob"
-                          @click.prevent="applyToThisInternship(internship.url)">
+                          @click.prevent="applyToThisInternship(internship.url, 'revert')"
+                          v-if="internship.applications.find(application => application.applicant === user.id)">
                           <i class="la la-paper-plane"></i>
-                          <span v-if="internship.applications.find(application => application.applicant === user.id)">
+                          <span>
                               Revert Application
                           </span>
-                          <span v-else>Apply Now</span>
+                        </a>
+                        <a class="apply-thisjob"
+                          @click.prevent="applyToThisInternship(internship.url, 'apply')"
+                          v-else>
+                          <i class="la la-paper-plane"></i>
+                          <span>
+                              Aplly Now
+                          </span>
                         </a>
                         <!-- <div class="apply-alternative">
                         <span><i class="la la-heart-o"></i> Shortlist</span>
@@ -194,7 +202,7 @@
 import { mapGetters, mapActions } from "vuex";
 import Layout from "../Layout/Layout.vue";
 import InternshipTab from "../../components/Internship/Tab.vue";
-
+import { notifyInfo, notifySuccess } from '../../utils/notify';
 export default {
   name: "InternshipDetail",
   components: { Layout, InternshipTab },
@@ -202,14 +210,29 @@ export default {
   data() {
     return {};
   },
+  setup () {
+    const infoMsg = (msg) => {
+        notifyInfo(msg);
+    }
+
+    const successMsg = (msg) => {
+      notifySuccess(msg)
+    }
+    return { infoMsg, successMsg }
+  },
   computed: {
     ...mapGetters(["internship", "user"]),
   },
   methods: {
     ...mapActions(["fetchDetailInternship", "applyToInternship"]),
 
-    async applyToThisInternship(url){
+    async applyToThisInternship(url, type){
       await this.applyToInternship(url);
+      if(type === 'apply') {
+        this.successMsg('Application submitted successfully')
+      } else {
+        this.infoMsg('Application reverted!')
+      }
     },
   },
   async created() {

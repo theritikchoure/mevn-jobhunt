@@ -14,11 +14,13 @@ const config = (type) => {
 
 // success
 function notifySuccess(message) {
+    notifyClearAll();
     createToast(message, config('success'))
 }
 
 // info
 function notifyInfo(message) {
+    notifyClearAll();
     createToast(message, config('info'))
 }
 
@@ -30,6 +32,7 @@ function notifyWarning(message) {
 
 // error
 function notifyError(message) {
+    notifyClearAll();
     createToast(message, config('danger'))
 }
 

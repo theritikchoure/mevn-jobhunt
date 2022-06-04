@@ -60,8 +60,8 @@ const actions = {
   async fetchDetailInternship({ commit }, url) {
 
     commit('setInternshipIsLoading', true);
-
-    await axios.get(`${API_URL}/interships/${url}`, { headers: { 'Authorization': `Bearer ${token}` }})
+    const token = await getToken();
+    await axios.get(`${API_URL}/internships/${url}`, { headers: { 'Authorization': `Bearer ${token}` }})
       .then(res => {
         console.log(res);
         const internship = res.data.data;
@@ -76,7 +76,7 @@ const actions = {
   async applyToInternship({ commit }, url) {
     commit('setInternshipIsLoading', true);
 
-    await axios.put(`${API_URL}/apply/${url}`, {}, { headers: { 'Authorization': `Bearer ${token}` }})
+    await axios.put(`${API_URL}/internships/apply/${url}`, {}, { headers: { 'Authorization': `Bearer ${token}` }})
       .then(res => {
         console.log(res);
         const internship = res.data.data;
