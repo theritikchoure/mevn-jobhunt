@@ -2,7 +2,8 @@ import axios from 'axios';
 import InternshipService from '../../services/internship.service';
 import AuthService from '../../services/auth.service';
 import { getAPIResponseError } from '../../helpers/common';
-const API_URL = 'http://localhost:4000/api/internships';
+import { getToken } from '../../helpers/authTokenHelper';
+const API_URL = 'http://localhost:4000/api';
 const token = JSON.parse(localStorage.getItem('token'));
 
 // initial state
@@ -44,7 +45,7 @@ const actions = {
 
     commit('setInternshipIsLoading', true);
 
-    await axios.get(API_URL)
+    await axios.get(API_URL+'/internships')
       .then(res => {
         console.log(res);
         const products = res.data.data;
@@ -60,7 +61,7 @@ const actions = {
 
     commit('setInternshipIsLoading', true);
 
-    await axios.get(`${API_URL}/${url}`, { headers: { 'Authorization': `Bearer ${token}` }})
+    await axios.get(`${API_URL}/interships/${url}`, { headers: { 'Authorization': `Bearer ${token}` }})
       .then(res => {
         console.log(res);
         const internship = res.data.data;
@@ -88,31 +89,36 @@ const actions = {
   },
 
   async getUsersLikedInternship({ commit }) {
-    await AuthService.getLoggedInUserDetail().then(
-      (response) => {
-        console.log(response.data.data)
-        commit('setLikedInternship', response.data.data.liked_internship);
-        return Promise.resolve(response);
-      },
-      (error) => {
-        console.log('error', error); 
-        return Promise.reject(error);
-      },
-    );
+    try {
+      commit('setIsLoading', true);
+      const token = await getToken();
+      const { data } = await axios.get(`${API_URL}/auth/myprofile`, {headers: { 'Authorization': `Bearer ${token}` }});
+      console.log(data.data)
+      commit('setLikedInternship', data.data.liked_internship);
+      commit('setIsLoading', false);
+      return data.data.liked_internship;
+    } catch (error) {
+      console.log('error', error);
+      commit('setIsLoading', false);   
+      return false;
+    }
   },
 
   async likeUnlikeToInternship({ commit }, url) {
-    await InternshipService.likeUnlikeToInternship(url).then(
-      (response) => {
-        console.log(response.data.data)
-        commit('setLikedInternship', response.data.data.liked_internship);
-        return Promise.resolve(response);
-      },
-      (error) => {
-        console.log('error', error); 
-        return Promise.reject(error);
-      },
-    );
+    try {
+      commit('setIsLoading', true);
+      const token = await getToken();
+      const { data } = await axios.put(`${API_URL}/internships/like/${url}`, {}, {headers: { 'Authorization': `Bearer ${token}` }});
+      if(data) {
+        commit('setIsLoading', false);
+        commit('setLikedInternship', data.data.liked_internship);
+        return data.data.liked_internship;
+      }
+    } catch (error) {
+      console.log('error', error); 
+      commit('setIsLoading', false);
+      return false;
+    }
   },
  
   async appliedInternships({ commit }, url) {

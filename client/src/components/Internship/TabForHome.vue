@@ -16,10 +16,25 @@
 
       <span>{{internship.employer.name}}</span>
     </div>
-    <span class="job-lctn"
-      ><i class="la la-tag"></i>{{internship.category}}</span
-    >
-    <span class="fav-job"><i class="la la-heart-o"></i></span>
+    <span class="job-lctn">
+      <i class="la la-tag"></i>{{internship.category}}
+    </span>
+
+    <!-- Like Button -->
+    <span class="fav-job active" v-if="JSON.stringify(user) !== '{}' && likedInternship && likedInternship.includes(internship.id)"
+    @click="likeUnlikeInternship(internship.url)">
+      <i class="la la-heart-o"></i>
+    </span>
+    
+    <span class="fav-job" v-if="JSON.stringify(user) !== '{}' && likedInternship && !likedInternship.includes(internship.id)"
+    @click="likeUnlikeInternship(internship.url)" >
+      <i class="la la-heart-o"></i>
+    </span>
+
+    <span class="fav-job" v-if="JSON.stringify(user) === '{}'" @click="warningMsg('Login First')">
+      <i class="la la-heart-o"></i>
+    </span>
+    <!-- Like Button -->
 
     <router-link v-if="JSON.stringify(user) !== '{}'"
         :to="{ name: 'InternshipDetails', params: { url: internship.url }}"
@@ -33,14 +48,16 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import { notifyWarning } from '../../utils/notify';
 
 export default {
   name: "InternshipTab",
   props: ["internship"],
   data() {
-    return {};
+    return {
+      likedInternship: null,
+    };
   },
   setup () {
     const warningMsg = (msg) => {
@@ -51,12 +68,25 @@ export default {
   computed: { ...mapGetters(["user"]) },
   mounted() {},
   methods: {
+    ...mapActions(["getUsersLikedInternship", "likeUnlikeToInternship"]),
+
     run() {
         console.log(user)
     },
+
+    async loadLikedInternship() {
+      this.likedInternship = await this.getUsersLikedInternship();
+    },
+
+    async likeUnlikeInternship(url) {
+      const response = await this.likeUnlikeToInternship(url);
+      if(response) {
+        this.likedInternship = response
+      }
+    }
   },
   created() {
-    // console.log(user);
+    this.loadLikedInternship();
   },
 };
 </script>

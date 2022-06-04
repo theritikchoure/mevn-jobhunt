@@ -24,7 +24,7 @@
           <!-- wishlist -->
           <div class="wishlist-dropsec">
             <span @click="toggleWishlist"><i class="la la-heart"></i>
-              <strong>1</strong>
+              <strong>{{likedInternship.length}}</strong>
             </span>
             <div class="wishlist-dropdown" v-if="wishlistShow">
               <ul class="scrollbar">
@@ -114,6 +114,8 @@
 
 <script>
 import StudentSidebar from '../Student/Sidebar.vue';
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: 'StudentHeader',
   props: ["user"],
@@ -122,9 +124,13 @@ export default {
     return {
       wishlistShow: false,
       profileSidebar: false,
+      likedInternshipNumber: 0,
     };
   },
+  computed: { ...mapGetters(["likedInternship"]) },
   methods: {
+    ...mapActions(["getUsersLikedInternship"]),
+
     toggleWishlist() {
       this.wishlistShow = !this.wishlistShow;
       console.log(this.wishlistShow)
@@ -132,8 +138,16 @@ export default {
 
     toggleProfileSidebar() {
       this.profileSidebar = !this.profileSidebar;
-    }
-  }
+    },
+
+    async loadLikedInternship() {
+      const response = await this.getUsersLikedInternship();
+      this.likedInternshipNumber = response.length
+    },
+  },
+  created() {
+    this.loadLikedInternship();
+  },
 };
 </script>
 
