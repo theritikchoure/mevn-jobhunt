@@ -53,7 +53,7 @@ class InternshipService {
   }
 
   async getInternshipByApplicants(id) {
-    const internship = await Internship.find({ 'applications.applicant':  id });
+    const internship = await Internship.find({ 'applications.applicant':  id }).populate('employer');
     if (internship) return internship;
     return undefined;
   }
@@ -232,7 +232,7 @@ class InternshipService {
         await Internship.findOne(query, { new: false }, async (err, result) => {
           if (err) reject(err);
 
-          const userExists = result.applications.find((element) => element.applicant.toString() === userId.toString());
+          const userExists = result.applications.find((element) => element?.applicant?.toString() === userId?.toString() ? true : false);
 
           if (userExists) {
             const index = result.applications.indexOf(userExists);

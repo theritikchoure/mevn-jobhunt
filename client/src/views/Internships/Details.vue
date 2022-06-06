@@ -68,7 +68,7 @@
                           v-else>
                           <i class="la la-paper-plane"></i>
                           <span>
-                              Aplly Now
+                              Apply Now
                           </span>
                         </a>
                         <!-- <div class="apply-alternative">

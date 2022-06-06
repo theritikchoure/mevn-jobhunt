@@ -11,6 +11,7 @@ import InternshipDetails from '../views/Internships/Details.vue';
 
 import StudentDashboard from "../views/Student/Dashboard.vue";
 import StudentProfile from "../views/Student/Profile.vue";
+import StudentAppliedJobs from '../views/Student/AppliedJobs.vue';
 
 import { getUserDetails } from '../helpers/localStorageHelper';
 
@@ -93,6 +94,15 @@ const routes = [
     meta: { 
       authorize: ["student"],
       title: "My Profile"
+    } 
+  },
+  {
+    path: '/student/applied-jobs',
+    name: 'StudentAppliedJobs',
+    component: StudentAppliedJobs,
+    meta: { 
+      authorize: ["student"],
+      title: "Applied Jobs"
     } 
   },
 ]
