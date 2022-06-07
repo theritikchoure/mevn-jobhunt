@@ -40,6 +40,16 @@ class StudentService {
   }
 
   /**
+   * @description generate hexa decimal value
+   * @param {digits} int
+   */
+  async genRandomHexaValue(digits) {
+    // digits - how many digits to generate
+    let hexaDecValue = (Math.random() * 0xfffff * 1000000).toString(16);
+    return hexaDecValue.slice(0, digits);
+  }
+
+  /**
    * @description Add new Student
    * @param {Object} obj
    */
@@ -48,15 +58,22 @@ class StudentService {
       try {
         const body = filteredBody(obj, constants.WHITELIST.user.register);
         body.email = String(body.email).toLowerCase();
+        body.url = body.name.replace(/ /g, '-').toLowerCase() + "-" + await this.genRandomHexaValue(6);
         Student.findOne(
           {
             $or: [
               {
                 email: body.email,
               },
+              {
+                mobile: body.mobile,
+              },
+              { 
+                url: body.url
+              }
             ],
           },
-          (err, existingStudent) => {
+          async (err, existingStudent) => {
             if (err) {
               reject(err);
               return;
@@ -64,10 +81,20 @@ class StudentService {
 
             // If student is not unique, return error
             if (existingStudent) {
-              reject({
-                message: 'That email is already in use.',
-              });
-              return;
+              console.log("existingstudent", existingStudent)
+              if(existingStudent.email === body.email) {
+                reject({
+                  message: 'That email is already in use.',
+                });
+                return;
+              } else if(existingStudent.mobile === body.mobile) {
+                reject({
+                  message: 'That mobile is already in use.',
+                });
+                return;
+              } else if(existingStudent.url === body.url) {
+                body.url = body.url + "-" + await this.genRandomHexaValue(7);
+              }
             }
 
             // If studentname is unique and password was provided, submit account
@@ -76,6 +103,7 @@ class StudentService {
               name: body.name,
               extra1: body.password,
               email: String(body.email).toLowerCase(),
+              url: body.url
             });
 
             student.save((err2, item) => {

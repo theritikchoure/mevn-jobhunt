@@ -12,11 +12,6 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'StudentAppliedJobs' }">
-          <i class="la la-paper-plane"></i>Applied Job
-        </router-link>
-      </li>
-      <li>
         <router-link :to="{ name: 'Home' }">
           <i class="la la-flash"></i>Change Password
         </router-link>

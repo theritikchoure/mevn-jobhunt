@@ -108,8 +108,10 @@ export default {
       console.log(response)
 
       if(response) {
-        this.successMsg("Successfully registered, Please update your profile")
+        this.successMsg("Successfully registered, Please update your profile");
+        localStorage.setItem('profileCompleted', JSON.parse(false));
         this.closePopup();
+        window.location.assign('/student/profile')
       }
     },
   },

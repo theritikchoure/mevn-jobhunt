@@ -5,7 +5,26 @@ const passport = require('passport');
 const PassportErrorHandler = require('../middleware/passportErrorResponse');
 const InternshipController = require('../controller/internship.controller');
 const StudentController = require('../controller/student.controller');
+const EmployerController = require('../controller/employer.controller')
 const EmployerAuth = require('../middleware/employerAuth.js');
+
+/**
+ * @route GET api/employers/:url
+ * @description profile of employer associated with url
+ * @returns JSON
+ * @access private
+ */
+ router.get(
+  '/:url',
+  [
+    passport.authenticate('jwt', { session: false, failWithError: true }),
+    PassportErrorHandler.success,
+    PassportErrorHandler.error,
+  ],
+  (req, res) => {
+    EmployerController.getByURL(req, res);
+  },
+);
 
 /**
  * @route GET api/employers/application/:id

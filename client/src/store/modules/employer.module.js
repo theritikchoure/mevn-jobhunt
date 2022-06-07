@@ -1,8 +1,12 @@
+import axios from 'axios';
 import AuthService from '../../services/auth.service';
+const API_URL = 'http://localhost:4000/api';
+import { getToken } from '../../helpers/authTokenHelper';
 
 // initial state
 const state = () => ({
   dashboardEmployer: {},
+  employerDetails: {},
   isLoading: false,
 })
 
@@ -10,6 +14,7 @@ const state = () => ({
 const getters = {
   dashboardEmployer: state => state.dashboardEmployer,
   isLoading: state => state.isLoading,
+  employerDetails: state => state.employerDetails,
 };
 
 // actions
@@ -33,6 +38,22 @@ const actions = {
     );
   },
 
+  async fetchEmployerByUrl({ commit }, url) {
+
+    commit('setIsLoading', true);
+    const token = await getToken();
+    await axios.get(`${API_URL}/employers/${url}`, { headers: { 'Authorization': `Bearer ${token}` }})
+      .then(res => {
+        console.log(res);
+        const employerDetails = res.data.data;
+        commit('setEmployersDetails', employerDetails);
+        commit('setIsLoading', false);
+      }).catch(err => {
+        console.log('error', err);
+        commit('setIsLoading', false);
+      });
+  },
+
   resetInternshipState({ commit }) {
     commit('resetEmployerDashboardState');
   }
@@ -46,6 +67,14 @@ const mutations = {
 
   setEmployerDashboardIsLoading(state, isLoading) {
     state.isLoading = isLoading
+  },
+
+  setIsLoading: (state, isLoading) => {
+    state.isLoading = isLoading
+  },
+
+  setEmployersDetails: (state, employerDetails) => {
+    state.employerDetails = employerDetails
   },
 
   resetEmployerDashboardState(state) {

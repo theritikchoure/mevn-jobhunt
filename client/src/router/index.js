@@ -11,7 +11,8 @@ import InternshipDetails from '../views/Internships/Details.vue';
 
 import StudentDashboard from "../views/Student/Dashboard.vue";
 import StudentProfile from "../views/Student/Profile.vue";
-import StudentAppliedJobs from '../views/Student/AppliedJobs.vue';
+
+import EmployersProfile from "../views/Profile/Employer.vue";
 
 import { getUserDetails } from '../helpers/localStorageHelper';
 
@@ -96,13 +97,14 @@ const routes = [
       title: "My Profile"
     } 
   },
+
   {
-    path: '/student/applied-jobs',
-    name: 'StudentAppliedJobs',
-    component: StudentAppliedJobs,
+    path: '/employer/:url',
+    props: true,
+    name: 'EmployersProfile',
+    component: EmployersProfile,
     meta: { 
-      authorize: ["student"],
-      title: "Applied Jobs"
+      title: "My Profile"
     } 
   },
 ]
@@ -127,7 +129,7 @@ router.beforeEach((to, from, next) => {
       if (!currentUser) {
         return next({ path: '/' });
       }
-
+      
       // check if route is restricted by role
       if (authorize.length && !authorize.includes(currentUser.role)) {
         // role not authorised so redirect to home page

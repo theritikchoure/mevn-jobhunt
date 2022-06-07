@@ -16,6 +16,18 @@ class EmployerService {
   }
   
   /**
+   * @description Get Employer by url
+   */
+  async getByURL(url) {
+    try {
+      const result = await Employer.findOne({ url: url });
+      return result
+    } catch (e) {
+      throw e;
+    }
+  }
+  
+  /**
    * @description Get Employer complete details along with populated posted internships
    */
   async getEmployerCompleteDetails(id) {
@@ -59,6 +71,16 @@ class EmployerService {
     }
     return null;
   }
+
+  /**
+   * @description generate hexa decimal value
+   * @param {digits} int
+   */
+  async genRandomHexaValue(digits) {
+    // digits - how many digits to generate
+    let hexaDecValue = (Math.random() * 0xfffff * 1000000).toString(16);
+    return hexaDecValue.slice(0, digits);
+  }
   
   /**
    * @description Add new Employer
@@ -69,15 +91,19 @@ class EmployerService {
       try {
         const body = filteredBody(obj, constants.WHITELIST.user.register);
         body.email = String(body.email).toLowerCase();
+        body.url = body.name.replace(/ /g, '-').toLowerCase() + "-" + await this.genRandomHexaValue(6);
         Employer.findOne(
           {
             $or: [
               {
                 email: body.email,
               },
+              { 
+                url: body.url
+              },
             ],
           },
-          (err, existingEmployer) => {
+          async (err, existingEmployer) => {
             if (err) {
               reject(err);
               return;
@@ -85,10 +111,14 @@ class EmployerService {
 
             // If employer is not unique, return error
             if (existingEmployer) {
-              reject({
-                message: 'That email is already in use.',
-              });
-              return;
+              if(existingEmployer.email === body.email) {
+                reject({
+                  message: 'That email is already in use.',
+                });
+                return;
+              } else if(existingStudent.url === body.url) {
+                body.url = body.url + "-" + await this.genRandomHexaValue(7);
+              }
             }
 
             // If employername is unique and password was provided, submit account

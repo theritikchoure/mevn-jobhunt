@@ -9,99 +9,110 @@ const studentSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
+    },
+
+    url: {
+      type: String,
+      required: true,
+      unique: true,
     },
 
     mobile: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
     },
 
     is_mobile_verified: {
-        type: Number,
-        required: false,
-        default:0
+      type: Number,
+      required: false,
+      default: 0,
     },
 
     email: {
-        type: String,
-        required: true,
-        unique: true,
-        // Regexp to validate emails with more strict rules as added in tests/users.js which also conforms mostly with RFC2822 guide lines
-        match: [/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Please enter a valid email'],
+      type: String,
+      required: true,
+      unique: true,
+      // Regexp to validate emails with more strict rules as added in tests/users.js which also conforms mostly with RFC2822 guide lines
+      match: [
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        'Please enter a valid email',
+      ],
     },
 
     password: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
 
     role: {
-        type: String,
-        default: 'student'
+      type: String,
+      default: 'student',
     },
 
     country: {
-        type: String,
-        required: false,
-        default: "India"
+      type: String,
+      required: false,
+      default: 'India',
     },
 
     address: {
-        type: String,
-        required: false,
-        default: "H No 102, Demo Road, City, State, Country"
+      type: String,
+      required: false,
+      default: 'H No 102, Demo Road, City, State, Country',
     },
 
     gender: {
-        type: String,
-        required: false,
-        default: "male"
+      type: String,
+      required: false,
+      default: 'male',
     },
 
     avatar: {
-        type: String,
-        required: false,
-        default: "https://th.bing.com/th/id/OIP.PoxGPLWyZweUtMO11kmbxQAAAA?pid=ImgDet&rs=1"
+      type: String,
+      required: false,
+      default: 'https://th.bing.com/th/id/OIP.PoxGPLWyZweUtMO11kmbxQAAAA?pid=ImgDet&rs=1',
     },
 
     about: {
-        type: String,
-        required: false
+      type: String,
+      required: false,
     },
 
     education: {
-        type: String,
-        required: false,
-        default: null,
+      type: String,
+      required: false,
+      default: null,
     },
 
-    linkedin:{
-      type:String,
-      required:false,
+    linkedin: {
+      type: String,
+      required: false,
     },
 
-    twitter:{
-      type:String,
-      required:false,
+    twitter: {
+      type: String,
+      required: false,
     },
 
-    github:{
-      type:String,
-      required:false,
+    github: {
+      type: String,
+      required: false,
     },
 
-    personal_portfolio:{
-      type:String,
-      required:false,
+    personal_portfolio: {
+      type: String,
+      required: false,
     },
 
-    liked_internship: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Internships"
-    }],
+    liked_internship: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Internships',
+      },
+    ],
 
     resetPasswordToken: String,
     resetPasswordExpire: Date,
@@ -112,7 +123,7 @@ const studentSchema = new mongoose.Schema(
     is_active: {
       type: Number,
       required: false,
-      default: 1 // 1 for TRUE || 0 for FALSE
+      default: 1, // 1 for TRUE || 0 for FALSE
     },
   },
   { timestamps: true, usePushEach: true }, // UTC format
@@ -140,7 +151,7 @@ studentSchema.pre('findOneAndUpdate', function(next) {
 
 studentSchema.methods = {
   authenticateStudent(password) {
-    console.log(password, this.password)
+    console.log(password, this.password);
     return compareSync(password, this.password);
   },
 
@@ -169,7 +180,7 @@ studentSchema.methods = {
       role: this.role,
       avatar: this.avatar,
       created_at: this.created_at,
-      country: this.country, 
+      country: this.country,
       state: this.state,
       liked_internship: this.liked_internship,
       token: `${this.createToken()}`,
