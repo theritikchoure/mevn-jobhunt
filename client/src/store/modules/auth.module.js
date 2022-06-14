@@ -125,13 +125,6 @@ const actions = {
 
       commit('setIsLoading', true);
 
-      const errors = AuthValidation.studentProfileUpdate(payload);
-      if(errors) {
-        commit('setIsLoading', false);
-        commit('setAuthErrorMsg', errors);
-        return;
-      };
-
       commit('setAuthErrorMsg', "");
 
       const token = await getToken();

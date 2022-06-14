@@ -73,10 +73,9 @@ const routes = [
     props: true,
     name: 'InternshipDetails',
     component: InternshipDetails,
-    // meta: { 
-    //   authorize: [Role.Student],
-    //   title: "Internship Detail"
-    // } 
+    meta: {
+      authorize: ["student"],
+    },
   },
   
   {
