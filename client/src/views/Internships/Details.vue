@@ -54,7 +54,7 @@
                         </div>
                         <!-- Job Head -->
                       </div>
-                      <div class="col-lg-4">
+                      <div class="col-lg-4" v-if="user.role === 'student'">
                         <a class="apply-thisjob"
                           @click.prevent="applyToThisInternship(internship.url, 'revert')"
                           v-if="internship.applications.find(application => application.applicant === user.id)">
@@ -71,9 +71,14 @@
                               Apply Now
                           </span>
                         </a>
-                        <!-- <div class="apply-alternative">
-                        <span><i class="la la-heart-o"></i> Shortlist</span>
-                      </div> -->
+                      </div>
+                      <div class="col-lg-4" v-if="user.role === 'employer'">
+                        <a class="apply-thisjob">
+                          <i class="la la-paper-plane"></i>
+                          <span>
+                              Only For Students
+                          </span>
+                        </a>
                       </div>
                     </div>
                   </div>

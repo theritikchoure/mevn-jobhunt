@@ -12,6 +12,7 @@ const state = () => ({
   internshipsPaginatedData: null,
   internship: null,
   likedInternship: [],
+  postedInternship: [],
   appliedInternship: [],
   isLoading: false,
   isCreating: false,
@@ -28,6 +29,7 @@ const getters = {
   internshipsPaginatedData: state => state.internshipsPaginatedData,
   internship: state => state.internship,
   likedInternship: state => state.likedInternship,
+  postedInternship: state => state.postedInternship,
   appliedInternship: state => state.appliedInternship,
   isLoading: state => state.isLoading,
   isCreating: state => state.isCreating,
@@ -93,8 +95,11 @@ const actions = {
       commit('setIsLoading', true);
       const token = await getToken();
       const { data } = await axios.get(`${API_URL}/auth/myprofile`, {headers: { 'Authorization': `Bearer ${token}` }});
-      console.log(data.data)
-      commit('setLikedInternship', data.data.liked_internship);
+      if(data.data.role === 'student') {
+        commit('setLikedInternship', data.data.liked_internship);
+      } else if(data.data.role === 'employer') {
+        commit('setPostedInternship', data.data.posted_internships);
+      }
       commit('setIsLoading', false);
       return data.data.liked_internship;
     } catch (error) {
@@ -202,6 +207,10 @@ const mutations = {
   
   setLikedInternship: (state, likedInternship) => {
     state.likedInternship = likedInternship
+  },
+  
+  setPostedInternship: (state, postedInternship) => {
+    state.postedInternship = postedInternship
   },
   
   setAppliedInternships: (state, appliedInternship) => {

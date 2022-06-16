@@ -3,6 +3,7 @@
     <ResponsiveMenu :isLoggedIn="isLoggedIn" :user="user" />
 
     <StudentHeader v-if="user.role == 'student'" :user="user" />
+    <EmployerHeader v-if="user.role == 'employer'" :user="user" />
     <BeforLoginHeader v-else :isLoggedIn="isLoggedIn"
       @loginPopup="loginPopup" @signupPopup="signupPopup" />
     
@@ -17,11 +18,12 @@ import { mapGetters, mapActions } from "vuex";
 import ResponsiveMenu from './ResponsiveMenu.vue';
 import BeforLoginHeader from './Header.vue';
 import StudentHeader from './StudentHeader.vue';
+import EmployerHeader from './EmployerHeader.vue';
 import LoginPopup from '@/components/AuthPopup/Login.vue';
 import SignupPopup from '@/components/AuthPopup/Signup.vue';
 export default {
   name: "Header",
-  components: { ResponsiveMenu, BeforLoginHeader, StudentHeader, LoginPopup, SignupPopup },
+  components: { ResponsiveMenu, BeforLoginHeader, StudentHeader, EmployerHeader, LoginPopup, SignupPopup },
   data() {
     return {
       responsiveMenu: false,

@@ -6,6 +6,9 @@ import FAQ from '../views/BasicPages/FAQ.vue';
 import HowItWorks from '../views/BasicPages/HowItWorks.vue';
 import TAndC from '../views/BasicPages/T&C.vue';
 
+import NotFound from '../views/BasicPages/404.vue';
+
+import CreateInternship from '../views/Internships/CreateNew.vue';
 import InternshipList from '../views/Internships/List.vue';
 import InternshipDetails from '../views/Internships/Details.vue';
 
@@ -13,6 +16,7 @@ import StudentDashboard from "../views/Student/Dashboard.vue";
 import StudentProfile from "../views/Student/Profile.vue";
 
 import EmployersProfile from "../views/Profile/Employer.vue";
+import EmployerDashboard from "../views/Employer/Dashboard.vue";
 
 import { getUserDetails } from '../helpers/localStorageHelper';
 
@@ -65,7 +69,7 @@ const routes = [
     component: InternshipList,
     meta: {
       title: "Internship List",
-      authorize: ["student"],
+      authorize: ["student", "employer"],
     },
   },
   {
@@ -74,7 +78,7 @@ const routes = [
     name: 'InternshipDetails',
     component: InternshipDetails,
     meta: {
-      authorize: ["student"],
+      authorize: ["student", "employer"],
     },
   },
   
@@ -98,12 +102,40 @@ const routes = [
   },
 
   {
+    path: '/employer/dashboard',
+    name: 'EmployerDashboard',
+    component: EmployerDashboard,
+    meta: { 
+      authorize: ["employer"],
+      title: "Dashboard"
+    } 
+  },
+  
+  {
+    path: '/employer/create-new-internship',
+    name: 'CreateInternship',
+    component: CreateInternship,
+    meta: { 
+      authorize: ["employer"],
+      title: "Create New Internship"
+    } 
+  },
+
+  {
     path: '/employer/:url',
     props: true,
     name: 'EmployersProfile',
     component: EmployersProfile,
     meta: { 
       title: "My Profile"
+    } 
+  },
+
+  {
+    path: '/:pathMatch(.*)*',
+    component: NotFound,
+    meta: { 
+      title: "Page Not Found"
     } 
   },
 ]

@@ -8,9 +8,7 @@
               <div class="col-lg-12">
                 <div class="main-featured-sec witherror">
                   <ul class="main-slider-sec text-arrows">
-                    <li><img src="images/resource/mslider3.jpg" alt="" /></li>
                     <li><img src="images/resource/mslider2.jpg" alt="" /></li>
-                    <li><img src="images/resource/mslider1.jpg" alt="" /></li>
                   </ul>
                   <div class="error-sec">
                     <img src="images/404.png" alt="" />
@@ -30,7 +28,7 @@
                       </button>
                     </form>
                     <h6>
-                      <router-link :to="{ name: 'Index' }">
+                      <router-link :to="{ name: 'Home' }">
                         Back To Homepage
                       </router-link>
                     </h6>
