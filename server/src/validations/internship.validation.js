@@ -7,7 +7,9 @@ class InternshipValidator {
    */
   create(req, res, next) {
     const errors = {};
-    const { title, description, category, is_paid, salary, no_of_openings, duration, last_date, status } = req.body;
+    const { title, description, category, stipend, salary, no_of_openings, duration, last_date, status } = req.body;
+
+    console.log(req.body);
 
     if (isEmpty(title)) {
       errors.title = 'Title is required';
@@ -18,10 +20,10 @@ class InternshipValidator {
     if (isEmpty(category)) {
       errors.category = 'Category is required';
     }
-    if (isEmpty(is_paid)) {
-      errors.is_paid = 'Paid/Unpaid is required';
+    if (isEmpty(stipend)) {
+      errors.stipend = 'Stipend is required';
     }
-    if (is_paid === 1 && isEmpty(salary)) {
+    if ((stipend === 'fixed' || stipend === 'negotiable') && isEmpty(salary)) {
       errors.salary = 'Salary is required';
     }
     if (isEmpty(no_of_openings)) {
@@ -35,9 +37,6 @@ class InternshipValidator {
     }
     if (isEmpty(last_date)) {
       errors.last_date = 'Last Date is required';
-    }
-    if (isEmpty(status)) {
-      errors.status = 'Status is required';
     }
 
     if (Object.keys(errors).length > 0) {

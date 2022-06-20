@@ -18,7 +18,7 @@ module.exports = {
     },
     
     internship: {
-      create: ['employer', 'title', 'description', 'category', 'is_paid', 'salary', 'no_of_openings', 'duration', 'last_date', 'status'],
+      create: ['employer', 'title', 'description', 'category', 'stipend', 'salary', 'no_of_openings', 'duration', 'last_date', 'status', 'perks', 'skills', 'qualification'],
     },
 
     contact: {

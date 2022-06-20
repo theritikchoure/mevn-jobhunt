@@ -44,20 +44,20 @@ const internshipSchema = new mongoose.Schema(
       }
     }],
 
-    is_paid: {
-      type: Number,
+    stipend: {
+      type: String,
       required: true,
-      default: 1 // 1 is for true || 0 is for false
+      enum: ["fixed", "negotiable", "unpaid"]
     },
 
     salary: { 
       type: String, 
-      enum : ['10k - 20k', '20k - 30k', '30k - 40k', '40k - 50k'],
+      enum : ['', '10k - 20k', '20k - 30k', '30k - 40k', '40k - 50k', '50k+'],
     }, 
     
     qualification: { 
       type: String, 
-      enum : ['Undergraduate', 'Graduate'],
+      enum : ['Diploma', 'Bsc', 'B. Tech'],
     }, 
 
     no_of_openings: {
@@ -79,11 +79,16 @@ const internshipSchema = new mongoose.Schema(
       type: Array,
       default : []
     },
+    
+    perks: {
+      type: Array,
+      default : []
+    },
 
     status: {
       type: Number,
       required: false,
-      default: 1 // 1 is for True || 0 is for false
+      default: 1 // 1 is for active || 0 is for unactive
     },
   },
   { timestamps: true, usePushEach: true }, // UTC format
@@ -109,13 +114,15 @@ internshipSchema.methods = {
       url: this.url,
       employer: this.employer,
       applications: this.applications,
-      is_paid: this.is_paid,
+      stipend: this.stipend,
       salary: this.salary,
       no_of_openings: this.no_of_openings,
       duration: this.duration,
       last_date: this.last_date,
       status: this.status,
       qualification: this.qualification,
+      perks: this.perks,
+      skills: this.skills,
       created_at: this.createdAt,
       updated_at: this.updatedAt,
     };

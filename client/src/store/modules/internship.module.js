@@ -140,20 +140,20 @@ const actions = {
     );
   },
 
-  async storeInternship({ commit }, internship) {
-    commit('setInternshipIsCreating', true);
-    await InternshipService.createInternship(internship).then(
-      (response) => {
+  async createInternship({ commit }, payload) {
+    try {
+      commit('setIsLoading', true);
+      const token = await getToken();
+      const response = await axios.post(`${API_URL}/internships/`, payload, {headers: { 'Authorization': `Bearer ${token}` }});
+      if(response) {
+        commit('setIsLoading', false);
         commit('saveNewInternships', response.data.data);
-        commit('setInternshipIsCreating', false);
-        return Promise.resolve(response);
-      },
-      (error) => {
-        console.log('error', error);
-        commit('setInternshipIsCreating', false);
-        return Promise.reject(error);
-      },
-    );
+        return response;
+      }
+      console.log(response);
+    } catch (error) {
+      return getAPIResponseError(error);
+    }
   },
 
   async updateInternship({ commit }, internship) {

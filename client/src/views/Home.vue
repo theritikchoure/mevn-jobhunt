@@ -42,9 +42,16 @@
                         <span>Leading Employers already using job and talent.</span>
                     </div>
                     <!-- Heading -->
-                    <div class="job-listings-sec">
+                    <div class="job-listings-sec" v-if="internships">
                         <!-- Job -->
                         <div v-for="internship in internships" :key="internship.id">
+                          <InternshipTab :internship="internship"/>
+                        </div>
+                    </div>
+                    
+                    <div class="job-listings-sec" v-else>
+                        <!-- Job -->
+                        <div v-for="internship in dummyInternships" :key="internship.id">
                           <InternshipTab :internship="internship"/>
                         </div>
                     </div>
@@ -174,8 +181,14 @@
 import Layout from "./Layout/Layout.vue";
 import InternshipTab from '../components/Internship/TabForHome.vue';
 import { mapGetters } from "vuex";
+import dummyInternshipData from "../helpers/dummyData.json";
 export default {
   name: "Home",
+  data() {
+    return {
+      dummyInternships: dummyInternshipData
+    }
+  },
   components: { Layout, InternshipTab },
   computed: { ...mapGetters(["internships", "user"]) },
   mounted() {},

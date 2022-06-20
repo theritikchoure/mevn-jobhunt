@@ -88,56 +88,19 @@
                         <div class="job-details">
                           <h3>Job Description</h3>
                           <p>{{internship.description}}</p>
-                          <h3>Required Knowledge, Skills, and Abilities</h3>
+                          <h3 v-if="internship.skills.length">Required Knowledge & Skills</h3>
+                          <div class="row skill-btns-row">
+                            <span
+                              class="skill-btns"
+                              v-for="skill in internship.skills"
+                              v-bind:key="skill"
+                              >{{ skill }}</span
+                            >
+                          </div>
+                          <h3 v-if="internship.perks.length">Perks with Internship</h3>
                           <ul>
-                            <li>
-                              Ability to write code – HTML & CSS (SCSS flavor of
-                              SASS preferred when writing CSS)
-                            </li>
-                            <li>
-                              Proficient in Photoshop, Illustrator, bonus points
-                              for familiarity with Sketch (Sketch is our
-                              preferred concepting)
-                            </li>
-                            <li>
-                              Cross-browser and platform testing as standard
-                              practice
-                            </li>
-                            <li>Experience using Invision a plus</li>
-                            <li>
-                              Experience in video production a plus or, at a
-                              minimum, a willingness to learn
-                            </li>
-                          </ul>
-                          <h3>Education + Experience</h3>
-                          <ul>
-                            <li>
-                              Advanced degree or equivalent experience in
-                              graphic and web design
-                            </li>
-                            <li>
-                              3 or more years of professional design experience
-                            </li>
-                            <li>Direct response email experience</li>
-                            <li>Ecommerce website design experience</li>
-                            <li>
-                              Familiarity with mobile and web apps preferred
-                            </li>
-                            <li>
-                              Excellent communication skills, most notably a
-                              demonstrated ability to solicit and address
-                              creative and design feedback
-                            </li>
-                            <li>
-                              Must be able to work under pressure and meet
-                              deadlines while maintaining a positive attitude
-                              and providing exemplary customer service
-                            </li>
-                            <li>
-                              Ability to work independently and to carry out
-                              assignments to completion within parameters of
-                              instructions given, prescribed routines, and
-                              standard accepted practices
+                            <li v-for="perk in internship.perks" v-bind:key="perk">
+                              {{ perk }}
                             </li>
                           </ul>
                         </div>
@@ -165,27 +128,32 @@
                             <li>
                               <i class="las la-briefcase"></i>
                               <h3>No. of Openings Salary</h3>
-                              <span>internship.no_of_openings</span>
+                              <span>{{internship.no_of_openings}}</span>
                             </li>
                             <li>
                               <i class="las la-hourglass-start"></i>
                               <h3>Duration</h3>
-                              <span>internship.duration</span>
+                              <span>{{internship.duration}} months</span>
                             </li>
                             <li>
                               <i class="la la-money"></i>
+                              <h3>Paid/Unpaid</h3>
+                              <span>{{internship.stipend}}</span>
+                            </li>
+                            <li v-if="internship.stipend !== 'unpaid'">
+                              <i class="la la-money"></i>
                               <h3>Offerd Salary</h3>
-                              <span>£15,000 - £20,000</span>
+                              <span>{{internship.salary}}</span>
                             </li>
                             <li>
                               <i class="la la-line-chart"></i>
-                              <h3>Qualification</h3>
-                              <span>internship.qualification</span>
+                              <h3>Minimum Qualification</h3>
+                              <span>{{internship.qualification}}</span>
                             </li>
                             <li>
                               <i class="la la-clock"></i>
                               <h3>Last Date to Apply</h3>
-                              <span>internship.last_date</span>
+                              <span>{{internship.last_date}}</span>
                             </li>
                           </ul>
                         </div>
@@ -247,4 +215,22 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+
+.skill-btns-row {
+  margin-left: 0;
+}
+
+.skill-btns {
+  background: transparent;
+  border: 1px solid #fb236a;
+  padding: 6px 25px;
+  border-radius: 15px;
+  color: black;
+  font-weight: 400;
+  font-size: 13px;
+  margin: 6px;
+  cursor: pointer;
+}
+
+</style>
