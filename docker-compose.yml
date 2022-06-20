@@ -13,19 +13,10 @@ services:
       - /usr/src/app/node_modules
     ports:
       - "4000:4000"
-    depends_on:
-      - mongo
     env_file: ./server/.env
     environment:
       - NODE_ENV=development
-    networks:
-      - app-network
-  mongo:
-    image: mongo
-    volumes:
-      - data-volume:/data/db
-    ports:
-      - "27017:27017"
+      - DB_CONNECTION_STRING=mongodb://127.0.0.1:27017/jobhunt
     networks:
       - app-network
   client:

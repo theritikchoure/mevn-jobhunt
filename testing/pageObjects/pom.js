@@ -1,12 +1,10 @@
 import {By } from 'selenium-webdriver';
 
-export let LoginPOM = {
-     "loginBtnHomePage"               : By.xpath("//*[@id='loginBtn']"),
-     "loginAsEmployer"               : By.xpath("//*[@id='login-employer']"),
-     "loginAsStudent"               : By.xpath("//*[@id='login-student']"),
-     "emailInput"                     : By.xpath("//*[@id='login-email']"),
-     "passwordInput"                  : By.xpath("//*[@id='login-password']"),
-     "loginSubmit"                    : By.xpath("//*[@id='login-password']"),   
+export let LoginPO = {
+     "loginBtnHomePage"               : By.xpath("//*[@id='root']/main/div/div[1]/nav[3]/div[2]/a/button/span[1]"),
+     "emailInput"                     : By.xpath("/html/body/div[5]/div/div/div[2]/div/div/form/div[1]/input"),
+     "passwordInput"                  : By.xpath("/html/body/div[5]/div/div/div[2]/div/div/form/div[2]/input"),
+     "loginSubmit"                    : By.xpath("/html/body/div[5]/div/div/div[2]/div/div/form/button")        
 }
 
 export let HomePage = {
